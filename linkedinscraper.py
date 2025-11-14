@@ -190,8 +190,8 @@ if __name__ == "__main__":
     keyword2 = "engineer" # no spaces, one word
     
     # don't be dumb, make a burner account for this. 
-    LINKEDIN_EMAIL = "pwpooflfhkqgmjeagr@xfavaj.com" # your linkedin email here
-    LINKEDIN_PASSWORD = "12345ttt5" # your linkedin password here
+    LINKEDIN_EMAIL = "" # your linkedin email here
+    LINKEDIN_PASSWORD = "" # your linkedin password here
     SEARCH_URL = f"https://www.linkedin.com/jobs/search/?keywords={keyword1}%20{keyword2}"
 
     scraped_data = get_jobs_from_list_linkedin(SEARCH_URL)
@@ -213,5 +213,6 @@ if __name__ == "__main__":
             print(f"Error saving to CSV: {e}")
 
         
+
 
 
