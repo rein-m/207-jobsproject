@@ -35,7 +35,7 @@ public class SignUpView {
             // Set GridBag constraints
             c.weightx = .25;
             c.weighty = .25;
-            c.insets = new Insets(40, 10, 40, 10);
+            c.insets = new Insets(40, 10, 40, 10); // insets: gridx, gridy, gridwidth, gridheight
             c.gridwidth = GridBagConstraints.REMAINDER;
             c.fill = GridBagConstraints.BOTH;
 
