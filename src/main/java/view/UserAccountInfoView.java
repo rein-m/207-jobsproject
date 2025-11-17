@@ -18,7 +18,7 @@ public class UserAccountInfoView extends JFrame {
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
         mainPanel.add(leftPanel, BorderLayout.CENTER);
 
-        // Name
+        // Overview
         JLabel nameLabel = new JLabel("Account Info");
         nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         nameLabel.setFont(new Font("SansSerif", Font.BOLD, 32));
@@ -26,11 +26,17 @@ public class UserAccountInfoView extends JFrame {
         leftPanel.add(Box.createVerticalStrut(25)); // space under name
 
         // Contact Information
-        JLabel contactLabel = new JLabel("Contact Information:");
-        contactLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        contactLabel.setFont(new Font("SansSerif", Font.BOLD, 28));
+        JPanel contactLabel = new JPanel(new BorderLayout());
+        JPanel leftSide = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
+        JLabel iconLabel = new JLabel("Basic Information:");
+        iconLabel.setFont(new Font("SansSerif", Font.BOLD, 28));
+        leftSide.add(iconLabel);
+        JButton btn = new JButton(">");
+        btn.setFocusable(false);
+        btn.setPreferredSize(new Dimension(30, 5));
+        contactLabel.add(leftSide, BorderLayout.WEST);
+        contactLabel.add(btn, BorderLayout.EAST);
         leftPanel.add(contactLabel);
-        leftPanel.add(Box.createVerticalStrut(25));
 
 //        JPanel contactLabel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
 //        JLabel text = new JLabel("Contact Information:");
@@ -96,13 +102,13 @@ public class UserAccountInfoView extends JFrame {
         leftSide.add(textLabel);
 
         // Button
-        JButton btn = new JButton(">");
-        btn.setFocusable(false);
-        btn.setPreferredSize(new Dimension(30, 5)); // optional styling
+//        JButton btn = new JButton(">");
+//        btn.setFocusable(false);
+//        btn.setPreferredSize(new Dimension(30, 5)); // optional styling
 
 
         row.add(leftSide, BorderLayout.WEST);
-        row.add(btn, BorderLayout.EAST);
+//        row.add(btn, BorderLayout.EAST);
 
         return row;
     }
