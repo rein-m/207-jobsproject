@@ -1,9 +1,22 @@
 package view;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeEvent;
+
+import interface_adapter.ViewManagerModel;
+import view.companyLoginView; // import companyLoginView  -- currently waiting for whoever is making loginView
+import view.userLoginView; // import userLoginView -- waiting for whoever is making loginView
+
 
 
 public class SignUpView {
+
+    private final CompanyLoginView companyLoginView; // initialize the companyLoginview
+    private final UserLoginView userLoginView; // initialize the userLoginView
+    private final ViewManagerModel viewManagerModel; // initialize the ViewModel for switching between views/navigation
     public static void main (String[] args) {
 
         // FlatLightLaf.setup(); -- Optional if using FlatLightLaf for LookAndFeel/making GUI look cooler
@@ -54,6 +67,22 @@ public class SignUpView {
 
             signUpPanel.add(userButton, c); // add buttons to signUpPanel with parameters.
             signUpPanel.add(companyButton, c);
+
+            // if user button is clicked, navigate to the userLoginView
+            userButton.addActionLisener(actionPerformed(e) ->{
+                if (e.getSource().equals(userButton)) {
+                    viewManagerModel.setState(userLoginView); // will navigate to userLoginView once that's done :3
+                   // viewManagerModel.firePropertyChanged(); not sure if I need this
+                }
+            });
+
+            // if company button is clicked, navigate to companyLoginView
+            companyButton.addActionListener(actionPerformed(e) -> {
+                if (e.getSource().equals(companyButton)) {
+                    viewManagerModel.setState(companyLoginView); // will navigate to companyLoginView once that's done :)
+                    // viewManagerModel.firePropertyChanged(); //
+                }
+            });
 
             JFrame frame = new JFrame("Sign Up");
             frame.setLayout(new BorderLayout());

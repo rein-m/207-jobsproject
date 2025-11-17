@@ -48,7 +48,7 @@ public class CompanyLoggedInView extends JPanel implements PropertyChangeListene
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource().equals(createJobButton)) {
                     viewManagerModel.setState(postJobViewModel.getViewName());
-                    viewManagerModel.firePropertyChange();
+                    viewManagerModel.firePropertyChanged();
                 }
             }
         });
