@@ -5,6 +5,8 @@ import java.awt.*;
 public class UserAccountInfoView extends JFrame {
 
     public UserAccountInfoView() {
+
+
         setTitle("Contact Card");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(600, 700);
@@ -100,12 +102,6 @@ public class UserAccountInfoView extends JFrame {
 
         leftSide.add(iconLabel);
         leftSide.add(textLabel);
-
-        // Button
-//        JButton btn = new JButton(">");
-//        btn.setFocusable(false);
-//        btn.setPreferredSize(new Dimension(30, 5)); // optional styling
-
 
         row.add(leftSide, BorderLayout.WEST);
 //        row.add(btn, BorderLayout.EAST);
