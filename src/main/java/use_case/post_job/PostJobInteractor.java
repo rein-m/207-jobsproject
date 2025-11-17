@@ -10,7 +10,7 @@ public class PostJobInteractor implements PostJobInputBoundary {
     }
     @Override
     public void execute (PostJobInputData postJobInputData) {
-        postJobUserDataAccessInterface.postJob(postJobInputData.getTitle(), postJobInputData.getDescription());
+//        postJobUserDataAccessInterface.postJob(postJobInputData.getTitle(), postJobInputData.getDescription());
         final PostJobOutputData postJobOutputData = new PostJobOutputData(postJobInputData.getTitle(), postJobInputData.getDescription());
         postJobPresenter.updateCompanyLoggedInState(postJobOutputData);
     }

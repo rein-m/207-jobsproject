@@ -11,10 +11,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class PostJobView extends JPanel {
+
+    private String viewName = "post job";
     private PostJobController postJobController = null;
     private final JTextField jobTitleInputField = new JTextField();
     private final JTextField jobDescriptionInputField = new JTextField();
     private final JButton postJob = new JButton("Post Job");
+    private final JButton exit  = new JButton("Exit");
     private final PostJobViewModel postJobViewModel;
 
     public PostJobView(PostJobViewModel postJobViewModel) {
@@ -37,6 +40,15 @@ public class PostJobView extends JPanel {
                 if (e.getSource().equals(postJob)) {
                     final PostJobState currentState = postJobViewModel.getState();
                     postJobController.execute(currentState.getJobTitle(), currentState.getJobDescription());
+                    postJobController.switchToCompanyLoggedInView();
+                }
+            }
+        });
+
+        //adding an action listener to exit button
+        exit.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource().equals(exit)) {
                     postJobController.switchToCompanyLoggedInView();
                 }
             }
@@ -92,9 +104,15 @@ public class PostJobView extends JPanel {
 
         this.add(jobTitleInfoPanel);
         this.add(jobDescriptionInfoPanel);
+        this.add(postJob);
+        this.add(exit);
     }
 
     public void setPostJobController(PostJobController postJobController) {
         this.postJobController = postJobController;
+    }
+
+    public String getViewName() {
+        return this.viewName;
     }
 }
