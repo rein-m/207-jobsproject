@@ -14,6 +14,7 @@ import java.beans.PropertyChangeListener;
 
 public class CompanyLoggedInView extends JPanel implements PropertyChangeListener {
 
+    private final String viewName = "company logged in";
     private final JLabel companyName = new JLabel();
     private final JButton createJobButton = new JButton("Create A Job Posting");
     private final CompanyLoggedInViewModel companyLoggedInViewModel;
@@ -65,6 +66,10 @@ public class CompanyLoggedInView extends JPanel implements PropertyChangeListene
             final CompanyLoggedInState state = (CompanyLoggedInState) e.getNewValue();
             this.companyName.setText(state.getCompanyName());
         }
+    }
+
+    public String  getViewName() {
+        return viewName;
     }
 }
 
