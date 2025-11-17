@@ -1,9 +1,9 @@
 package entity;
 
-public class User implements Entity {
+public class Company implements Entity {
     private final String name;
     private final String password;
-    public User(String name, String password) {
+    public Company(String name, String password) {
         this.name = name;
         this.password = password;
     }
