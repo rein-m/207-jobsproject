@@ -1,7 +1,9 @@
 package entity;
+import java.util.HashMap;
+import java.util.Map;
 
 public class User implements Entity {
-    private final String name;
+    private String name;
     private final String password;
     private String location;
     private String email;
@@ -21,4 +23,18 @@ public class User implements Entity {
     public String getPassword() {
         return password;
     }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public void setLocation(String location) {
+        this.location = location;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+
 }

@@ -3,7 +3,7 @@ package app;
 import entity.*;
 
 import interface_adapter.*;
-import use_case.*;
+//import use_case.*;
 import view.*;
 
 import java.awt.*;
