@@ -8,6 +8,9 @@ public class LoginState {
     public String getIdentifier() {
         return identifier;
     }
+    public String getPassword() {
+        return password;
+    }
     public String getLoginError() {
         return loginError;
     }

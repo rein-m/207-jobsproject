@@ -3,7 +3,7 @@ import entity.Entity;
 import entity.GenericFactory;
 
 
-public class LoginInteractor {
+public class LoginInteractor implements LoginInputBoundary {
     private final LoginUserDataAccessInterface userDataAccessObject;
     private final LoginOutputBoundary loginPresenter;
 
@@ -18,7 +18,7 @@ public class LoginInteractor {
         final String password = loginInputData.getPassword();
         final String entityType = loginInputData.getEntityType();
 
-        if(!userDataAccessObject.existsByIdentifierAndType(identifier, entityType)){
+        if(!userDataAccessObject.existsByIdentifier(identifier)){
             loginPresenter.prepareFailView(identifier + " ("+ entityType+"): Account does not exist");
             return;
         }

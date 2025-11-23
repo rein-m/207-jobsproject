@@ -23,6 +23,7 @@ public class LoginPresenter implements LoginOutputBoundary{
 
     @Override
     public void prepareSuccessView(LoginOutputData response){
+        //send to 2 different states
         final LoggedInState loggedInState = loggedInViewModel.getState();
         loggedInState.setUsername(response.getIdentifier());
         this.loggedInViewModel.setState(loggedInState);
