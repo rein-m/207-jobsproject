@@ -1,11 +1,11 @@
-package view;
+package view.ApplicantLoggedInUI;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ApplicantLoggedInPage {
+public class ApplicantLoggedInPage extends JFrame{
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
@@ -70,7 +70,7 @@ public class ApplicantLoggedInPage {
 
     private static void createContentPanel(JFrame frame) {
         // Center panel to hold the buttons
-        JPanel contentPanel = new JPanel(new GridLayout(3, 1, 20, 30)); // 3 rows, 1 col, with vertical spacing
+        JPanel contentPanel = new JPanel(new GridLayout(4, 1, 20, 30)); // 3 rows, 1 col, with vertical spacing
 
         // Add some padding around the content panel to prevent buttons from touching the edges
         contentPanel.setBorder(BorderFactory.createEmptyBorder(20, 40, 40, 40));
@@ -109,7 +109,20 @@ public class ApplicantLoggedInPage {
 
         contentPanel.add(buttonC);
 
+        JButton buttonD = new JButton("Save Progress");
+        buttonD.setFont(new Font("SansSerif", Font.BOLD, 18)); // Large font for visibility
+        buttonD.setPreferredSize(new Dimension(10, 10)); // Suggested size for the buttons
+        buttonD.setBackground(new Color(255, 255, 255)); // Light grey background
+        buttonD.setOpaque(true);
+        buttonD.setBorder(BorderFactory.createLineBorder(Color.BLACK)); // Black border like the sketch
+        buttonD.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e)  {
+                JOptionPane.showMessageDialog(null, "Progress Saved!");
+            }
 
+        });
+        contentPanel.add(buttonD);
         frame.add(contentPanel, BorderLayout.CENTER);
     }
 
