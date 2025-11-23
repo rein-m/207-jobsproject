@@ -1,4 +1,4 @@
-package view;
+package view.ApplicantLoggedInUI;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,7 +10,6 @@ public class UserAccountInfo extends JFrame {
 
 
         setTitle("Contact Card");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(600, 700);
 
         // Main container
@@ -117,12 +116,5 @@ public class UserAccountInfo extends JFrame {
 //        row.add(btn, BorderLayout.EAST);
 
         return row;
-    }
-
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            new UserAccountInfo().setVisible(true);
-        });
     }
 }
