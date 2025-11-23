@@ -3,7 +3,7 @@ package use_case.login;
 import entity.Entity;
 
 public interface LoginUserDataAccessInterface {
-    boolean existsByName(String username);
+    boolean existsByIdentifier(String identifier);
 
     void save(Entity entity);
 

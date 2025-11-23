@@ -15,7 +15,7 @@ public interface SignupUserDataAccessInterface {
      * Saves the customer (user/company)
      * @param Entity entity -- the entity to save.
      */
-    void save(Entity entity); // saves entity
+    void save(Entity entity); // saves entitys
 
     /**
      * Returns the user with the given username.
