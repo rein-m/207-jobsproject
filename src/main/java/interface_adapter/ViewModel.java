@@ -27,4 +27,8 @@ public class ViewModel<S> {
     //method to alert the observer
     public void firePropertyChange() {
         this.support.firePropertyChange("state", null, this.state); }
+
+    public void firePropertyChange(String propertyName) {
+        this.support.firePropertyChange(propertyName, null, this.state);
+    }
 }
