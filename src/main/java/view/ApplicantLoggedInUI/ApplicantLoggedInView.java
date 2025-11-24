@@ -43,7 +43,7 @@ public class ApplicantLoggedInView extends JFrame {
         listPanel.setLayout(new GridLayout(0, 1, 10, 10));
         listPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        //TODO: Change this to the get.data function when everything done, the companyNamse should be list of
+        //TODO: Change this to the get.data function when everything done, the companyNames should be list of
         // company objects.
         // --- Simulated Data Setup ---
         //  For demonstration: only Company C have "PDFs"

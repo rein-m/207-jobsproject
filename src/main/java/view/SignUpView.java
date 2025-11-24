@@ -69,7 +69,7 @@ public class SignUpView {
             signUpPanel.add(companyButton, c);
 
             // if user button is clicked, navigate to the userLoginView
-            userButton.addActionLisener(actionPerformed(e) ->{
+            userButton.addActionListener(actionPerformed(e) ->{
                 if (e.getSource().equals(userButton)) {
                     viewManagerModel.setState(userLoginView); // will navigate to userLoginView once that's done :3
                    // viewManagerModel.firePropertyChanged(); not sure if I need this

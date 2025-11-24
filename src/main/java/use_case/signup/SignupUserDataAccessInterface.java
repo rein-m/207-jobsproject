@@ -23,6 +23,6 @@ public interface SignupUserDataAccessInterface {
      * @return the user with the given username
      */
 
-    Entity.getIdentifier(); // Returns the entity (user/company) identifier.
+    Entity get(String identifier) ; // Returns the entity (user/company) identifier.
 
 }
