@@ -97,6 +97,7 @@ public class ApplicantLoggedInView extends JFrame {
         rightPanel.add(yesBtn);
         rightPanel.add(noBtn);
 
+
         // --- Main center panel (list + buttons) ---
         JPanel centerPanel = new JPanel(new BorderLayout(20, 0));
         centerPanel.add(scrollPane, BorderLayout.WEST);
