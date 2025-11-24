@@ -45,7 +45,8 @@ public class SignupInteractor implements SignupInputBoundary {
 
         if (entityType.equalsIgnoreCase("User")) {
 
-            newEntity = userFactory.createEntity(identifier, signupInputData.getPassword());
+            // this function takes 5 parameters name, password, location, email, phone, but only passing it with 2.
+           // newEntity = userFactory.createEntity(identifier, signupInputData.getPassword());
 
         } else if (entityType.equalsIgnoreCase("Company")) {
 
