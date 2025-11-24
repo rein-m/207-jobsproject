@@ -4,11 +4,11 @@ import java.awt.event.*;
 import java.util.Objects;
 
 public class AccountManagmentController {
-    public AccountManagmentController(String action){
-        if (Objects.equals(action,"editUI")) {
+    public AccountManagmentController(String action) {
+        if (Objects.equals(action, "editUI")) {
             UserAccountInteractor.edit_page();
         }
-        else if (Objects.equals(action,"resume")) {
+        else if (Objects.equals(action, "resume")) {
             UserAccountInteractor.add_resume();
         }
     }
