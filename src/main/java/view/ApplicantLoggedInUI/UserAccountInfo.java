@@ -89,9 +89,13 @@ public class UserAccountInfo extends JFrame {
         leftPanel.add(qualifications);
         leftPanel.add(Box.createVerticalStrut(25)); // space under name
 
-        leftPanel.add(createInfoRow("📚", "Example Qualification 1"));
-        leftPanel.add(createInfoRow("💻", "Example Qualification 2"));
-        leftPanel.add(createInfoRow("⚽", "Example Qualification 3"));
+        leftPanel.add(createInfoRow("🎓", "Education:"));
+        leftPanel.add(createInfoRow("💼", "Work Experience:"));
+        leftPanel.add(createInfoRow("📁", "Projects:"));
+        leftPanel.add(createInfoRow("🛠️", "Skills:"));
+        leftPanel.add(createInfoRow("💻", "Programming Languages:"));
+        leftPanel.add(createInfoRow("📚", "Frameworks & Libraries:"));
+        leftPanel.add(createInfoRow("⚙️", "Tools & Technologies:"));
 
 
         setLocationRelativeTo(null);
