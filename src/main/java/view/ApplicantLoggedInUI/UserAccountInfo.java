@@ -1,6 +1,8 @@
-package view;
+package view.ApplicantLoggedInUI;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class UserAccountInfo extends JFrame {
 
@@ -8,7 +10,6 @@ public class UserAccountInfo extends JFrame {
 
 
         setTitle("Contact Card");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(600, 700);
 
         // Main container
@@ -36,6 +37,14 @@ public class UserAccountInfo extends JFrame {
         JButton btn = new JButton(">");
         btn.setFocusable(false);
         btn.setPreferredSize(new Dimension(30, 5));
+
+        //Testing ActionListener
+        btn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Button clicked!");
+            }
+        });
         contactLabel.add(leftSide, BorderLayout.WEST);
         contactLabel.add(btn, BorderLayout.EAST);
         leftPanel.add(contactLabel);
@@ -107,12 +116,5 @@ public class UserAccountInfo extends JFrame {
 //        row.add(btn, BorderLayout.EAST);
 
         return row;
-    }
-
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            new UserAccountInfo().setVisible(true);
-        });
     }
 }
