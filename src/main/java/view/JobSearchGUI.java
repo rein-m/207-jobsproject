@@ -8,20 +8,41 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class JobSearchGUI extends JFrame {
+    private static final int JOBS_PER_PAGE = 8; // Number of JobPanel in one page, could always change it
 
+    //TODO: this should be from the database, change it to the actual data.
+    private final List<String> ALL_COMPANIES = Arrays.asList(
+            "Company 1", "Company 2", "Company 3", "Company 4", "Company 5",
+            "Company 6", "Company 7", "Company 8", "Company 9", "Company 10",
+            "Company 11", "Company 12", "Company 13", "Company 14", "Company 15","Company 16",
+            "Company 17", "Company 18", "Company 19", "Company 20",
+            "Company 21", "Company 22", "Company 23", "Company 24", "Company 25"
+    );
+    private int currentPage = 0; // Starts at index 0 (Page 1)
+    private JPanel jobCardsGrid;
+    private JButton nextPageButton;
+    private JButton prevPageButton;
+
+    //TODO: Add or remove list if createFiltersPanel is changing.
+    private List<JCheckBox> scheduleFilters = new ArrayList<>();
+    private List<JCheckBox> typeFilters = new ArrayList<>();
+    private List<JCheckBox> salaryFilters = new ArrayList<>();
+
+// -----------------------------------
     public JobSearchGUI() {
         super("JobGPT");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1200, 800); // Setting a larger default size the UI
+        setSize(1200, 800); // Setting a larger default size for the UI
         setLocationRelativeTo(null); // Center the window
 
-        // Main content pane with BorderLayout
+        // Main Panel
         JPanel mainPanel = new JPanel(new BorderLayout(15, 15)); // Add spacing between regions
         mainPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15)); // Outer padding
-        add(mainPanel); // Add mainPanel to the JFrame
+        add(mainPanel);
 
         // 1. Top Bar (Image, Search, Profile)
         mainPanel.add(createTopBar(), BorderLayout.NORTH);
@@ -32,37 +53,48 @@ public class JobSearchGUI extends JFrame {
         contentArea.add(createRecommendedJobsPanel(), BorderLayout.CENTER);
         mainPanel.add(contentArea, BorderLayout.CENTER);
 
+        // update when next page and prev page button clicked
+        mainPanel.add(createPaginationPanel(), BorderLayout.SOUTH);
+        updateJobDisplay();
+
         this.setVisible(true);
     }
 
     private JPanel createTopBar() {
-        JPanel topBarPanel = new JPanel(new BorderLayout(10, 0)); // Main panel for top bar
+        JPanel topBarPanel = new JPanel(new BorderLayout(10, 0));
 
         Creating_Logo(topBarPanel);
 
-        // --- Center Section: Search Bar and Search Button ---
+        // Center Section: Search Bar and Search Button
         JPanel searchAreaPanel = new JPanel(new BorderLayout(5, 0)); // 5px spacing between bar and button
 
-        // Search Bar (Occupies the CENTER of the searchAreaPanel)
+        // Search Bar
         JTextField searchBar = new JTextField("Enter keywords or job title...");
         searchBar.setFont(new Font("SansSerif", Font.PLAIN, 18));
         searchBar.setHorizontalAlignment(JTextField.CENTER); // Align text left
 
-        // Search Button (Occupies the EAST of the searchAreaPanel)
+        // Search Button
         JButton searchButton = new JButton("Search");
         searchButton.setFont(new Font("SansSerif", Font.BOLD, 16));
         searchButton.setPreferredSize(new Dimension(120, 50)); // Give the button a fixed size
 
-        // *** ADDING THE ACTION LISTENER HERE ***
+        // The Action Listener for the searchButton
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String searchTerm = searchBar.getText();
+
+                // 1. Gather all selected filters into a single String and put it tgt.
+                String filters = collectSelectedFilters();
+                String message = "Search results for: \"" + searchTerm + "\"\n\n" + filters;
+
+                // 3. Display the message
                 JOptionPane.showMessageDialog(JobSearchGUI.this,
-                        "Searching for: \"" + searchTerm + "\"",
+                        message,
                         "Search Initiated",
                         JOptionPane.INFORMATION_MESSAGE);
-                // TODO: Here you would call your backend method to filter job listings
+
+                // TODO: Call the actual job filtering and search method here
             }
         });
 
@@ -71,7 +103,6 @@ public class JobSearchGUI extends JFrame {
 
         // Add the combined search area to the CENTER of the main top bar
         topBarPanel.add(searchAreaPanel, BorderLayout.CENTER);
-        // --------------------------------------------------------
 
         // Right: Profile Button
         JButton profileButton = new JButton("Profile");
@@ -89,26 +120,49 @@ public class JobSearchGUI extends JFrame {
         return topBarPanel;
     }
 
+    /**
+     * Helper method for gathering all fliter object to the search button.
+     * @return A formatted String of all selected filters.
+     */
+    private String collectSelectedFilters() {
+        StringBuilder sb = new StringBuilder("Selected Filters:\n");
+        int selectedCount = 0;
+        //TODO: Add or remove list if createFiltersPanel is changing.
+        List<List<JCheckBox>> allFilterLists = List.of(scheduleFilters, typeFilters, salaryFilters);
+
+        for (List<JCheckBox> filterList : allFilterLists) {
+            for (JCheckBox cb : filterList) {
+                if (cb.isSelected()) {
+                    sb.append(" • ").append(cb.getText()).append("\n");
+                    selectedCount++;
+                }
+            }
+        }
+
+        if (selectedCount == 0) {
+            return "No filters selected. Displaying all relevant jobs.";
+        } else {
+            return sb.toString();
+        }
+    }
+
     private static void Creating_Logo(JPanel topBarPanel) {
         JLabel imageLabel = new JLabel("", SwingConstants.CENTER);
+        //TODO: This should be inside the project, if not download and put it in project from discord.
         ImageIcon originalIcon = new ImageIcon("JobGPT image.png");
         Image originalImage = originalIcon.getImage();
 
-        // Define the target dimensions (100 wide x 50 high)
+        //Scale the image
         int targetWidth = 80;
         int targetHeight = 80;
-
-        // 2. Scale the image
-        // SCALE_SMOOTH is a high-quality scaling algorithm that looks better
         Image scaledImage = originalImage.getScaledInstance(targetWidth, targetHeight, Image.SCALE_SMOOTH);
 
-        // 3. Create a new ImageIcon from the scaled image
-        ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
-        // 4. Set the new, scaled icon to the label
+        //Create and set the new, scaled icon to the label
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
         imageLabel.setIcon(scaledIcon);
         imageLabel.setPreferredSize(new Dimension(targetWidth, targetHeight));
-        // imageLabel.setFont(new Font("SansSerif", Font.PLAIN, 16)); // Font is irrelevant for just an image icon
+
         topBarPanel.add(imageLabel, BorderLayout.WEST);
     }
 
@@ -120,7 +174,7 @@ public class JobSearchGUI extends JFrame {
 
         JLabel filtersTitle = new JLabel("Filters:");
         filtersTitle.setFont(new Font("SansSerif", Font.BOLD, 18));
-        filtersTitle.setAlignmentX(Component.LEFT_ALIGNMENT); // Align text left
+        filtersTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
         filtersPanel.add(filtersTitle);
         filtersPanel.add(Box.createRigidArea(new Dimension(0, 15))); // Spacer
 
@@ -153,17 +207,28 @@ public class JobSearchGUI extends JFrame {
         sectionTitle.setFont(new Font("SansSerif", Font.BOLD, 16));
         sectionTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
         sectionPanel.add(sectionTitle);
-        sectionPanel.add(Box.createRigidArea(new Dimension(0, 5))); // Spacer
+        sectionPanel.add(Box.createRigidArea(new Dimension(0, 5)));
 
-        // Use a ButtonGroup for radio-button like behavior if only one can be selected
-        // For checkboxes as shown in sketch, no ButtonGroup needed unless you want exclusive selection
-        // ButtonGroup group = new ButtonGroup(); // Uncomment if you want radio button behavior
+        //TODO: Change the titles if createFiltersPanel is changing.
+        List<JCheckBox> targetList;
+        if (title.equals("Working schedule")) {
+            targetList = scheduleFilters;
+        } else if (title.equals("Types of Jobs")) {
+            targetList = typeFilters;
+        } else if (title.equals("Month salary")) {
+            targetList = salaryFilters;
+        } else {
+            targetList = new ArrayList<>(); // Default fallback
+        }
+
         for (String option : options) {
             JCheckBox checkBox = new JCheckBox(option);
             checkBox.setFont(new Font("SansSerif", Font.PLAIN, 14));
             checkBox.setAlignmentX(Component.LEFT_ALIGNMENT);
-            // group.add(checkBox); // Uncomment if using ButtonGroup
             sectionPanel.add(checkBox);
+
+            // *** ADD THE CHECKBOX TO THE MEMBER LIST ***
+            targetList.add(checkBox);
         }
         return sectionPanel;
     }
@@ -173,30 +238,25 @@ public class JobSearchGUI extends JFrame {
 
         JLabel recommendedTitle = new JLabel("Recommended jobs:", SwingConstants.LEFT);
         recommendedTitle.setFont(new Font("SansSerif", Font.BOLD, 18));
-        recommendedTitle.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0)); // Bottom padding
+        recommendedTitle.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
         jobsPanel.add(recommendedTitle, BorderLayout.NORTH);
 
-        // Grid for job cards
-        JPanel jobCardsGrid = new JPanel(new GridLayout(0, 2, 20, 20)); // 2 columns, auto rows, spacing
-        jobCardsGrid.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0)); // No extra padding here
+        // Initialize the job card grid panel (it will be populated later)
+        jobCardsGrid = new JPanel(new GridLayout(0, 2, 20, 20));
+        jobCardsGrid.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
-        // Add sample job cards
-        String[] companies = {"Company A", "Company B", "Company C", "Company D", "Company E", "Company F"};
-        for (String company : companies) {
-            jobCardsGrid.add(createJobCard(company, "Description of Job", "- location", "- monthly salary"));
-        }
-
-        // Wrap the grid in a JScrollPane to handle many job listings
         JScrollPane scrollPane = new JScrollPane(jobCardsGrid,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.setBorder(BorderFactory.createEmptyBorder()); // Remove scroll pane border
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
 
         jobsPanel.add(scrollPane, BorderLayout.CENTER);
 
         return jobsPanel;
     }
 
+
+    //TODO: this should be from the database, change it to the actual data.
     private JPanel createJobCard(String companyName, String description, String location, String salary) {
         JPanel cardPanel = new JPanel();
         cardPanel.setLayout(new BoxLayout(cardPanel, BoxLayout.Y_AXIS)); // Vertical stack
@@ -229,15 +289,72 @@ public class JobSearchGUI extends JFrame {
         cardPanel.add(salaryLabel);
         cardPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Spacer before button
 
-        JButton viewButton = new JButton("View");
-        viewButton.setFont(new Font("SansSerif", Font.PLAIN, 12));
-        viewButton.setAlignmentX(Component.LEFT_ALIGNMENT); // Align button with other text
-        viewButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Viewing details for " + companyName));
-        cardPanel.add(viewButton);
+        JButton viewAndApplyButton = new JButton("View and Apply");
+        viewAndApplyButton.setFont(new Font("SansSerif", Font.PLAIN, 12));
+        viewAndApplyButton.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        cardPanel.add(Box.createVerticalGlue()); // Push content to top of card
+        //TODO: implement this method. You might wanna create a new UI or new Apply button for this.
+        viewAndApplyButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Viewing details for " + companyName));
+        cardPanel.add(viewAndApplyButton);
+
+        cardPanel.add(Box.createVerticalGlue());
 
         return cardPanel;
+    }
+
+    private JPanel createPaginationPanel() {
+        JPanel paginationPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+
+
+        prevPageButton = new JButton("Previous Page");
+        prevPageButton.setEnabled(false);
+        prevPageButton.addActionListener(e -> {
+            currentPage--;
+            updateJobDisplay();
+        });
+
+        nextPageButton = new JButton("Next Page");
+        nextPageButton.addActionListener(e -> {
+            currentPage++;
+            updateJobDisplay();
+        });
+
+        paginationPanel.add(prevPageButton);
+        paginationPanel.add(nextPageButton);
+
+        return paginationPanel;
+    }
+    /**
+     * Core logic to clear the grid, load the correct subset of jobs, and refresh the UI.
+     */
+    private void updateJobDisplay() {
+        // 1. Calculate the start and end index for the current page
+        int startIndex = currentPage * JOBS_PER_PAGE;
+        int endIndex = Math.min(startIndex + JOBS_PER_PAGE, ALL_COMPANIES.size());
+
+        // 2. Clear the existing job cards
+        jobCardsGrid.removeAll();
+
+        // 3. Check if there are results for this page
+        if (startIndex < ALL_COMPANIES.size()) {
+            // 4. Populate the grid with job cards for the current page
+            for (int i = startIndex; i < endIndex; i++) {
+                String company = ALL_COMPANIES.get(i);
+                //TODO: Switch it to the actual data.
+                jobCardsGrid.add(createJobCard(company, "Role at " + company, "location would be at (Actual loction)", "Salary: $5000+"));
+            }
+        } else {
+            // Handle case where page index is out of bounds (shouldn't happen with button logic)
+            jobCardsGrid.add(new JLabel("No more job listings.", SwingConstants.CENTER));
+        }
+
+        // Prev and Next button
+        prevPageButton.setEnabled(currentPage != 0);
+        nextPageButton.setEnabled(endIndex < ALL_COMPANIES.size());
+
+        // Refresh the layout to show new components
+        jobCardsGrid.revalidate();
+        jobCardsGrid.repaint();
     }
 
     public static void main(String[] args) {
