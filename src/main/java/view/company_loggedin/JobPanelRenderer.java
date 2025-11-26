@@ -50,7 +50,8 @@ public class JobPanelRenderer extends JPanel implements ListCellRenderer<JobData
     }
 
     @Override
-    public Component getListCellRendererComponent(JList <? extends JobData> list, JobData value, int index, boolean isSelected, boolean cellHasFocus) {
+    public Component getListCellRendererComponent(JList <? extends JobData> list, JobData value, int index
+            , boolean isSelected, boolean cellHasFocus) {
 
         this.titleLabel.setText(value.jobTitle);
         this.locationLabel.setText(value.jobLocation);
