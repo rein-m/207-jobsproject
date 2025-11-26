@@ -3,9 +3,14 @@ package app;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.company_account.CompanyAccountViewModel;
 import interface_adapter.company_loggedin.CompanyLoggedInViewModel;
+import interface_adapter.edit_company_account.EditCompanyAccountController;
+import interface_adapter.edit_company_account.EditCompanyAccountPresenter;
 import interface_adapter.post_job.PostJobController;
 import interface_adapter.post_job.PostJobPresenter;
 import interface_adapter.post_job.PostJobViewModel;
+import use_case.edit_company_account.EditCompanyAccountInputBoundary;
+import use_case.edit_company_account.EditCompanyAccountInteractor;
+import use_case.edit_company_account.EditCompanyAccountOutputBoundary;
 import use_case.post_job.PostJobInputBoundary;
 import use_case.post_job.PostJobInteractor;
 import use_case.post_job.PostJobOutputBoundary;
@@ -29,6 +34,7 @@ public class AppBuilder {
     private final CompanyAccountViewModel companyAccountViewModel  = new CompanyAccountViewModel();
     private PostJobView postJobView;
     private final PostJobViewModel postJobViewModel = new PostJobViewModel();
+
 
     public AppBuilder() { cardPanel.setLayout(cardLayout); }
 
@@ -56,10 +62,22 @@ public class AppBuilder {
     }
 
     public AppBuilder addPostJobUseCase() {
-        final PostJobOutputBoundary postJobOutputBoundary = new PostJobPresenter(companyLoggedInViewModel, viewManagerModel);
+        final PostJobOutputBoundary postJobOutputBoundary =
+                new PostJobPresenter(companyLoggedInViewModel, viewManagerModel);
         final PostJobInputBoundary postJobInputBoundary = new PostJobInteractor(postJobOutputBoundary);
         PostJobController postJobController = new PostJobController(postJobInputBoundary);
         postJobView.setPostJobController(postJobController);
+        return this;
+    }
+
+    public AppBuilder addEditCompanyAccountUseCase() {
+        final EditCompanyAccountOutputBoundary editCompanyAccountOutputBoundary =
+                new EditCompanyAccountPresenter(companyAccountViewModel);
+        final EditCompanyAccountInputBoundary editCompanyAccountInputBoundary =
+                new EditCompanyAccountInteractor(editCompanyAccountOutputBoundary);
+        EditCompanyAccountController editCompanyAccountController =
+                new EditCompanyAccountController(editCompanyAccountInputBoundary);
+        companyAccountView.setEditCompanyAccountController(editCompanyAccountController);
         return this;
     }
 
