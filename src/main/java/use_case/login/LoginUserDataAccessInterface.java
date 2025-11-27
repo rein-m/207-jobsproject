@@ -1,12 +1,18 @@
 package use_case.login;
 
-import entity.Entity;
+import entity.Company;
 
 public interface LoginUserDataAccessInterface {
-    boolean existsByIdentifier(String identifier);
+    boolean existsByName(String username);
 
-    void save(Entity entity);
+    void save();
 
-    Entity get(String identifier,  String entityType);
+    // Save the current user.
+    //-- no need to override, since this is different function than the save()
+    public void save(Company company);
 
+    Company get(String identifier, String entityType);
+
+    // get a user.
+    Company get(String identifier);
 }

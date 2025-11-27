@@ -10,9 +10,16 @@ public class PostJobOutputData {
         this.jobDescription = jobDescription;
         this.jobLocation = jobLocation;
     }
-    public String getJobTitle() { return this.jobTitle; }
 
-    public String getJobDescription() { return this.jobDescription; }
+    public String getJobTitle() {
+        return this.jobTitle;
+    }
 
-    public String getJobLocation() { return this.jobLocation; }
+    public String getJobDescription() {
+        return this.jobDescription;
+    }
+
+    public String getJobLocation() {
+        return this.jobLocation;
+    }
 }

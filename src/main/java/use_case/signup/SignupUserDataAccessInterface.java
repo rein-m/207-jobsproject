@@ -1,5 +1,6 @@
 //package use_case.signup;
 //
+//import entity.Company;
 //import entity.Entity;
 //
 //public interface SignupUserDataAccessInterface {
@@ -15,7 +16,7 @@
 //     * Saves the customer (user/company)
 //     * @param Entity entity -- the entity to save.
 //     */
-//    void save(Entity entity); // saves entitys
+//    void save(Company company); // saves entitys
 //
 //    /**
 //     * Returns the user with the given username.

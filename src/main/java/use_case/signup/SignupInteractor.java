@@ -1,7 +1,7 @@
 package use_case.signup;
 
-//import entity.Entity;
-//import entity.GenericFactory;
+import entity.Entity;
+import entity.GenericFactory;
 //import entity.UserFactory;
 //import entity.CompanyFactory;
 //
@@ -11,6 +11,7 @@ package use_case.signup;
 //public class SignupInteractor implements SignupInputBoundary {
 //
 //    private final SignupUserDataAccessInterface userDataAccessObject;
+//    private final SignupUserDataAccessInterface companyDataAccessObject;
 //    private final SignupOutputBoundary signupPresenter;
 //
 //    private final UserFactory userFactory;
@@ -50,7 +51,8 @@ package use_case.signup;
 //        } else if (entityType.equalsIgnoreCase("Company")) {
 //
 //
-//            newEntity = companyFactory.create(identifier, signupInputData.getPassword());
+//            newEntity = companyFactory.createEntity(identifier, "", "", "", "",
+//                    "", signupInputData.getPassword());
 //
 //        } else {
 //            signupPresenter.prepareFailView("Invalid entity type selected.");
@@ -58,6 +60,7 @@ package use_case.signup;
 //        }
 //
 //        userDataAccessObject.save(newEntity);
+//
 //
 //        final SignupOutputData signupOutputData = new SignupOutputData(newEntity.getIdentifier(), false);
 //        signupPresenter.prepareSuccessView(signupOutputData);

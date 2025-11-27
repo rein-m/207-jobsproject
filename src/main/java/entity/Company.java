@@ -1,16 +1,32 @@
 package entity;
 
 public class Company implements Entity {
-    private final String name;
+    private final String identifier;
+    private final String companyName;
+    private final String website;
+    private final String email;
+    private final String number;
+    private final String location;
     private final String password;
-    public Company(String name, String password) {
-        this.name = name;
+    public Company(String identifier, String companyName, String website, String email, String number, String location,
+                   String password) {
+        this.identifier = identifier;
+        this.companyName = companyName;
+        this.website = website;
+        this.email = email;
+        this.number = number;
+        this.location = location;
         this.password = password;
     }
     public String getIdentifier() {
-        return name;
+        return identifier;
     }
     public String getPassword() {
         return password;
     }
+    public String getCompanyName() {return companyName;}
+    public String getWebsite() {return website;}
+    public String getEmail() {return email;}
+    public String getNumber() {return number;}
+    public String getLocation() {return location;}
 }
