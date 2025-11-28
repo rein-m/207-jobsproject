@@ -8,7 +8,7 @@ public class Company extends User implements Entity {
         this.name = name;
         this.password = password;
     }
-    public String getIdentifier() {
+    public static String getIdentifier() {
         return name;
     }
     public String getPassword() {
