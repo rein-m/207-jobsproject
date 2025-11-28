@@ -1,6 +1,5 @@
 package use_case.login;
 
-import entity.Entity;
 import entity.User;
 
 public interface LoginUserDataAccessInterface {
@@ -15,5 +14,5 @@ public interface LoginUserDataAccessInterface {
     User get(String identifier, String entityType);
 
     // get a user.
-    User get(String identifier);
+    String get(String identifier);
 }

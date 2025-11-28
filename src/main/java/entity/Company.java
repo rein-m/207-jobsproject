@@ -1,9 +1,10 @@
 package entity;
 
-public class Company implements Entity {
-    private final String name;
+public class Company extends User implements Entity {
+    private static String name = "";
     private final String password;
     public Company(String name, String password) {
+        super();
         this.name = name;
         this.password = password;
     }
