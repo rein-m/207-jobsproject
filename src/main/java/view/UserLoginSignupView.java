@@ -62,7 +62,7 @@ public class UserLoginSignupView extends JPanel implements ActionListener, Prope
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(logIn)) {
-                            // switch to Userloggedin LoginState currentState = loginViewModel.getState();
+                            LoginState currentState = loginViewModel.getState();
 
                             loginController.execute("User",
                                     currentState.getIdentifier(),
