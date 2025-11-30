@@ -1,24 +1,25 @@
 package view.ApplicantLoggedInUI;
+
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
 
 public class EditUserAccountInfoView extends JFrame {
     public EditUserAccountInfoView() {
-        super("Contact information");
+        super("Basic information");
 
         // ---------- Main container ----------
         JPanel content = new JPanel();
         content.setBorder(new EmptyBorder(24, 24, 24, 24));
         content.setLayout(new BorderLayout(0, 20));
-        setContentPane(content);  // <--- use this as the content pane
+        setContentPane(content);
 
         // ---------- Top title + subtitle ----------
         JPanel headerPanel = new JPanel();
         headerPanel.setLayout(new BoxLayout(headerPanel, BoxLayout.Y_AXIS));
         headerPanel.setOpaque(false);
 
-        JLabel titleLabel = new JLabel("Contact information");
+        JLabel titleLabel = new JLabel("Basic information");
         titleLabel.setFont(titleLabel.getFont().deriveFont(Font.BOLD, 26f));
         headerPanel.add(titleLabel);
 
@@ -47,16 +48,16 @@ public class EditUserAccountInfoView extends JFrame {
         gbc.gridx = 0;
         gbc.gridy = 0;
 
-        // First name
-        formPanel.add(createLabeledTextField("First name", true, "Pavle"), gbc);
-
-        // Last name
-        gbc.gridy++;
-        formPanel.add(createLabeledTextField("Last name", true, "Adzovic"), gbc);
+        // Email
+        formPanel.add(createLabeledTextField("Email", true, "user@example.com"), gbc);
 
         // Phone
         gbc.gridy++;
         formPanel.add(createPhoneField(), gbc);
+
+        // Address
+        gbc.gridy++;
+        formPanel.add(createLabeledTextField("Address", true, "123 Main St, Toronto, ON"), gbc);
 
         content.add(formPanel, BorderLayout.CENTER);
 
@@ -67,8 +68,13 @@ public class EditUserAccountInfoView extends JFrame {
         setLocationRelativeTo(null);
     }
 
-    // --- helper methods unchanged ---
+    // --- helper methods ---
 
+    /**
+     * Creates a label + text field stack:
+     *  Label
+     *  [ text field ]
+     */
     private JPanel createLabeledTextField(String labelText, boolean required, String placeholder) {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -98,14 +104,30 @@ public class EditUserAccountInfoView extends JFrame {
         return panel;
     }
 
+    /**
+     * Phone field row:
+     *  "Phone *"
+     *  [ 🇨🇦 +1 ][ phone number ]
+     */
     private JPanel createPhoneField() {
         JPanel outer = new JPanel();
         outer.setLayout(new BoxLayout(outer, BoxLayout.Y_AXIS));
         outer.setOpaque(false);
 
-        JLabel label = new JLabel("Phone");
+        // Label row with required star, left-aligned
+        JPanel labelRow = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        labelRow.setOpaque(false);
+
+        JLabel label = new JLabel("Phone ");
         label.setFont(label.getFont().deriveFont(Font.PLAIN, 16f));
-        outer.add(label);
+        labelRow.add(label);
+
+        JLabel star = new JLabel("*");
+        star.setForeground(new Color(0xB00020));
+        star.setFont(star.getFont().deriveFont(Font.BOLD, 16f));
+        labelRow.add(star);
+
+        outer.add(labelRow);
         outer.add(Box.createVerticalStrut(4));
 
         JPanel phoneRow = new JPanel();
@@ -143,6 +165,9 @@ public class EditUserAccountInfoView extends JFrame {
         return outer;
     }
 
+    /**
+     * Applies rounded-ish look to text fields.
+     */
     private void styleTextField(JTextField field) {
         field.setFont(field.getFont().deriveFont(16f));
         field.setBorder(new CompoundBorder(
