@@ -1,26 +1,24 @@
 package use_case.signup;
 
 import entity.Entity;
-import entity.GenericFactory;
 import entity.UserFactory;
 import entity.CompanyFactory;
 
-/**
- * The Signup Interactor.
- */
 public class SignupInteractor implements SignupInputBoundary {
 
     private final SignupUserDataAccessInterface userDataAccessObject;
+    private final SignupCompanyDataAccessInterface companyDataAccessObject;
     private final SignupOutputBoundary signupPresenter;
-
     private final UserFactory userFactory;
     private final CompanyFactory companyFactory;
 
-    public SignupInteractor(SignupUserDataAccessInterface signupDataAccessInterface,
+    public SignupInteractor(SignupUserDataAccessInterface userDataAccessObject,
+                            SignupCompanyDataAccessInterface companyDataAccessObject,
                             SignupOutputBoundary signupOutputBoundary,
                             UserFactory userFactory,
                             CompanyFactory companyFactory) {
-        this.userDataAccessObject = signupDataAccessInterface;
+        this.userDataAccessObject = userDataAccessObject;
+        this.companyDataAccessObject = companyDataAccessObject;
         this.signupPresenter = signupOutputBoundary;
         this.userFactory = userFactory;
         this.companyFactory = companyFactory;
@@ -28,40 +26,42 @@ public class SignupInteractor implements SignupInputBoundary {
 
     @Override
     public void execute(SignupInputData signupInputData) {
-
         final String identifier = signupInputData.getIdentifier();
         final String entityType = signupInputData.getEntityType();
-        if (userDataAccessObject.existsByIdentifier(identifier)) {
-            signupPresenter.prepareFailView(entityType + " with identifier " + identifier + " already exists.");
-            return;
-        }
 
         if (!signupInputData.getPassword().equals(signupInputData.getRepeatPassword())) {
             signupPresenter.prepareFailView("Passwords don't match.");
             return;
         }
 
-        final Entity newEntity;
-
         if (entityType.equalsIgnoreCase("User")) {
+            if (userDataAccessObject.existsByIdentifier(identifier)) {
+                signupPresenter.prepareFailView("User with identifier " + identifier + " already exists.");
+                return;
+            }
 
-            // this function takes 5 parameters name, password, location, email, phone, but only passing it with 2.
-            newEntity = userFactory.createEntity(identifier, signupInputData.getPassword());
+            // Your custom factory logic
+            Entity newEntity = userFactory.createEntity("", identifier, signupInputData.getPassword(), "", "", "");
+            userDataAccessObject.save(newEntity);
+
+            final SignupOutputData signupOutputData = new SignupOutputData(newEntity.getIdentifier(), false);
+            signupPresenter.prepareSuccessView(signupOutputData);
 
         } else if (entityType.equalsIgnoreCase("Company")) {
+            if (companyDataAccessObject.existsByIdentifier(identifier)) { // Check Company DB
+                signupPresenter.prepareFailView("Company with identifier " + identifier + " already exists.");
+                return;
+            }
 
+            Entity newEntity = companyFactory.create(identifier, signupInputData.getPassword());
+            companyDataAccessObject.save(newEntity); // Save to Company DB
 
-            newEntity = companyFactory.create(identifier, signupInputData.getPassword());
+            final SignupOutputData signupOutputData = new SignupOutputData(newEntity.getIdentifier(), false);
+            signupPresenter.prepareSuccessView(signupOutputData);
 
         } else {
             signupPresenter.prepareFailView("Invalid entity type selected.");
-            return;
         }
-
-        userDataAccessObject.save(newEntity);
-
-        final SignupOutputData signupOutputData = new SignupOutputData(newEntity.getIdentifier(), false);
-        signupPresenter.prepareSuccessView(signupOutputData);
     }
 
     @Override
