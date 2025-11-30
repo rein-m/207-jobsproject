@@ -9,8 +9,8 @@ public class UserAccountInfo extends JFrame {
     public UserAccountInfo() {
 
 
-        setTitle("Contact Card");
-        setSize(600, 700);
+        setTitle("User Information");
+        setSize(600, 600);
 
         // Main container
         JPanel mainPanel = new JPanel(new BorderLayout(20, 20));
@@ -34,15 +34,15 @@ public class UserAccountInfo extends JFrame {
         JLabel iconLabel = new JLabel("Basic Information:");
         iconLabel.setFont(new Font("SansSerif", Font.BOLD, 28));
         leftSide.add(iconLabel);
-        JButton btn = new JButton(">");
+        JButton btn = new JButton("Edit Account Info");
         btn.setFocusable(false);
-        btn.setPreferredSize(new Dimension(30, 5));
+        btn.setPreferredSize(new Dimension(200, 5));
 
         //Testing ActionListener
         btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Button clicked!");
+                new AccountManagmentController("editUI");;
             }
         });
         contactLabel.add(leftSide, BorderLayout.WEST);
