@@ -19,6 +19,7 @@ import use_case.ResumeShit.ResumeUI.ResumeUIInteractor;
 public class UserAccountInfoView extends JPanel implements ActionListener, PropertyChangeListener {
     private final String viewName = "account info";
 
+
     private final AccountInforViewModel accountinfoViewModel;
     private ResumeUIControler resumeUIControler;
 
@@ -61,11 +62,13 @@ public class UserAccountInfoView extends JPanel implements ActionListener, Prope
         leftPanel.add(Box.createVerticalStrut(25));
 
         // Row helper
-        leftPanel.add(createInfoRow("✉", "User Email"));
+        final AccountInfoState accountInfoState = accountInforViewModel.getState();
+
+        leftPanel.add(createInfoRow("✉", accountInfoState.getEmail()));
         leftPanel.add(Box.createVerticalStrut(5));
-        leftPanel.add(createInfoRow("☎", "User Phone Number"));
+        leftPanel.add(createInfoRow("☎", accountInfoState.getPhone()));
         leftPanel.add(Box.createVerticalStrut(5));
-        leftPanel.add(createInfoRow("📍", "User Address"));
+        leftPanel.add(createInfoRow("📍", accountInfoState.getLocation()));
         leftPanel.add(Box.createVerticalStrut(5));
 
         // Resume Title
