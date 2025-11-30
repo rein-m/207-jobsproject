@@ -40,7 +40,8 @@ public class UserAccountInfo extends JFrame {
         btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Button clicked!");;
+                EditUserAccountInfoView EditUserInfoWindow = new EditUserAccountInfoView();
+                EditUserInfoWindow.setVisible(true);
             }
         });
         contactLabel.add(leftSide, BorderLayout.WEST);
@@ -105,7 +106,8 @@ public class UserAccountInfo extends JFrame {
         qua_btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Button clicked!");;
+                EditUserAccountQualificationsView EditUserQualWindow = new EditUserAccountQualificationsView();
+                EditUserQualWindow.setVisible(true);
             }
         });
         qualifications.add(qua_leftSide, BorderLayout.WEST);
