@@ -36,11 +36,9 @@ public class AppBuilder {
     final ViewManagerModel viewManagerModel = new ViewManagerModel();
     ViewManager viewManager = new ViewManager(cardLayout, cardPanel, viewManagerModel);
 
-    // Ensure your DAOs implement the correct Interfaces!
-    // DBUserDataAccessObject must implement LoginUserDataAccessInterface, SignupUserDataAccessInterface
+
     final DBUserDataAccessObject userDataAccessObject = new DBUserDataAccessObject(userFactory);
 
-    // DBCompanyDataAccessObject must implement LoginCompanyDataAccessInterface, SignupCompanyDataAccessInterface
     final CompanyDataAccessObject companyDataAccessObject = new CompanyDataAccessObject(companyFactory);
 
     private SignupViewModel signupViewModel;

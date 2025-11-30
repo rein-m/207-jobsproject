@@ -1,14 +1,18 @@
 package use_case.login;
+
 import entity.Entity;
-import entity.GenericFactory;
 
+public class LoginInteractor implements LoginInputBoundary {
 
-public class LoginInteractor {
     private final LoginUserDataAccessInterface userDataAccessObject;
+    private final LoginCompanyDataAccessInterface companyDataAccessObject;
     private final LoginOutputBoundary loginPresenter;
 
-    public LoginInteractor(LoginUserDataAccessInterface userDataAccessObject, LoginOutputBoundary loginPresenter) {
+    public LoginInteractor(LoginUserDataAccessInterface userDataAccessObject,
+                           LoginCompanyDataAccessInterface companyDataAccessObject,
+                           LoginOutputBoundary loginPresenter) {
         this.userDataAccessObject = userDataAccessObject;
+        this.companyDataAccessObject = companyDataAccessObject;
         this.loginPresenter = loginPresenter;
     }
 
@@ -16,20 +20,38 @@ public class LoginInteractor {
     public void execute(LoginInputData loginInputData) {
         final String identifier = loginInputData.getIdentifier();
         final String password = loginInputData.getPassword();
-        final String entityType = loginInputData.getEntityType();
+        final String type = loginInputData.getEntityType();
 
-        if(!userDataAccessObject.existsByName(identifier)){
-            loginPresenter.prepareFailView(identifier + " ("+ entityType+"): Account does not exist");
-            return;
+        if ("User".equalsIgnoreCase(type)) {
+            if (!userDataAccessObject.existsByIdentifier(identifier)) {
+                loginPresenter.prepareFailView(identifier + ": Account does not exist.");
+            } else {
+                String pwd = userDataAccessObject.getPassword(identifier);
+                if (!password.equals(pwd)) {
+                    loginPresenter.prepareFailView("Incorrect password for " + identifier + ".");
+                } else {
+                    Entity user = userDataAccessObject.get(identifier);
+                    LoginOutputData loginOutputData = new LoginOutputData(user.getIdentifier(), "User", false);
+                    loginPresenter.prepareSuccessView(loginOutputData);
+                }
+            }
+
+        } else if ("Company".equalsIgnoreCase(type)) {
+            if (!companyDataAccessObject.existsByIdentifier(identifier)) {
+                loginPresenter.prepareFailView(identifier + ": Company account does not exist.");
+            } else {
+                String pwd = companyDataAccessObject.getPassword(identifier);
+                if (!password.equals(pwd)) {
+                    loginPresenter.prepareFailView("Incorrect password for company " + identifier + ".");
+                } else {
+                    Entity company = companyDataAccessObject.get(identifier);
+                    LoginOutputData loginOutputData = new LoginOutputData(company.getIdentifier(), "Company", false);
+                    loginPresenter.prepareSuccessView(loginOutputData);
+                }
+            }
+
+        } else {
+            loginPresenter.prepareFailView("Unknown account type.");
         }
-        final Entity loggedInEntity = userDataAccessObject.get(identifier, entityType);
-
-        if(!password.equals(loggedInEntity.getPassword())){
-            loginPresenter.prepareFailView("Incorrect password for " + identifier);
-            return;
-        }
-
-        final LoginOutputData loginOutputData = new LoginOutputData(loggedInEntity.getIdentifier(), false);
-        loginPresenter.prepareSuccessView(loginOutputData);
     }
 }
