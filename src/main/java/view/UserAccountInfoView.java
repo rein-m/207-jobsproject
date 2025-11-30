@@ -3,16 +3,31 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import interface_adapter.addResume.AddResumeController;
-//import interface_adapter.addResume.LoginState; // This acc has to be the account mamangement state
-//import interface_adapter.addResume.LoginViewModel;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
-public class UserAccountInfoView extends JFrame {
-    private AddResumeController addResumeController = null;
 
-    public UserAccountInfoView() {
-        setTitle("User Information");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+import interface_adapter.ResumeShit.resumeUI.ResumeUIPresenter;
+import interface_adapter.ResumeShit.resumeUI.ResumeUIViewModel;
+import interface_adapter.ViewManagerModel;
+import interface_adapter.userAccountInfo.AccountInfoController;
+import interface_adapter.userAccountInfo.AccountInfoState;
+import interface_adapter.ResumeShit.resumeUI.ResumeUIControler;
+import interface_adapter.userAccountInfo.AccountInforViewModel;
+import use_case.ResumeShit.ResumeUI.ResumeUIInteractor;
+
+public class UserAccountInfoView extends JPanel implements ActionListener, PropertyChangeListener {
+    private final String viewName = "account info";
+
+    private final AccountInforViewModel accountinfoViewModel;
+    private ResumeUIControler resumeUIControler;
+
+    public UserAccountInfoView(AccountInforViewModel accountInforViewModel) {
+        this.accountinfoViewModel = accountInforViewModel;
+        this.accountinfoViewModel.addPropertyChangeListener(this);
+
+//        setTitle("User Information");
+//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(600, 700);
 
         // Main container
@@ -70,13 +85,19 @@ public class UserAccountInfoView extends JFrame {
         // Adding the actionperformed for add new resume
         res_btn.addActionListener(
                 new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {addResumeController.execute();}
+                    public void actionPerformed(ActionEvent e) {
+                        if (e.getSource().equals(res_btn)) {
+                            final AccountInfoState currentState = accountinfoViewModel.getState();
+                            resumeUIControler.execute();
+                        }
+                    }
                 }
         );
 
         // Resume File
         // Main resume panel
         JPanel main = new JPanel(new BorderLayout());
+        main.setPreferredSize(new Dimension(500, 250));
         main.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         JPanel all_resumes = new JPanel();
@@ -119,7 +140,7 @@ public class UserAccountInfoView extends JFrame {
         qualifications.add(qua_btn, BorderLayout.EAST);
         leftPanel.add(qualifications);
 
-        setLocationRelativeTo(null);
+//        setLocationRelativeTo(null);
     }
 
     private JPanel createInfoRow(String icon, String text) {
@@ -143,10 +164,22 @@ public class UserAccountInfoView extends JFrame {
         return row;
     }
 
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            new UserAccountInfoView().setVisible(true);
-        });
+    public void actionPerformed(ActionEvent evt) {
+        System.out.println("Click " + evt.getActionCommand());
     }
+
+    public void propertyChange(PropertyChangeEvent evt) {
+        final AccountInfoState state = (AccountInfoState) evt.getNewValue();
+//        setFields(state);
+//        usernameErrorField.setText(state.getLoginError());
+    }
+
+    public String getViewName() {
+        return viewName;
+    }
+
+    public void setAccountInfoControler(ResumeUIControler loginController) {
+        this.resumeUIControler = loginController;
+    }
+
 }
