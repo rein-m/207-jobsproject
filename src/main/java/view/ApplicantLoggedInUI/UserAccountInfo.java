@@ -37,12 +37,10 @@ public class UserAccountInfo extends JFrame {
         JButton btn = new JButton("Edit Account Info");
         btn.setFocusable(false);
         btn.setPreferredSize(new Dimension(200, 5));
-
-        //Testing ActionListener
         btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new AccountManagmentController("editUI");;
+                JOptionPane.showMessageDialog(null, "Button clicked!");;
             }
         });
         contactLabel.add(leftSide, BorderLayout.WEST);
@@ -61,9 +59,22 @@ public class UserAccountInfo extends JFrame {
         leftPanel.add(createInfoRow("📍", "User Address"));
 
         // Resume Title
-        JLabel resume = new JLabel("Resumes:");
-        resume.setAlignmentX(Component.CENTER_ALIGNMENT);
-        resume.setFont(new Font("SansSerif", Font.BOLD, 28));
+        JPanel resume = new JPanel(new BorderLayout());
+        JPanel res_leftSide = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
+        JLabel res_iconLabel = new JLabel("Resumes:");
+        res_iconLabel.setFont(new Font("SansSerif", Font.BOLD, 28));
+        res_leftSide.add(res_iconLabel);
+        JButton res_btn = new JButton("Add New Resume");
+        res_btn.setFocusable(false);
+        res_btn.setPreferredSize(new Dimension(200, 5));
+        res_btn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Button clicked!");
+            }
+        });
+        resume.add(res_leftSide, BorderLayout.WEST);
+        resume.add(res_btn, BorderLayout.EAST);
         leftPanel.add(resume);
         leftPanel.add(Box.createVerticalStrut(25)); // space under name
 
@@ -83,9 +94,22 @@ public class UserAccountInfo extends JFrame {
         leftPanel.add(Box.createVerticalStrut(25));
 
         // Qualifications Title
-        JLabel qualifications = new JLabel("Qualifications:");
-        qualifications.setAlignmentX(Component.CENTER_ALIGNMENT);
-        qualifications.setFont(new Font("SansSerif", Font.BOLD, 28));
+        JPanel qualifications = new JPanel(new BorderLayout());
+        JPanel qua_leftSide = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
+        JLabel qua_iconLabel = new JLabel("Qualifications:");
+        qua_iconLabel.setFont(new Font("SansSerif", Font.BOLD, 28));
+        qua_leftSide.add(qua_iconLabel);
+        JButton qua_btn = new JButton("Edit Qualifications");
+        qua_btn.setFocusable(false);
+        qua_btn.setPreferredSize(new Dimension(200, 5));
+        qua_btn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Button clicked!");;
+            }
+        });
+        qualifications.add(qua_leftSide, BorderLayout.WEST);
+        qualifications.add(qua_btn, BorderLayout.EAST);
         leftPanel.add(qualifications);
         leftPanel.add(Box.createVerticalStrut(25)); // space under name
 
