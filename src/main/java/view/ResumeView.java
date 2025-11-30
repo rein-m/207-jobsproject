@@ -167,7 +167,7 @@ public class ResumeView extends JPanel implements PropertyChangeListener {
     private void accountUI(ActionEvent e) {
         if (e.getSource().equals(doneButton)) {
             final ResumeUIState currentState = resumeUIViewModel.getState();
-            accountInfoController.execute();
+            accountInfoController.execute(currentState.getUser());
         }
 
     }

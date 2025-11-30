@@ -18,10 +18,6 @@ public class ResumeUIPresenter {
     }
 
     public void prepareResumeUIView() {
-        // On success, switch to the logged in view.
-
-//        this.loggedInViewModel.setState();
-//        this.loggedInViewModel.firePropertyChanged();
 
         this.viewManagerModel.setState(resumeUIViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
