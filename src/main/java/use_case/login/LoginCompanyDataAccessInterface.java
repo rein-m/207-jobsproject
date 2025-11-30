@@ -2,7 +2,7 @@ package use_case.login;
 
 import entity.Entity;
 
-public interface LoginUserDataAccessInterface {
+public interface LoginCompanyDataAccessInterface {
 
     /**
      * Checks if the given identifier exists.
@@ -19,9 +19,9 @@ public interface LoginUserDataAccessInterface {
     String getPassword(String identifier);
 
     /**
-     * Retrieves the User entity.
+     * Retrieves the Company entity.
      * @param identifier the username to look up.
-     * @return the User entity.
+     * @return the Company entity.
      */
     Entity get(String identifier);
 }

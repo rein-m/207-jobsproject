@@ -18,7 +18,7 @@ public class LoginInteractor {
         final String password = loginInputData.getPassword();
         final String entityType = loginInputData.getEntityType();
 
-        if(!userDataAccessObject.existsByIdentifierAndType(identifier, entityType)){
+        if(!userDataAccessObject.existsByName(identifier)){
             loginPresenter.prepareFailView(identifier + " ("+ entityType+"): Account does not exist");
             return;
         }
