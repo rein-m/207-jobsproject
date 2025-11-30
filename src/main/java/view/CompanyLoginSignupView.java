@@ -77,7 +77,7 @@ public class CompanyLoginSignupView extends JPanel implements ActionListener, Pr
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(signUp)) {
-                            LoginState currentState = loginViewModel.getState();
+                           // switch to company loggedin  LoginState currentState = loginViewModel.getState();
 
                             signupController.execute("Company", currentState.getIdentifier(), currentState.getPassword(), currentState.getPassword());
                         }
