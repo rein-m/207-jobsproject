@@ -1,81 +1,127 @@
 package app;
 
-import entity.*;
-
-import interface_adapter.*;
-import interface_adapter.ResumeShit.resumeUI.ResumeUIControler;
-import interface_adapter.ResumeShit.resumeUI.ResumeUIPresenter;
-import interface_adapter.ResumeShit.resumeUI.ResumeUIViewModel;
-import interface_adapter.userAccountInfo.AccountInfoController;
-import interface_adapter.userAccountInfo.AccountInfoPresenter;
-import interface_adapter.userAccountInfo.AccountInforViewModel;
-//import use_case.*;
-import use_case.AccountInfo.AccountInfoInteractor;
-import use_case.ResumeShit.ResumeUI.ResumeUIInteractor;
+//import data_access.CompanyDataAccessObject;
+import entity.CompanyFactory;
+import interface_adapter.ViewManagerModel;
+import interface_adapter.company_account.CompanyAccountViewModel;
+import interface_adapter.company_loggedin.CompanyLoggedInViewModel;
+import interface_adapter.edit_company_account.EditCompanyAccountController;
+import interface_adapter.edit_company_account.EditCompanyAccountPresenter;
+import interface_adapter.login.LoginViewModel;
+import interface_adapter.post_job.PostJobController;
+import interface_adapter.post_job.PostJobPresenter;
+import interface_adapter.post_job.PostJobViewModel;
+import use_case.edit_company_account.EditCompanyAccountInputBoundary;
+import use_case.edit_company_account.EditCompanyAccountInteractor;
+import use_case.edit_company_account.EditCompanyAccountOutputBoundary;
+//import use_case.login.LoginInteractor;
+import use_case.login.LoginOutputBoundary;
+import use_case.post_job.PostJobInputBoundary;
+import use_case.post_job.PostJobInteractor;
+import use_case.post_job.PostJobOutputBoundary;
 import view.*;
+import view.company_loggedin.CompanyLoggedInView;
 
-import java.awt.*;
 import javax.swing.*;
-
+import java.awt.*;
 
 public class AppBuilder {
-    private final JPanel cardpanel =  new JPanel();
-    private final CardLayout cardlayout = new CardLayout();
-    final UserFactory userFactory = new UserFactory();
+    private final JPanel cardPanel = new JPanel();
+    private final CardLayout cardLayout = new CardLayout();
     final ViewManagerModel viewManagerModel = new ViewManagerModel();
-    ViewManager viewManager = new ViewManager(cardpanel, cardlayout, viewManagerModel);
+    ViewManager viewManager = new ViewManager(cardLayout, cardPanel, viewManagerModel);
 
-    private UserAccountInfoView userAccountInfoView;
-    private AccountInforViewModel  accountInforViewModel;
-    private ResumeView  resumeView;
-    private ResumeUIViewModel resumeUIViewModel;
+    final CompanyFactory companyFactory = new CompanyFactory();
+//    private CompanyDataAccessObject companyDataAccessObject = new CompanyDataAccessObject(/Users/ethan/IdeaProjects/207-jobsproject/users.csv, companyFactory);
 
-    public AppBuilder() {
-        cardpanel.setLayout(cardlayout);}
 
-    public AppBuilder addUserAccountInfoView() {
-        accountInforViewModel = new AccountInforViewModel();
-        userAccountInfoView = new UserAccountInfoView(accountInforViewModel);
-        cardpanel.add(userAccountInfoView, userAccountInfoView.getViewName());
+    private LandingView landingView;
+    private CompanyLoginSignupView companyLoginSignupView;
+    private UserLoginSignupView userLoginSignupView;
+    private final LoginViewModel loginViewModel =  new LoginViewModel();
+
+
+    private CompanyLoggedInView companyLoggedInView;
+    private final CompanyLoggedInViewModel companyLoggedInViewModel = new CompanyLoggedInViewModel();
+    private CompanyAccountView companyAccountView;
+    private final CompanyAccountViewModel companyAccountViewModel  = new CompanyAccountViewModel();
+    private PostJobView postJobView;
+    private final PostJobViewModel postJobViewModel = new PostJobViewModel();
+
+
+    public AppBuilder() { cardPanel.setLayout(cardLayout); }
+
+    public AppBuilder addLandingView() {
+        landingView = new LandingView(viewManagerModel);
         return this;
     }
 
-    public AppBuilder addResumeView() {
-        resumeUIViewModel = new ResumeUIViewModel();
-        resumeView = new ResumeView(resumeUIViewModel);
-        cardpanel.add(resumeView, resumeUIViewModel.getViewName());
+    public AppBuilder addCompanyLoginSignupView() {
+        companyLoginSignupView = new CompanyLoginSignupView(loginViewModel);
         return this;
     }
 
-    public AppBuilder addResumeUIUseCase() {
-        final ResumeUIPresenter resumeUIPresenter = new ResumeUIPresenter(viewManagerModel, resumeUIViewModel,
-                accountInforViewModel);
-        final ResumeUIInteractor resumeUIInteractor = new ResumeUIInteractor(resumeUIPresenter);
-        ResumeUIControler resumeUIControler = new ResumeUIControler(resumeUIInteractor);
-        userAccountInfoView.setAccountInfoControler(resumeUIControler);
+//    public AppBuilder addUserLogInUseCase() {
+//        LoginOutputBoundary loginOutputBoundary = new LoginInteractor(companyDataAccessObject);
+//        return this;
+//    }
+
+    public AppBuilder addUserSignupUseCase() {
         return this;
     }
 
-    public AppBuilder addAccountInfoUseCase() {
-        final AccountInfoPresenter resumeUIPresenter = new AccountInfoPresenter(viewManagerModel, resumeUIViewModel,
-                accountInforViewModel);
-        final AccountInfoInteractor resumeUIInteractor = new AccountInfoInteractor(resumeUIPresenter);
-        AccountInfoController resumeUIControler = new AccountInfoController(resumeUIInteractor);
-        resumeView.setResumeUIControler(resumeUIControler);
+    public AppBuilder addCompanyLoggedInView() {
+        companyLoggedInView = new CompanyLoggedInView(companyLoggedInViewModel);
+        companyLoggedInView.setPostJobViewModel(postJobViewModel);
+        companyLoggedInView.setCompanyAccountViewModel(companyAccountViewModel);
+        companyLoggedInView.setViewManagerModel(viewManagerModel);
+        cardPanel.add(companyLoggedInView, companyLoggedInView.getViewName());
         return this;
     }
 
+    public AppBuilder addCompanyAccountView() {
+        companyAccountView = new CompanyAccountView(companyAccountViewModel);
+        companyAccountView.setCompanyLoggedInViewModel(companyLoggedInViewModel);
+        companyAccountView.setViewManagerModel(viewManagerModel);
+        cardPanel.add(companyAccountView, companyAccountView.getViewName());
+        return this;
+    }
+
+    public AppBuilder addPostJobView() {
+        postJobView = new PostJobView(postJobViewModel);
+        cardPanel.add(postJobView, postJobView.getViewName());
+        return this;
+    }
+
+    public AppBuilder addPostJobUseCase() {
+        final PostJobOutputBoundary postJobOutputBoundary =
+                new PostJobPresenter(companyLoggedInViewModel, viewManagerModel);
+        final PostJobInputBoundary postJobInputBoundary = new PostJobInteractor(postJobOutputBoundary);
+        PostJobController postJobController = new PostJobController(postJobInputBoundary);
+        postJobView.setPostJobController(postJobController);
+        return this;
+    }
+
+    public AppBuilder addEditCompanyAccountUseCase() {
+        final EditCompanyAccountOutputBoundary editCompanyAccountOutputBoundary =
+                new EditCompanyAccountPresenter(companyAccountViewModel);
+        final EditCompanyAccountInputBoundary editCompanyAccountInputBoundary =
+                new EditCompanyAccountInteractor(editCompanyAccountOutputBoundary);
+        EditCompanyAccountController editCompanyAccountController =
+                new EditCompanyAccountController(editCompanyAccountInputBoundary);
+        companyAccountView.setEditCompanyAccountController(editCompanyAccountController);
+        return this;
+    }
 
     public JFrame build() {
-        final JFrame application = new JFrame("User Login Example");
+        final JFrame application = new JFrame();
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        application.add(cardpanel);
+        application.add(cardPanel);
 
-        viewManagerModel.setState(userAccountInfoView.getViewName());
-        viewManagerModel.firePropertyChanged();
+        viewManagerModel.setState(companyLoggedInView.getViewName());
+        viewManagerModel.firePropertyChange();
 
         return application;
     }
-
 }

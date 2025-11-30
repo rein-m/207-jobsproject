@@ -36,7 +36,7 @@ public class LandingView extends JPanel implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 viewManagerModel.setState("user login");
-                viewManagerModel.firePropertyChanged();
+                viewManagerModel.firePropertyChange();
             }
         });
 
@@ -44,7 +44,7 @@ public class LandingView extends JPanel implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 viewManagerModel.setState("company login");
-                viewManagerModel.firePropertyChanged();
+                viewManagerModel.firePropertyChange();
             }
         });
     }

@@ -16,7 +16,7 @@ import java.beans.PropertyChangeListener;
 
 public class CompanyLoginSignupView extends JPanel implements ActionListener, PropertyChangeListener {
 
-    public final String viewName = "user login";
+    private final String viewName = "user login";
     private final LoginViewModel loginViewModel;
 
     private final JTextField usernameInputField = new JTextField(15);
@@ -29,14 +29,12 @@ public class CompanyLoginSignupView extends JPanel implements ActionListener, Pr
     private final JButton signUp;
     private final JButton cancel;
 
-    private final LoginController loginController;
-    private final SignupController signupController;
+    private LoginController loginController;
+    private SignupController signupController;
 
-    public CompanyLoginSignupView(LoginViewModel loginViewModel, LoginController loginController, SignupController signupController) {
+    public CompanyLoginSignupView(LoginViewModel loginViewModel) {
 
         this.loginViewModel = loginViewModel;
-        this.loginController = loginController;
-        this.signupController = signupController;
         this.loginViewModel.addPropertyChangeListener(this);
 
         JLabel title = new JLabel("User Portal");
@@ -77,7 +75,7 @@ public class CompanyLoginSignupView extends JPanel implements ActionListener, Pr
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(signUp)) {
-                           // switch to company loggedin  LoginState currentState = loginViewModel.getState();
+                            LoginState currentState = loginViewModel.getState();
 
                             signupController.execute("Company", currentState.getIdentifier(), currentState.getPassword(), currentState.getPassword());
                         }
@@ -169,5 +167,17 @@ public class CompanyLoginSignupView extends JPanel implements ActionListener, Pr
             this.add(label);
             this.add(textField);
         }
+    }
+
+    public String getViewName() {
+        return viewName;
+    }
+
+    public void setLoginController(LoginController loginController) {
+        this.loginController = loginController;
+    }
+
+    public void setSignupController(SignupController signupController) {
+        this.signupController = signupController;
     }
 }
