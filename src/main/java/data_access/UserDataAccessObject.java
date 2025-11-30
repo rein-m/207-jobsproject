@@ -2,12 +2,10 @@ package data_access;
 
 // import statements
 
-import entity.Entity;
 import entity.User;
 import entity.UserFactory;
-import use_case.login.LoginUserDataAccessInterface;
-import use_case.logout.LogoutUserDataAccessInterface;
-import use_case.signup.SignupUserDataAccessInterface;
+import use_case.AccountInfo.AccountInfoDataAccessInterface;
+
 import java.io.*;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -18,9 +16,7 @@ import java.util.Map;
  If extra time and improves functionality, switch to that implementation.
 */
 
-public class UserDataAccessObject implements LoginUserDataAccessInterface,
-                                            LogoutUserDataAccessInterface,
-                                            SignupUserDataAccessInterface {
+public class UserDataAccessObject implements AccountInfoDataAccessInterface {
 
     private static final String HEADER = "identifier,username,password,location,email,phone"; // user info
 
@@ -95,26 +91,26 @@ public class UserDataAccessObject implements LoginUserDataAccessInterface,
         }
     }
 
-   // Determine whether a given user exists by USERNAME.
-    @Override
+    // Determine whether a given user exists by USERNAME.
+//    @Override
     public boolean existsByName(String username) {
         return userAccounts.containsKey(username);
     }
 
     // Determine whether a given user exists by NAME/identifier.
-    @Override
+//    @Override
     public boolean existsByIdentifier(String identifier) {
         return userAccounts.containsKey(identifier);
     }
 
     // Save the current user.
-    @Override //overrides the save() from LoginUserDataAccessInterface
+//    @Override //overrides the save() from LoginUserDataAccessInterface
     public void save(User user) {
         userAccounts.put(user.getIdentifier(), user);
         this.save();
     }
 
-    @Override
+//    @Override
     public User get(String identifier, String entityType) {
         return userAccounts.get(identifier);
     }
