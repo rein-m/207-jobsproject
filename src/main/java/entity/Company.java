@@ -1,5 +1,7 @@
 package entity;
 
+import java.util.ArrayList;
+
 public class Company implements Entity {
     private final String identifier;
     private final String companyName;
@@ -8,8 +10,10 @@ public class Company implements Entity {
     private final String number;
     private final String location;
     private final String password;
+    private ArrayList<ArrayList<String>> jobs;
+
     public Company(String identifier, String companyName, String website, String email, String number, String location,
-                   String password) {
+                   String password, ArrayList<ArrayList<String>> jobs) {
         this.identifier = identifier;
         this.companyName = companyName;
         this.website = website;
@@ -17,6 +21,7 @@ public class Company implements Entity {
         this.number = number;
         this.location = location;
         this.password = password;
+        this.jobs = jobs;
     }
     public String getIdentifier() {
         return identifier;
@@ -29,4 +34,5 @@ public class Company implements Entity {
     public String getEmail() {return email;}
     public String getNumber() {return number;}
     public String getLocation() {return location;}
+    public ArrayList<ArrayList<String>> getJobs() {return jobs;}
 }

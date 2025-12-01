@@ -8,14 +8,11 @@ import entity.Company;
 import entity.CompanyRecord;
 import entity.CompanyFactory;
 import entity.User;
-import use_case.login.LoginUserDataAccessInterface;
-import use_case.post_job.PostJobUserDataAccessInterface;
 import use_case.AccountInfo.AccountInfoDataAccessInterface;
 
 import java.io.*;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 /*
@@ -24,7 +21,7 @@ import java.util.Map;
  Companies and all of their attributes are stored in the companyAccounts HashMap.
  If you need to retrieve information about a company, import this class and grab from companyAccounts by username.
  e.g. companyAccounts.get(username) will give you the company object associated with that
- userAccounts.get(username).getResumes() will give you the user's list of resumes.
+ companyAccounts.get(username).getJobs() will give you the user's list of jobs.
 */
 public class CompanyDataAccessObject implements AccountInfoDataAccessInterface
 
@@ -55,7 +52,8 @@ public class CompanyDataAccessObject implements AccountInfoDataAccessInterface
                         r.email,
                         r.number,
                         r.location,
-                        r.password
+                        r.password,
+                        r.jobs
                 );
                 companyAccounts.put(company.getIdentifier(), company);
             }
