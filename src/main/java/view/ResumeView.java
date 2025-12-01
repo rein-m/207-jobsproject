@@ -1,8 +1,10 @@
 package view;
 
+import interface_adapter.ResumeShit.addResume.AddResumeController;
 import interface_adapter.ResumeShit.resumeUI.ResumeUIState;
 import interface_adapter.ResumeShit.resumeUI.ResumeUIViewModel;
 import interface_adapter.userAccountInfo.AccountInfoController;
+import interface_adapter.userAccountInfo.AccountInfoState;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -18,6 +20,7 @@ public class ResumeView extends JPanel implements PropertyChangeListener {
     private final String viewName = "resume UI";
     private final ResumeUIViewModel resumeUIViewModel;
     private AccountInfoController accountInfoController;
+    private AddResumeController addResumeController;
 
 
     private JTextField filePathField;
@@ -27,6 +30,7 @@ public class ResumeView extends JPanel implements PropertyChangeListener {
     private JTextArea statusArea;
     private JProgressBar progressBar;
     private File selectedPdfFile;
+    private String selectedFilePath;
 
     public ResumeView(ResumeUIViewModel  resumeUIViewModel) {
         this.resumeUIViewModel = resumeUIViewModel;
@@ -118,7 +122,7 @@ public class ResumeView extends JPanel implements PropertyChangeListener {
         processButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                processPdf();
+                processPdf(selectedFilePath);
             }
         });
 
@@ -155,6 +159,7 @@ public class ResumeView extends JPanel implements PropertyChangeListener {
         if (result == JFileChooser.APPROVE_OPTION) {
             selectedPdfFile = fileChooser.getSelectedFile();
             filePathField.setText(selectedPdfFile.getAbsolutePath());
+            selectedFilePath = selectedPdfFile.getAbsolutePath();
             processButton.setEnabled(true);
             appendStatus("PDF file selected: " + selectedPdfFile.getName() + "\n");
             appendStatus("File size: " + (selectedPdfFile.length() / 1024) + " KB\n");
@@ -169,7 +174,7 @@ public class ResumeView extends JPanel implements PropertyChangeListener {
 
     }
 
-    private void processPdf() {
+    private void processPdf(String filePath) {
         if (selectedPdfFile == null || !selectedPdfFile.exists()) {
             JOptionPane.showMessageDialog(this,
                     "Please select a valid PDF file first.",
@@ -181,6 +186,9 @@ public class ResumeView extends JPanel implements PropertyChangeListener {
         // Disable buttons during processing
         processButton.setEnabled(false);
         browseButton.setEnabled(false);
+
+        final ResumeUIState currentState = resumeUIViewModel.getState();
+        addResumeController.execute(filePath, currentState.getUserIdentifier());
 
         appendStatus("\n--- Starting PDF Processing ---\n");
         appendStatus("Processing file: " + selectedPdfFile.getName() + "\n");
@@ -261,6 +269,10 @@ public class ResumeView extends JPanel implements PropertyChangeListener {
 
     public void setResumeUIControler(AccountInfoController loginController) {
         this.accountInfoController = loginController;
+    }
+
+    public void setAddResumeController(AddResumeController addResumeController) {
+        this.addResumeController = addResumeController;
     }
 
 

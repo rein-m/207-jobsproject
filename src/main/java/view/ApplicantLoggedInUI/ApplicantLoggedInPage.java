@@ -1,12 +1,25 @@
 package view.ApplicantLoggedInUI;
 
+import interface_adapter.ResumeShit.resumeUI.ResumeUIState;
+import interface_adapter.ResumeShit.resumeUI.ResumeUIViewModel;
+import interface_adapter.userAccountInfo.AccountInfoController;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ApplicantLoggedInPage extends JFrame{
-    public static void main(String[] args) {
+public class ApplicantLoggedInPage extends JFrame {
+    private final String viewName = "user Logged In";
+    // private final ApplicantViewModel applicantViewModel; add this when you make it
+    private AccountInfoController accountInfoController;
+
+    public ApplicantLoggedInPage(AccountInfoController accountInfoController) {
+        // this.applicantViewModel = the view model you will have to add later
+        this.accountInfoController = accountInfoController;
+    }
+    public static void main(String[] args, AccountInfoController accountInfoController) {
+
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 createAndShowGUI();
@@ -52,8 +65,10 @@ public class ApplicantLoggedInPage extends JFrame{
         profileButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                UserAccountInfo ProfileWindow = new UserAccountInfo();
-                ProfileWindow.setVisible(true);
+                if (e.getSource().equals(profileButton)) {
+                    // final ResumeUIState currentState = resumeUIViewModel.getState(); this is when you make the state / viewmodel where I get the useridentifier from
+                    accountInfoController.execute(currentState.getUserIdentifier());
+                }
             }
         });
 

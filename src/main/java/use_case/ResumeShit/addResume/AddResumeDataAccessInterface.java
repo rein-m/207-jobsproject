@@ -1,4 +1,10 @@
 package use_case.ResumeShit.addResume;
 
-public class AddResumeDataAccessInterface {
+import entity.User;
+
+public interface AddResumeDataAccessInterface {
+    User getUser(String username);
+
+    void addResume(User user, String resume);
+
 }

@@ -91,7 +91,7 @@ public class UserAccountInfoView extends JPanel implements ActionListener, Prope
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(res_btn)) {
                             final AccountInfoState currentState = accountinfoViewModel.getState();
-                            resumeUIControler.execute();
+                            resumeUIControler.execute(currentState.getUserIdentifier());
                         }
                     }
                 }
