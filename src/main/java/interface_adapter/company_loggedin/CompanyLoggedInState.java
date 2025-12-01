@@ -1,11 +1,10 @@
 package interface_adapter.company_loggedin;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 public class CompanyLoggedInState {
     private String companyName;
-    private  List<List<String>> jobListings = new ArrayList<>();
+    private  HashMap<String, String> jobListings = new HashMap<>();
 
 
     public CompanyLoggedInState() {}
@@ -14,15 +13,7 @@ public class CompanyLoggedInState {
 
     public String getCompanyName() { return this.companyName; }
 
-    public void setJobListings(List<List<String>> jobListings) { this.jobListings = jobListings; }
-
-    public List<List<String>> getJobListings() { return this.jobListings; }
-
-    public void addJobListing(String jobTitle, String jobDescription,  String jobLocation) {
-        List<String> jobListing = new ArrayList<>();
-        jobListing.add(jobTitle);
-        jobListing.add(jobDescription);
-        jobListing.add(jobLocation);
-        this.jobListings.add(jobListing);
+    public void addJobListing(String jobTitle, String jobDescription) {
+        this.jobListings.put(jobTitle, jobDescription);
     }
 }
