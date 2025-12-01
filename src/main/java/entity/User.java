@@ -9,10 +9,10 @@ public class User implements Entity {
     private String location;
     private String email;
     private String phone;
-    private ArrayList<Entity> resumes;
+    private ArrayList<String> resumes;
 
     public User(String name, String username, String password, String location, String email,
-                String phone, ArrayList<Entity> resumes) {
+                String phone, ArrayList<String> resumes) {
         this.name = name;
         this.username = username;
         this.password = password;
@@ -22,9 +22,6 @@ public class User implements Entity {
         this.resumes = resumes;
     }
 
-
-
-
     public String getIdentifier() {
         return name;
     }
@@ -33,5 +30,5 @@ public class User implements Entity {
     public String getLocation() {return location;}
     public String getEmail() {return email;}
     public String getPhone() {return phone;}
-    public ArrayList<Entity> getResumes() {return resumes;}
+    public ArrayList<String> getResumes() {return resumes;}
 }
