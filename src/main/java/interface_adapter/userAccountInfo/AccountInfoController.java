@@ -12,8 +12,8 @@ public class AccountInfoController {
         this.accountInfoInteractor = resumeUIInteractor;
     }
 
-    public void execute(User user) {
-        accountInfoInteractor.execute(user);
+    public void execute(String userIdentifier) {
+        accountInfoInteractor.execute(userIdentifier);
     }
 
 }

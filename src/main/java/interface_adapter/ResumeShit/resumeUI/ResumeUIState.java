@@ -4,10 +4,9 @@ import entity.User;
 
 public class ResumeUIState {
 
-    private User user;
+    private String userIdentifier;
 
-    public User getUser() {return user;}
+    public String getUserIdentifier() {return userIdentifier;}
 
-    // Pretty sure this means I need to set the user or some shit up when I am making the shit in the appbuilder
-    public void setUser(User user) {this.user = user;}
+    public void SetUserIdentifier(String userIdentifier) {this.userIdentifier = userIdentifier;}
 }

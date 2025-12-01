@@ -11,17 +11,17 @@ public class AccountInfoOutputData {
     private final String phone;
 //    private final ArrayList<Entity> resumes;
 
-    public AccountInfoOutputData(User user) {
-        this.location = user.getLocation();
-        this.email = user.getEmail();
-        this.phone = user.getPhone();
+    public AccountInfoOutputData(String location, String email, String phone) {
+        this.location = location;
+        this.email = email;
+        this.phone = phone;
 //        this.resumes = user.getResumes();
     }
 
     public String getLocation() {return location;}
     public String getEmail() {return email;}
     public String getPhone() {return phone;}
-//    public ArrayList<Entity> getResumes() {return resumes;}
+//    public ArrayList<String> getResumes() {return resumes;}
 
 
 }

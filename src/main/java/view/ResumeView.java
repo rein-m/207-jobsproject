@@ -1,11 +1,8 @@
 package view;
 
-import interface_adapter.ResumeShit.resumeUI.ResumeUIControler;
 import interface_adapter.ResumeShit.resumeUI.ResumeUIState;
 import interface_adapter.ResumeShit.resumeUI.ResumeUIViewModel;
 import interface_adapter.userAccountInfo.AccountInfoController;
-import interface_adapter.userAccountInfo.AccountInfoState;
-import interface_adapter.userAccountInfo.AccountInforViewModel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -167,7 +164,7 @@ public class ResumeView extends JPanel implements PropertyChangeListener {
     private void accountUI(ActionEvent e) {
         if (e.getSource().equals(doneButton)) {
             final ResumeUIState currentState = resumeUIViewModel.getState();
-            accountInfoController.execute(currentState.getUser());
+            accountInfoController.execute(currentState.getUserIdentifier());
         }
 
     }

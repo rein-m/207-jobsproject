@@ -5,5 +5,5 @@ import entity.User;
 import java.sql.SQLException;
 
 public interface AccountInfoDataAccessInterface {
-    User get(String username) throws SQLException;
+    User getUser(String username);
 }
