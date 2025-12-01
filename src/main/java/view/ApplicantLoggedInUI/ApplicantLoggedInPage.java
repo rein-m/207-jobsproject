@@ -99,7 +99,7 @@ public class ApplicantLoggedInPage extends JFrame{
         contentPanel.add(buttonB);
 
         // Button C
-        JButton buttonC = createStyledButton("Chat with out AI !");
+        JButton buttonC = createStyledButton("Chat with our AI !");
         buttonC.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
