@@ -1,27 +1,18 @@
 package use_case.login;
 
-import entity.Entity;
+import entity.Company;
 
 public interface LoginUserDataAccessInterface {
+    boolean existsByName(String username);
 
-    /**
-     * Checks if the given identifier exists.
-     * @param identifier the username to check.
-     * @return true if exists.
-     */
-    boolean existsByIdentifier(String identifier);
+    void save();
 
-    /**
-     * Retrieves the stored password for the given identifier.
-     * @param identifier the username to check.
-     * @return the password string.
-     */
-    String getPassword(String identifier);
+    // Save the current user.
+    //-- no need to override, since this is different function than the save()
+    public void save(Company company);
 
-    /**
-     * Retrieves the User entity.
-     * @param identifier the username to look up.
-     * @return the User entity.
-     */
-    Entity get(String identifier);
+    Company get(String identifier, String entityType);
+
+    // get a user.
+    Company get(String identifier);
 }
