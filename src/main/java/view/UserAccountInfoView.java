@@ -8,14 +8,9 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 
-import interface_adapter.ResumeShit.resumeUI.ResumeUIPresenter;
-import interface_adapter.ResumeShit.resumeUI.ResumeUIViewModel;
-import interface_adapter.ViewManagerModel;
-import interface_adapter.userAccountInfo.AccountInfoController;
 import interface_adapter.userAccountInfo.AccountInfoState;
 import interface_adapter.ResumeShit.resumeUI.ResumeUIControler;
 import interface_adapter.userAccountInfo.AccountInforViewModel;
-import use_case.ResumeShit.ResumeUI.ResumeUIInteractor;
 
 public class UserAccountInfoView extends JPanel implements ActionListener, PropertyChangeListener {
     private final String viewName = "account info";
