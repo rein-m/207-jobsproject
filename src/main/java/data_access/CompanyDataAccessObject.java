@@ -2,95 +2,120 @@ package data_access;
 
 // import statements
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import entity.Company;
-import entity.CompanyRecord;
 import entity.CompanyFactory;
 import entity.User;
-import use_case.AccountInfo.AccountInfoDataAccessInterface;
+import entity.UserFactory;
+import use_case.login.LoginUserDataAccessInterface;
+import use_case.logout.LogoutUserDataAccessInterface;
+import use_case.post_job.PostJobUserDataAccessInterface;
 
 import java.io.*;
-import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /*
- DAO for a company. Uses a JSON file for persistence, but could alternatively use Docker/Mongo.
- If extra time and improves functionality, switch to that implementation.
- Companies and all of their attributes are stored in the companyAccounts HashMap.
- If you need to retrieve information about a company, import this class and grab from companyAccounts by username.
- e.g. companyAccounts.get(username) will give you the company object associated with that
- companyAccounts.get(username).getJobs() will give you the user's list of jobs.
+ DAO for a company, also using files to persist data.
 */
-public class CompanyDataAccessObject implements AccountInfoDataAccessInterface
 
+public class CompanyDataAccessObject implements LoginUserDataAccessInterface,
+                                                PostJobUserDataAccessInterface,
+                                                    LogoutUserDataAccessInterface
 {
-    private final File JSONFile; // File to store things in.
-    private final CompanyFactory companyFactory;
+    private static final String HEADER = "identifier,password"; // user info
+
+
+    private final File csvFile; // File to store things in.
+    private final Map<String, Integer> headers = new LinkedHashMap<>(); // store headers in a linked hash map.
     private final Map<String, Company> companyAccounts = new HashMap<>(); // store userAccounts in a hash map.
 
     // The constructor for CompanyDataAccessObject takes only two parameters: a csv path and a companyFactory.
-    public CompanyDataAccessObject(File JSONfile, CompanyFactory companyFactory) throws IOException {
-        this.JSONFile = JSONfile;
-        this.companyFactory = companyFactory;
-        loadData(); // call the method to load data.
-    }
+    public CompanyDataAccessObject(File csvPath, UserFactory userFactory) throws FileNotFoundException {
+        csvFile = csvPath;
+        headers.put("identifier", 0);
+        headers.put("password", 1);
 
+        if (csvFile.length() == 0) {
+            save();
+        }
 
-    private void loadData() throws IOException {
-        Gson gson = new Gson();
+        else {
+            try(BufferedReader readFile = new BufferedReader(new FileReader(csvFile))) {
+                final String header = readFile.readLine();
 
-        try (Reader reader = new FileReader(JSONFile)) {
-            CompanyRecord[] companyRecords = gson.fromJson(reader, CompanyRecord[].class);
+                if (!header.equals(HEADER)) {
+                    throw new RuntimeException(String.format("header should be %n: %s%n, but was: %n%s", HEADER, header));
+                }
 
-            for (CompanyRecord r : companyRecords) {
-                Company company = companyFactory.createEntity(
-                        r.identifier,
-                        r.companyName,
-                        r.website,
-                        r.email,
-                        r.number,
-                        r.location,
-                        r.password,
-                        r.jobs
-                );
-                companyAccounts.put(company.getIdentifier(), company);
+                String row;
+                while ((row = readFile.readLine()) != null) {
+                    final String[] columns = row.split(","); // split columns by ,
+
+                    // user attributes
+                    final String identifier = String.valueOf(columns[headers.get("identifier")]);
+                    final String password = String.valueOf(columns[headers.get("password")]);
+
+                    final Company company = CompanyFactory.createEntity(identifier, password);
+                    companyAccounts.put(identifier, company); // maps identifier/company name to company
+                }
+
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
-    // saves company data.
-    public void saveData() throws IOException {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    @Override
+    public boolean existsByName(String username) {
+        return false;
+    }
 
-        try(FileWriter write = new FileWriter(JSONFile))
-        {
-            gson.toJson(companyAccounts.values(), write);
+    public void save() // changed from private (maybe back)
+    {
+        final BufferedWriter writer;
+        try {
+            writer = new BufferedWriter(new FileWriter(csvFile));
+            writer.write(String.join(",", headers.keySet()));
+            writer.newLine();
+
+            for (Company company: companyAccounts.values()) {
+                final String line = String.format("%s, %s, %s, %s, %s", company.getIdentifier(), company.getPassword());
+                writer.write(line);
+                writer.newLine();
+            }
+            writer.close();
         }
         catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    // do not use any of the following methods -- they are all to satisy intelliJ.
+    // no purpose, just added so that intelliJ stops getting mad at me.
     @Override
     public void save(User user) {
 
     }
 
+    // same. Want intelliJ to stop yapping at me. Don't use.
     @Override
     public User get(String identifier, String entityType) {
         return null;
     }
 
-    @Override
-    public User get(String username) throws SQLException {
-        return null;
+    // Similarly, intelliJ made me put this here... Don't use.
+    public void save(Company company) {
+
     }
 
+    // get company method return identifier/company name.
+    @Override
+    public String get(String identifier) {
+        return Company.getIdentifier();
+    }
+
+    // not sure what to do with this postJob method...?
     @Override
     public void postJob(String title, String description) {
 

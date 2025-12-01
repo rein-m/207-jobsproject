@@ -2,17 +2,16 @@ package use_case.post_job;
 
 public class PostJobInteractor implements PostJobInputBoundary {
     private final PostJobOutputBoundary postJobPresenter;
-//    private final PostJobUserDataAccessInterface postJobUserDataAccessInterface;
+    private final PostJobUserDataAccessInterface postJobUserDataAccessInterface;
 
-//    public PostJobInteractor(PostJobOutputBoundary postJobPresenter,  PostJobUserDataAccessInterface postJobUserDataAccessInterface) {
-    public PostJobInteractor(PostJobOutputBoundary postJobPresenter) {
+    public PostJobInteractor(PostJobOutputBoundary postJobPresenter,  PostJobUserDataAccessInterface postJobUserDataAccessInterface) {
         this.postJobPresenter = postJobPresenter;
-//        this.postJobUserDataAccessInterface = postJobUserDataAccessInterface;
+        this.postJobUserDataAccessInterface = postJobUserDataAccessInterface;
     }
     @Override
     public void execute (PostJobInputData postJobInputData) {
-//        postJobUserDataAccessInterface.postJob(postJobInputData.getTitle(), postJobInputData.getDescription(), postJobInputData.getLocation());
-        final PostJobOutputData postJobOutputData = new PostJobOutputData(postJobInputData.getTitle(), postJobInputData.getDescription(), postJobInputData.getLocation());
+        postJobUserDataAccessInterface.postJob(postJobInputData.getTitle(), postJobInputData.getDescription());
+        final PostJobOutputData postJobOutputData = new PostJobOutputData(postJobInputData.getTitle(), postJobInputData.getDescription());
         postJobPresenter.updateCompanyLoggedInState(postJobOutputData);
     }
     @Override

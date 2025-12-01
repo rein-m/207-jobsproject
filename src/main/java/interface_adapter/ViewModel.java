@@ -3,32 +3,40 @@ package interface_adapter;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-public class ViewModel<S> {
+
+public class ViewModel<T> {
 
     private final String viewName;
 
-    private S state;
-
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
+
+    private T state;
 
     public ViewModel(String viewName) {
         this.viewName = viewName;
     }
-    public String getViewName() { return this.viewName; }
 
-    public S getState() { return this.state; }
+    public String getViewName() {
+        return this.viewName;
+    }
 
-    public void setState(S state) { this.state = state; }
+    public T getState() {
+        return this.state;
+    }
 
-    //method to add a listener to the observer's propery change support
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        this.support.addPropertyChangeListener(listener); }
+    public void setState(T state) {
+        this.state = state;
+    }
 
-    //method to alert the observer
-    public void firePropertyChange() {
-        this.support.firePropertyChange("state", null, this.state); }
+    public void firePropertyChanged() {
+        this.support.firePropertyChange("state", null, this.state);
+    }
 
-    public void firePropertyChange(String propertyName) {
+    public void firePropertyChanged(String propertyName) {
         this.support.firePropertyChange(propertyName, null, this.state);
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        this.support.addPropertyChangeListener(listener);
     }
 }
