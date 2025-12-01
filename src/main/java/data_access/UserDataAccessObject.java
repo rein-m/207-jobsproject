@@ -8,7 +8,6 @@ import entity.User;
 import entity.UserRecord;
 import entity.UserFactory;
 import use_case.AccountInfo.AccountInfoDataAccessInterface;
-import use_case.ResumeShit.addResume.AddResumeDataAccessInterface;
 
 import java.io.*;
 import java.util.HashMap;
@@ -23,7 +22,7 @@ import java.util.Map;
  userAccounts.get(username).getResumes() will give you the user's list of resumes.
 */
 
-public class UserDataAccessObject implements AccountInfoDataAccessInterface, AddResumeDataAccessInterface {
+public class UserDataAccessObject implements AccountInfoDataAccessInterface {
 
     private final File JSONFile; // File to store things in.
     private final UserFactory userFactory;
@@ -86,25 +85,25 @@ public class UserDataAccessObject implements AccountInfoDataAccessInterface, Add
     }
 
     // from AccountInfoDataAccessInterface -- don't use, just so intelliJ doesn't yell at me.
-    @Override
+//    @Override
     public void save(User user) {
 
     }
 
     // don't use. just so intelliJ doesn't yell at me.
-    @Override
+//    @Override
     public User get(String identifier, String entityType) {
         return null;
     }
 
     // get a user by identifier.
-    @Override // overrides the get method from LoginUserDataAccesInterface
+    @Override
     public User get(String identifier) {
         return userAccounts.get(identifier);
     }
 
     // not necessary, will never call this method from user DAO but intelliJ wants it
-    @Override
+//    @Override
     public void postJob(String title, String description) {
 
     }

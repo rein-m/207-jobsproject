@@ -3,6 +3,7 @@ import entity.User;
 import interface_adapter.ResumeShit.resumeUI.ResumeUIPresenter;
 import interface_adapter.userAccountInfo.AccountInfoPresenter;
 
+import java.util.ArrayList;
 import java.sql.SQLException;
 
 public class AccountInfoInteractor {
@@ -17,10 +18,10 @@ public class AccountInfoInteractor {
 
     public void execute(String userIdentifier) {
 
-        User user = accountInfoDataAccessInterface.getUser(userIdentifier);
-
+        User user = accountInfoDataAccessInterface.get(userIdentifier);
+        ArrayList<String> resumes = user.getResumes();
         final AccountInfoOutputData accountInfoOutputData = new AccountInfoOutputData(user.getLocation(),
-                user.getEmail(), user.getPhone()); // will add resumes later
+                user.getEmail(), user.getPhone(), resumes, user.getIdentifier()); // will add resumes later
         accountInfoPresenter.prepareResumeUIView(accountInfoOutputData);
     }
 }

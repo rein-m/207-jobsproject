@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 
 
 import interface_adapter.ResumeShit.resumeUI.ResumeUIPresenter;
@@ -105,18 +106,17 @@ public class UserAccountInfoView extends JPanel implements ActionListener, Prope
 
         JPanel all_resumes = new JPanel();
         all_resumes.setLayout(new BoxLayout(all_resumes, BoxLayout.Y_AXIS));
+        ArrayList<String> total_res = accountInfoState.getResumes();
+//        "Element at index " + i + ": " + names.get(i)
 
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < total_res.size(); i++) {
             JPanel single_resume = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
             single_resume.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-            JLabel resume_name = new JLabel("File Name" + i);
+            JLabel resume_name = new JLabel("Resume Preview: " + total_res.get(i).substring(0, 50));
             resume_name.setFont(new Font("SansSerif", Font.ITALIC, 16));
 
-            JLabel date_added = new JLabel("Date Added");
-            date_added.setFont(new Font("SansSerif", Font.ITALIC, 16));
 
             single_resume.add(resume_name);
-            single_resume.add(date_added);
             single_resume.setPreferredSize(new Dimension(300, 50));
 
             all_resumes.add(single_resume, BorderLayout.SOUTH);

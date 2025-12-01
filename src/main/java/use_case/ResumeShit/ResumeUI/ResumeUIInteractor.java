@@ -8,7 +8,7 @@ public class ResumeUIInteractor {
         this.resumeUIPresenter = resumeUIOutputBoundary;
     }
 
-    public void execute(){
-        resumeUIPresenter.prepareResumeUIView();
+    public void execute(String userIdentifier){
+        resumeUIPresenter.prepareResumeUIView(userIdentifier);
         }
     }

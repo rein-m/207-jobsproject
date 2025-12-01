@@ -23,7 +23,8 @@ public class AccountInfoPresenter {
         accountInfoState.setLocation(response.getLocation());
         accountInfoState.setEmail(response.getEmail());
         accountInfoState.setPhone(response.getPhone());
-//        accountInfoState.setResumes(response.getResumes());
+        accountInfoState.setResumes(response.getResumes());
+        accountInfoState.setUserIdentifier(response.getIdentifier());
 
 
         this.accountinfoViewModel.setState(accountInfoState);

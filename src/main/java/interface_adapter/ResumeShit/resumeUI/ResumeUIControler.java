@@ -9,7 +9,7 @@ public class ResumeUIControler {
         this.resumeUIInteractor = resumeUIInteractor;
     }
 
-    public void execute() {
-        resumeUIInteractor.execute();
+    public void execute(String userIdentifier) {
+        resumeUIInteractor.execute(userIdentifier);
     }
 }

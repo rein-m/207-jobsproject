@@ -31,4 +31,8 @@ public class User implements Entity {
     public String getEmail() {return email;}
     public String getPhone() {return phone;}
     public ArrayList<String> getResumes() {return resumes;}
+
+    public void addResume(String resume) {
+        resumes.add(resume);
+    }
 }
