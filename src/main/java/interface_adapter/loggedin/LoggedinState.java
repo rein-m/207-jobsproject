@@ -1,32 +1,19 @@
 package interface_adapter.loggedin;
 
 public class LoggedinState {
-    private String identifier;
-    private String password;
-    private String loginError;
-
+    private String Appalicant_identifier;
     private boolean loggedIn;
 
     public String getIdentifier() {
-        return identifier;
-    }
-    public String getPassword() {
-        return password;
-    }
-    public String getLoginError() {
-        return loginError;
+        return Appalicant_identifier;
     }
     public void setIdentifier(String identifier) {
-        this.identifier = identifier;
+        this.Appalicant_identifier = identifier;
     }
-    public void setLoginError(String loginError) {
-        this.loginError = loginError;
+    public boolean getState(Boolean loggedin) {return loggedin;}
+    public void setState(Boolean loggedIn) {
+        this.loggedIn = loggedIn;
     }
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    public void  getState(Boolean loggedin){this.loggedIn = true;}
-
 
 
 }
