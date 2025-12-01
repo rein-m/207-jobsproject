@@ -1,7 +1,8 @@
 package entity;
 
-public class CompanyFactory extends GenericFactory<Company> {
-    public Company createEntity(String name, String password) {
-        return new Company(name, password);
+public class CompanyFactory {
+    public static Company createEntity(String identifier, String companyName, String website, String email, String number,
+                                       String location, String password) {
+        return new Company(identifier, companyName, website, email, number, location, password);
     }
 }

@@ -22,10 +22,10 @@ public class PostJobPresenter implements PostJobOutputBoundary {
     }
 
     //need something to update the state of companyloggedinviewmodel (append new job to jobs list)
-    public void updateCompanyLoggedInState(PostJobOutputData postJobOutputData) {
+    public void updateCompanyLoggedInState(PostJobOutputData response) {
         final CompanyLoggedInState state = companyLoggedInViewModel.getState();
-        state.addJobListing(postJobOutputData.getJobTitle(), postJobOutputData.getJobDescription());
+        state.addJobListing(response.getJobTitle(), response.getJobDescription(), response.getJobLocation());
         companyLoggedInViewModel.setState(state);
-        companyLoggedInViewModel.firePropertyChange();
+        companyLoggedInViewModel.firePropertyChange("post job");
     }
 }
