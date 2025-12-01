@@ -40,6 +40,7 @@ public class SignupInteractor implements SignupInputBoundary {
                 return;
             }
 
+            // Your custom factory logic
             Entity newEntity = userFactory.createEntity("", identifier, signupInputData.getPassword(), "", "", "");
             userDataAccessObject.save(newEntity);
 
@@ -47,13 +48,13 @@ public class SignupInteractor implements SignupInputBoundary {
             signupPresenter.prepareSuccessView(signupOutputData);
 
         } else if (entityType.equalsIgnoreCase("Company")) {
-            if (companyDataAccessObject.existsByIdentifier(identifier)) {
+            if (companyDataAccessObject.existsByIdentifier(identifier)) { // Check Company DB
                 signupPresenter.prepareFailView("Company with identifier " + identifier + " already exists.");
                 return;
             }
 
             Entity newEntity = companyFactory.create(identifier, signupInputData.getPassword());
-            companyDataAccessObject.save(newEntity);
+            companyDataAccessObject.save(newEntity); // Save to Company DB
 
             final SignupOutputData signupOutputData = new SignupOutputData(newEntity.getIdentifier(), false);
             signupPresenter.prepareSuccessView(signupOutputData);
