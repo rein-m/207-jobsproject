@@ -131,7 +131,6 @@ public class UserLoginView extends JPanel implements ActionListener, PropertyCha
         this.add(buttons);
     }
 
-    // Setters for the AppBuilder to use
     public void setLoginController(LoginController loginController) {
         this.loginController = loginController;
     }
@@ -148,7 +147,6 @@ public class UserLoginView extends JPanel implements ActionListener, PropertyCha
     public void propertyChange(PropertyChangeEvent evt) {
         LoginState state = (LoginState) evt.getNewValue();
         setFields(state);
-        // Display errors (like "User doesn't exist" or "Username taken")
         usernameErrorField.setText(state.getLoginError());
     }
 
