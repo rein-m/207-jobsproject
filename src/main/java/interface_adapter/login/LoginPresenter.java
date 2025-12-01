@@ -1,8 +1,8 @@
 package interface_adapter.login;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.logged_in.LoggedInViewModel;
-import interface_adapter.logged_in.LoggedInState;
+import interface_adapter.loggedin.LoggedinViewModel;
+import interface_adapter.loggedin.LoggedinState;
 import interface_adapter.company_loggedin.CompanyLoggedInViewModel;
 import interface_adapter.company_loggedin.CompanyLoggedInState;
 
@@ -15,7 +15,7 @@ public class LoginPresenter implements LoginOutputBoundary {
     private final LoginViewModel loginViewModel;
     private final ViewManagerModel viewManagerModel;
 
-    private final LoggedInViewModel userLoggedInViewModel;
+    private final LoggedinViewModel userLoggedInViewModel;
     private final CompanyLoggedInViewModel companyLoggedInViewModel;
 
     public LoginPresenter(ViewManagerModel viewManagerModel,
@@ -43,8 +43,8 @@ public class LoginPresenter implements LoginOutputBoundary {
 
         } else {
 
-            final LoggedInState state = userLoggedInViewModel.getState();
-            state.setUsername(response.getIdentifier());
+            final LoggedinState state = userLoggedInViewModel.getState();
+            state.setIdentifier(response.getIdentifier());
             this.userLoggedInViewModel.setState(state);
             this.userLoggedInViewModel.firePropertyChanged();
 
