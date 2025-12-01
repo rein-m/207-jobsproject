@@ -4,6 +4,6 @@ import use_case.ResumeShit.addResume.AddResumeInputData;
 
 public interface AccountInfoInputBoundary {
 
-    void execute(AddResumeInputData loginInputData);
+//    void execute(AddResumeInputData loginInputData);
 
 }
