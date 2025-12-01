@@ -2,89 +2,70 @@ package data_access;
 
 // import statements
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import entity.User;
+import entity.UserRecord;
 import entity.UserFactory;
 import use_case.AccountInfo.AccountInfoDataAccessInterface;
 
 import java.io.*;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 /*
- DAO for a user. Uses a file for persistence, but could alternatively use Docker/Mongo.
+ DAO for a user. Uses a JSON file for persistence, but could alternatively use Docker/Mongo.
  If extra time and improves functionality, switch to that implementation.
+ Users and all of their attributes are stored in the userAccounts HashMap.
+ If you need to retrieve information about a user, import this class and grab from userAccounts by username.
+ e.g. userAccounts.get(username) will give you the user object.
+ userAccounts.get(username).getResumes() will give you the user's list of resumes.
 */
 
 public class UserDataAccessObject implements AccountInfoDataAccessInterface {
 
-    private static final String HEADER = "identifier,username,password,location,email,phone"; // user info
-
-
-    private final File csvFile; // File to store things in.
-    private final Map<String, Integer> headers = new LinkedHashMap<>(); // store headers in a linked hash map.
+    private final File JSONFile; // File to store things in.
+    private final UserFactory userFactory;
     private final Map<String, User> userAccounts = new HashMap<>(); // store userAccounts in a hash map.
 
     // The constructor for UserDataAccessObject takes only two parameters: a csv path and a userFactory.
-    public UserDataAccessObject(File csvPath, UserFactory userFactory) throws FileNotFoundException {
-        csvFile = csvPath;
-        headers.put("identifier", 0);
-        headers.put("username", 1);
-        headers.put("password", 2);
-        headers.put("location", 3);
-        headers.put("email", 4);
-        headers.put("phone", 5);
+    public UserDataAccessObject(File JSONFile, UserFactory userFactory) throws IOException {
+        this.JSONFile = JSONFile;
+        this.userFactory = userFactory;
+        loadData(); // call the method to loadData.
 
-        if (csvFile.length() == 0) {
-            save();
+    }
+
+    public void saveData() throws IOException {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+        try(FileWriter write = new FileWriter(JSONFile))
+        {
+            gson.toJson(userAccounts.values(), write);
         }
-
-        else {
-            try(BufferedReader readFile = new BufferedReader(new FileReader(csvFile))) {
-                final String header = readFile.readLine();
-
-                if (!header.equals(HEADER)) {
-                    throw new RuntimeException(String.format("header should be %n: %s%n, but was: %n%s", HEADER, header));
-                }
-
-                String row;
-                while ((row = readFile.readLine()) != null) {
-                    final String[] columns = row.split(","); // split columns by ,
-
-                    // user attributes
-                    final String username = String.valueOf(columns[headers.get("username")]);
-                    final String identifier = String.valueOf(columns[headers.get("identifier")]);
-                    final String password = String.valueOf(columns[headers.get("password")]);
-                    final String location = String.valueOf(columns[headers.get("location")]);
-                    final String email = String.valueOf(columns[headers.get("email")]);
-                    final String phone = String.valueOf(columns[headers.get("phone")]);
-
-                    final User user = UserFactory.createEntity(identifier, username, password, location, email, phone);
-                    userAccounts.put(username, user); // maps username to user information.
-                }
-
-            }
-            catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+        catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    public void save() // changed from private (maybe back)
-    {
-        final BufferedWriter writer;
-        try {
-            writer = new BufferedWriter(new FileWriter(csvFile));
-            writer.write(String.join(",", headers.keySet()));
-            writer.newLine();
+    private void loadData() throws IOException{
+        Gson gson = new Gson();
 
-            for (User user: userAccounts.values()) {
-                final String line = String.format("%s, %s, %s, %s, %s", user.getIdentifier(), user.getUsername(),
-                        user.getPassword(), user.getLocation(), user.getEmail(), user.getPhone());
-                writer.write(line);
-                writer.newLine();
+        try(Reader reader = new FileReader(JSONFile)) {
+
+            UserRecord[] userRecords = gson.fromJson(reader, UserRecord[].class);
+
+            for (UserRecord r: userRecords) {
+                User user = userFactory.createEntity(r.name,
+                        r.username,
+                        r.password,
+                        r.location,
+                        r.email,
+                        r.phone,
+                        r.resumes
+                );
+                userAccounts.put(user.getIdentifier(), user); // store user in userAccounts.
             }
-            writer.close();
         }
         catch (IOException e) {
             throw new RuntimeException(e);
@@ -103,22 +84,28 @@ public class UserDataAccessObject implements AccountInfoDataAccessInterface {
         return userAccounts.containsKey(identifier);
     }
 
-    // Save the current user.
-//    @Override //overrides the save() from LoginUserDataAccessInterface
+    // from AccountInfoDataAccessInterface -- don't use, just so intelliJ doesn't yell at me.
+    @Override
     public void save(User user) {
-        userAccounts.put(user.getIdentifier(), user);
-        this.save();
+
     }
 
-//    @Override
+    // don't use. just so intelliJ doesn't yell at me.
+    @Override
     public User get(String identifier, String entityType) {
-        return userAccounts.get(identifier);
+        return null;
     }
 
     // get a user by identifier.
     @Override // overrides the get method from LoginUserDataAccesInterface
     public User get(String identifier) {
         return userAccounts.get(identifier);
+    }
+
+    // not necessary, will never call this method from user DAO but intelliJ wants it
+    @Override
+    public void postJob(String title, String description) {
+
     }
 
 }
