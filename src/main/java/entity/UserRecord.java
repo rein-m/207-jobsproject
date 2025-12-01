@@ -9,6 +9,6 @@ public class UserRecord {
     public String location;
     public String email;
     public String phone;
-    public ArrayList<Entity> resumes;
+    public ArrayList<String> resumes;
 
 }
