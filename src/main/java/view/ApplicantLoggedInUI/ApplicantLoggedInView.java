@@ -29,17 +29,17 @@ public class ApplicantLoggedInView extends JFrame {
 
         //TODO: delete this when database is done, implemant the new function.
         // Replace the boolean map setup with file paths
-        companyPdfFiles.put("Company A", "no_file");
-        companyPdfFiles.put("Company B", "no_file");
+        companyPdfFiles.put("Datadog", "no_file");
+        companyPdfFiles.put("Taskify AI", "no_file");
         // IMPORTANT: Use the actual path to your PDF file here.
-        companyPdfFiles.put("Company C", "/Users/xuan/207-jobsproject/src/main/java/view/ApplicantLoggedInUI/TESTING");
-        companyPdfFiles.put("Company D", "no_file");
-        companyPdfFiles.put("Company E", "no_file");
-        companyPdfFiles.put("Company F", "no_file");
+        companyPdfFiles.put("LARANA, INC.", "/Users/xuan/207-jobsproject/src/main/java/view/ApplicantLoggedInUI/LARANA, INC..pdf");
+        companyPdfFiles.put("SeatGeek", "no_file");
+        companyPdfFiles.put("DoorDash", "no_file");
+        companyPdfFiles.put("Mercor", "no_file");
 
         // Top title
         JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        JLabel applicantNameLabel = new JLabel("Applicant Name");
+        JLabel applicantNameLabel = new JLabel("SpongeBob SquarePants");
         applicantNameLabel.setFont(new Font("SansSerif", Font.BOLD, 20));
         titlePanel.add(applicantNameLabel);
 
@@ -52,7 +52,7 @@ public class ApplicantLoggedInView extends JFrame {
         // company objects.
         // --- Simulated Data Setup ---
         //  For demonstration: only Company C have "PDFs"
-        String[] companyNames = {"Company A", "Company B", "Company C", "Company D", "Company E", "Company F"};
+        String[] companyNames = {"Datadog", "Taskify AI", "LARANA, INC.", "SeatGeek", "DoorDash", "Mercor"};
 
 
         //TODO: implemant this new function when database is done.

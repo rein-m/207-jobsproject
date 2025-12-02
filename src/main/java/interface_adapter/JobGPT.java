@@ -1,4 +1,4 @@
-package interface_adapter.loggedin;
+package interface_adapter;
 
 import com.google.genai.Client;
 import com.google.genai.types.GenerateContentResponse;

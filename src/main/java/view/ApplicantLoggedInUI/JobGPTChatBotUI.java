@@ -1,6 +1,6 @@
 package view.ApplicantLoggedInUI;
 
-import interface_adapter.loggedin.JobGPT;
+import interface_adapter.JobGPT;
 
 import javax.swing.*;
 import java.awt.*;
@@ -68,7 +68,7 @@ public class JobGPTChatBotUI extends JFrame implements ActionListener {
         String userMessage = messageField.getText().trim();
         if (userMessage.isEmpty()) return;
 
-        chatArea.append("🙋 You: " + userMessage + "\n");
+        chatArea.append("\n" + "\n"+ "🙋 You: " + userMessage + "\n");
         messageField.setText("");
 
         // Start the background thread, passing the user's message
@@ -109,7 +109,7 @@ public class JobGPTChatBotUI extends JFrame implements ActionListener {
         protected void done() {
             try {
                 String botResponse = get();
-                chatArea.append("🤖 JobGPT: " + botResponse + "\n");
+                chatArea.append("\n" + "\n" + "\n" + "🤖 JobGPT: " + botResponse + "\n");
             } catch (InterruptedException | ExecutionException e) {
                 chatArea.append("🤖 JobGPT Error: An unexpected issue occurred during processing.\n");
             } finally {
