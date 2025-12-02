@@ -106,13 +106,15 @@ public class JobSearchGUI extends JFrame {
         JButton profileButton = new JButton("Profile");
         profileButton.setFont(new Font("SansSerif", Font.PLAIN, 16));
         profileButton.setPreferredSize(new Dimension(100, 50));
-        profileButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                UserAccountInfo ProfileWindow = new UserAccountInfo();
-                ProfileWindow.setVisible(true);
-            }
-        });
+
+        //TODO: wait for merging and uncomment it.
+//        profileButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                UserAccountInfoView ProfileWindow = new UserAccountInfoView();
+//                ProfileWindow.setVisible(true);
+//            }
+//        });
         topBarPanel.add(profileButton, BorderLayout.EAST);
 
         return topBarPanel;
