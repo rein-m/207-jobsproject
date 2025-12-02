@@ -112,7 +112,7 @@ public class UserAccountInfoView extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            new UserAccountInfoView().setVisible(true);
+            new view.ApplicantLoggedInUI.UserAccountInfoView().setVisible(true);
         });
     }
 }

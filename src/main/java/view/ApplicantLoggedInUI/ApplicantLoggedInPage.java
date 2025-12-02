@@ -80,7 +80,8 @@ public class ApplicantLoggedInPage extends JFrame{
         buttonA.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Button clicked!");
+                JobSearchGUI SearchB = new JobSearchGUI();
+                SearchB.setVisible(true);
             }
         });
 
@@ -103,7 +104,8 @@ public class ApplicantLoggedInPage extends JFrame{
         buttonC.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Button clicked!");
+                JobGPTChatBotUI AI_B = new JobGPTChatBotUI();
+                AI_B.setVisible(true);
             }
         });
 
