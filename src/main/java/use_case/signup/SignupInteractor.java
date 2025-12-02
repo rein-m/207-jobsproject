@@ -52,7 +52,7 @@ public class SignupInteractor implements SignupInputBoundary {
                 return;
             }
 
-            Entity newEntity = companyFactory.create(identifier, signupInputData.getPassword());
+            Entity newEntity = companyFactory.createEntity(identifier, "", "", "", "", "", signupInputData.getPassword(), null);
             companyDataAccessObject.save(newEntity);
 
             final SignupOutputData signupOutputData = new SignupOutputData(newEntity.getIdentifier(), false);
