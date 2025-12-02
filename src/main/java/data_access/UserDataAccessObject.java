@@ -26,7 +26,7 @@ public class UserDataAccessObject implements AccountInfoDataAccessInterface {
 
     private final File JSONFile; // File to store things in.
     private final UserFactory userFactory;
-    private final Map<String, User> userAccounts = new HashMap<>(); // store userAccounts in a hash map.
+    public final Map<String, User> userAccounts = new HashMap<>(); // store userAccounts in a hash map.
 
     // The constructor for UserDataAccessObject takes only two parameters: a csv path and a userFactory.
     public UserDataAccessObject(File JSONFile, UserFactory userFactory) throws IOException {

@@ -26,12 +26,10 @@ public class AddResumeInteractor {
     }
 
     public void execute(AddResumeInputData addResumeInputData) throws IOException {
-        User user = accountInfoDataAccessInterface.get(addResumeInputData.userIdentifier);
-
-//        AddResumeOutputData addResumeOutputData = new AddResumeOutputData(user.getIdentifier(), user.getResumes());
+        User user = accountInfoDataAccessInterface.userAccounts.get(addResumeInputData.userIdentifier);
 
         user.addResume(extractText(addResumeInputData.filepath));
-        accountInfoDataAccessInterface.saveData(); // How the fuck does this work if I don't pass in the user in any way?
+        accountInfoDataAccessInterface.saveData();
     }
 
     public static String extractText(String pdfPath) throws IOException {

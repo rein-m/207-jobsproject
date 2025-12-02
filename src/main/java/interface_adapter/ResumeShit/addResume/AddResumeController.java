@@ -14,5 +14,4 @@ public class AddResumeController {
                 filePath, userIdentifier);
         addResumeInteractor.execute(addResumeInputData);
     }
-
 }
