@@ -20,7 +20,8 @@ public class JobSearchGUI extends JFrame {
                     "title", "Software Engineering Intern (Summer)",
                     "company", "Datadog",
                     "location", "Boston, MA",
-                    "description", "About the job\nWe’re looking for interns to join us to help collect..."
+                    "description", "About the job\n\n We’re looking for interns to join us to help collect, aggregate, visualize, and analyze high-scale metrics, logs, and application data.netes across tens of thousands of nodes? Looking to build out the platform that powers Datadog’s newest offerings, such as BitsAI or App Builder? Want to see your work actually impact and improve the product in a meaningful way?",
+                    "salary", "$4,800/month"
             ),
             Map.of(
                     "id", "4336331206",
@@ -28,7 +29,8 @@ public class JobSearchGUI extends JFrame {
                     "title", "Software Engineer Intern (Remote)",
                     "company", "Taskify AI",
                     "location", "United States",
-                    "description", "About the job\nWe’re looking for a dependable, adaptable professional..."
+                    "description", "About the job\nWe’re looking for a dependable, adaptable professional...",
+                    "salary", "$4,480/month"
             ),
             Map.of(
                     "id", "4309853502",
@@ -36,7 +38,8 @@ public class JobSearchGUI extends JFrame {
                     "title", "Undergrad Software Engineering Intern",
                     "company", "Twitch",
                     "location", "San Francisco, CA",
-                    "description", "About the job\nPlease apply to this job with your personal email..."
+                    "description", "About the job\nPlease apply to this job with your personal email...",
+                    "salary", "$5,600/month"
             ),
             Map.of(
                     "id", "4307571879",
@@ -44,16 +47,17 @@ public class JobSearchGUI extends JFrame {
                     "title", "Software Engineer - Internship",
                     "company", "SeatGeek",
                     "location", "New York, NY",
-                    "description", "About the job\nSeatGeek believes live events are powerful experiences..."
+                    "description", "About the job\nSeatGeek believes live events are powerful experiences...",
+                    "salary", "$5,120/month"
             ),
-
             Map.of(
                     "id", "4309202142",
                     "url", "https://www.linkedin.com/jobs/view/4309202142/",
                     "title", "Software Engineer I, Entry-Level (Graduation Date: Fall 2025-Summer 2026)",
                     "company", "DoorDash",
                     "location", "San Francisco, CA",
-                    "description", "About the job\nAbout The Team\nDoorDash is building the world’s most reliable on-demand logistics engine for delivery!... (full description)"
+                    "description", "About the job\nAbout The Team\nDoorDash is building the world’s most reliable on-demand logistics engine for delivery!... (full description)",
+                    "salary", "$10,000/month"
             ),
             Map.of(
                     "id", "4336463938",
@@ -61,7 +65,8 @@ public class JobSearchGUI extends JFrame {
                     "title", "AI Assessment Specialist – Remote $100/hr",
                     "company", "Mercor",
                     "location", "United States",
-                    "description", "About the job\nAbout The Job\nMercor connects elite creative and technical talent with leading AI research labs... (full description)"
+                    "description", "About the job\nAbout The Job\nMercor connects elite creative and technical talent with leading AI research labs... (full description)",
+                    "salary", "$16,000/month"
             ),
             Map.of(
                     "id", "4322361530",
@@ -69,7 +74,8 @@ public class JobSearchGUI extends JFrame {
                     "title", "Software Engineer Intern",
                     "company", "Docusign",
                     "location", "Seattle, WA",
-                    "description", "About the job\nCompany Overview\nDocusign brings agreements to life... (full description)"
+                    "description", "About the job\nCompany Overview\nDocusign brings agreements to life... (full description)",
+                    "salary", "$4,800/month"
             ),
             Map.of(
                     "id", "4299615390",
@@ -77,9 +83,11 @@ public class JobSearchGUI extends JFrame {
                     "title", "Spring/Summer 2026 University Entry-level STEM Pipeline",
                     "company", "Peraton",
                     "location", "Reston, VA",
-                    "description", "About the job\nAbout Peraton\nPeraton is a next-generation national security company... (full description)"
+                    "description", "About the job\nAbout Peraton\nPeraton is a next-generation national security company... (full description)",
+                    "salary", "$4,000/month"
             )
     );
+
 
     private int currentPage = 0; // Starts at index 0 (Page 1)
     private JPanel jobCardsGrid;
@@ -315,8 +323,6 @@ public class JobSearchGUI extends JFrame {
         return jobsPanel;
     }
 
-
-    //TODO: this should be from the database, change it to the actual data.
     private JPanel createJobCard(String companyName, String description, String location, String salary) {
         JPanel cardPanel = new JPanel();
         cardPanel.setLayout(new BoxLayout(cardPanel, BoxLayout.Y_AXIS)); // Vertical stack
@@ -332,10 +338,15 @@ public class JobSearchGUI extends JFrame {
         cardPanel.add(companyLabel);
         cardPanel.add(Box.createRigidArea(new Dimension(0, 5)));
 
-        JLabel descLabel = new JLabel(description);
-        descLabel.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        descLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        cardPanel.add(descLabel);
+        // Use JTextArea for description so it wraps and doesn't overflow
+        JTextArea descArea = new JTextArea(description);
+        descArea.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        descArea.setLineWrap(true);
+        descArea.setWrapStyleWord(true);
+        descArea.setEditable(false);
+        descArea.setOpaque(false); // makes background match panel
+        descArea.setAlignmentX(Component.LEFT_ALIGNMENT);
+        cardPanel.add(descArea);
         cardPanel.add(Box.createRigidArea(new Dimension(0, 5)));
 
         JLabel locLabel = new JLabel(location);
@@ -353,14 +364,19 @@ public class JobSearchGUI extends JFrame {
         viewAndApplyButton.setFont(new Font("SansSerif", Font.PLAIN, 12));
         viewAndApplyButton.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        //TODO: implement this method. You might wanna create a new UI or new Apply button for this.
-        viewAndApplyButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Viewing details for " + companyName));
+        // Optional: Show full job details in a popup
+        viewAndApplyButton.addActionListener(e -> JOptionPane.showMessageDialog(this,
+                companyName + "\n\n" + description + "\n\nLocation: " + location + "\nSalary: " + salary,
+                "Job Details",
+                JOptionPane.INFORMATION_MESSAGE));
+
         cardPanel.add(viewAndApplyButton);
 
         cardPanel.add(Box.createVerticalGlue());
 
         return cardPanel;
     }
+
 
     private JPanel createPaginationPanel() {
         JPanel paginationPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -404,19 +420,16 @@ public class JobSearchGUI extends JFrame {
                 String title = job.get("title");
                 String location = job.get("location");
                 String description = job.get("description");
+                String salary = job.getOrDefault("salary", "Salary info unavailable");
 
-                // Truncate long descriptions to avoid breaking the UI
-                String shortDescription = description.length() > 120
-                        ? description.substring(0, 120) + "..."
-                        : description;
 
-                // You can replace "Salary info unavailable" with actual salary if available
+
                 jobCardsGrid.add(
                         createJobCard(
                                 company,
-                                shortDescription,
+                                description,
                                 location,
-                                "Salary info unavailable"
+                                salary
                         )
                 );
             }
