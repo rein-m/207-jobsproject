@@ -1,4 +1,4 @@
-package view;
+package view.ApplicantLoggedInUI;
 
 import interface_adapter.loggedin.JobGPT;
 

@@ -1,6 +1,4 @@
-package view;
-
-import view.ApplicantLoggedInUI.UserAccountInfo;
+package view.ApplicantLoggedInUI;
 
 import javax.swing.*;
 import javax.swing.ImageIcon;
