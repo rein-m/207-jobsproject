@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.List;
+import java.util.Objects;
 
 public class JobSearchGUI extends JFrame {
     private static final int JOBS_PER_PAGE = 4; // Number of JobPanel in one page, could always change it
@@ -144,7 +145,15 @@ public class JobSearchGUI extends JFrame {
         searchButton.setFont(new Font("SansSerif", Font.BOLD, 16));
         searchButton.setPreferredSize(new Dimension(120, 50)); // Give the button a fixed size
 
+
+
         // The Action Listener for the searchButton
+
+        // viewAndApplyButton.addActionListener(e -> JOptionPane.showMessageDialog(this,
+        //       companyName + "\n\n" + description + "\n\nLocation: " + location + "\nSalary: " + salary,
+        //       "Job Details",
+        //      JOptionPane.INFORMATION_MESSAGE));
+
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -160,8 +169,17 @@ public class JobSearchGUI extends JFrame {
                         "Search Initiated",
                         JOptionPane.INFORMATION_MESSAGE);
 
+                JOptionPane.showMessageDialog(JobSearchGUI.this, "DataDog" + "\n\n"  +
+                             "About the job\\n\\n We’re looking for interns to join us to help collect, aggregate, visualize, and analyze high-scale metrics, logs, and application data.netes across tens of thousands of nodes? Looking to build out the platform that powers Datadog’s newest offerings, such as BitsAI or App Builder? Want to see your work actually impact and improve the product in a meaningful way?\""
+                                      + "\n\nLocation: " + "Boston, MA" + "\nSalary: "
+                                     + "$4,800/month",
+                        "Job Details",
+                             JOptionPane.INFORMATION_MESSAGE);
+
                 // TODO: Call the actual job filtering and search method here
-            }
+
+
+                }
         });
 
         searchAreaPanel.add(searchBar, BorderLayout.CENTER);
