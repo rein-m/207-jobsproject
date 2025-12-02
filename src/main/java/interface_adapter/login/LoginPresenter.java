@@ -36,6 +36,7 @@ public class LoginPresenter implements LoginOutputBoundary {
 
             final CompanyLoggedInState state = companyLoggedInViewModel.getState();
             state.setCompanyName(response.getIdentifier());
+            state.setJobListings(response.getJobs());
             this.companyLoggedInViewModel.setState(state);
             this.companyLoggedInViewModel.firePropertyChanged();
 
