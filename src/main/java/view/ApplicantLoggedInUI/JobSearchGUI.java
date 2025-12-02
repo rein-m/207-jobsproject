@@ -6,20 +6,81 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Map;
 import java.util.List;
 
 public class JobSearchGUI extends JFrame {
-    private static final int JOBS_PER_PAGE = 8; // Number of JobPanel in one page, could always change it
+    private static final int JOBS_PER_PAGE = 4; // Number of JobPanel in one page, could always change it
 
     //TODO: this should be from the database, change it to the actual data.
-    private final List<String> ALL_COMPANIES = Arrays.asList(
-            "Company 1", "Company 2", "Company 3", "Company 4", "Company 5",
-            "Company 6", "Company 7", "Company 8", "Company 9", "Company 10",
-            "Company 11", "Company 12", "Company 13", "Company 14", "Company 15","Company 16",
-            "Company 17", "Company 18", "Company 19", "Company 20",
-            "Company 21", "Company 22", "Company 23", "Company 24", "Company 25"
+    private final List<Map<String, String>> ALL_COMPANIES = List.of(
+            Map.of(
+                    "id", "4297602754",
+                    "url", "https://www.linkedin.com/jobs/view/4297602754/",
+                    "title", "Software Engineering Intern (Summer)",
+                    "company", "Datadog",
+                    "location", "Boston, MA",
+                    "description", "About the job\nWe’re looking for interns to join us to help collect..."
+            ),
+            Map.of(
+                    "id", "4336331206",
+                    "url", "https://www.linkedin.com/jobs/view/4336331206/",
+                    "title", "Software Engineer Intern (Remote)",
+                    "company", "Taskify AI",
+                    "location", "United States",
+                    "description", "About the job\nWe’re looking for a dependable, adaptable professional..."
+            ),
+            Map.of(
+                    "id", "4309853502",
+                    "url", "https://www.linkedin.com/jobs/view/4309853502/",
+                    "title", "Undergrad Software Engineering Intern",
+                    "company", "Twitch",
+                    "location", "San Francisco, CA",
+                    "description", "About the job\nPlease apply to this job with your personal email..."
+            ),
+            Map.of(
+                    "id", "4307571879",
+                    "url", "https://www.linkedin.com/jobs/view/4307571879/",
+                    "title", "Software Engineer - Internship",
+                    "company", "SeatGeek",
+                    "location", "New York, NY",
+                    "description", "About the job\nSeatGeek believes live events are powerful experiences..."
+            ),
+
+            Map.of(
+                    "id", "4309202142",
+                    "url", "https://www.linkedin.com/jobs/view/4309202142/",
+                    "title", "Software Engineer I, Entry-Level (Graduation Date: Fall 2025-Summer 2026)",
+                    "company", "DoorDash",
+                    "location", "San Francisco, CA",
+                    "description", "About the job\nAbout The Team\nDoorDash is building the world’s most reliable on-demand logistics engine for delivery!... (full description)"
+            ),
+            Map.of(
+                    "id", "4336463938",
+                    "url", "https://www.linkedin.com/jobs/view/4336463938/",
+                    "title", "AI Assessment Specialist – Remote $100/hr",
+                    "company", "Mercor",
+                    "location", "United States",
+                    "description", "About the job\nAbout The Job\nMercor connects elite creative and technical talent with leading AI research labs... (full description)"
+            ),
+            Map.of(
+                    "id", "4322361530",
+                    "url", "https://www.linkedin.com/jobs/view/4322361530/",
+                    "title", "Software Engineer Intern",
+                    "company", "Docusign",
+                    "location", "Seattle, WA",
+                    "description", "About the job\nCompany Overview\nDocusign brings agreements to life... (full description)"
+            ),
+            Map.of(
+                    "id", "4299615390",
+                    "url", "https://www.linkedin.com/jobs/view/4299615390/",
+                    "title", "Spring/Summer 2026 University Entry-level STEM Pipeline",
+                    "company", "Peraton",
+                    "location", "Reston, VA",
+                    "description", "About the job\nAbout Peraton\nPeraton is a next-generation national security company... (full description)"
+            )
     );
+
     private int currentPage = 0; // Starts at index 0 (Page 1)
     private JPanel jobCardsGrid;
     private JButton nextPageButton;
@@ -33,7 +94,6 @@ public class JobSearchGUI extends JFrame {
 // -----------------------------------
     public JobSearchGUI() {
         super("JobGPT");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1200, 800); // Setting a larger default size for the UI
         setLocationRelativeTo(null); // Center the window
 
@@ -149,7 +209,7 @@ public class JobSearchGUI extends JFrame {
     private static void Creating_Logo(JPanel topBarPanel) {
         JLabel imageLabel = new JLabel("", SwingConstants.CENTER);
         //TODO: This should be inside the project, if not download and put it in project from discord.
-        ImageIcon originalIcon = new ImageIcon("JobGPT image.png");
+        ImageIcon originalIcon = new ImageIcon("pic.png");
         Image originalImage = originalIcon.getImage();
 
         //Scale the image
@@ -335,18 +395,35 @@ public class JobSearchGUI extends JFrame {
         // 2. Clear the existing job cards
         jobCardsGrid.removeAll();
 
-        // 3. Check if there are results for this page
         if (startIndex < ALL_COMPANIES.size()) {
-            // 4. Populate the grid with job cards for the current page
             for (int i = startIndex; i < endIndex; i++) {
-                String company = ALL_COMPANIES.get(i);
-                //TODO: Switch it to the actual data.
-                jobCardsGrid.add(createJobCard(company, "Role at " + company, "location would be at (Actual loction)", "Salary: $5000+"));
+
+                Map<String, String> job = ALL_COMPANIES.get(i);
+
+                String company = job.get("company");
+                String title = job.get("title");
+                String location = job.get("location");
+                String description = job.get("description");
+
+                // Truncate long descriptions to avoid breaking the UI
+                String shortDescription = description.length() > 120
+                        ? description.substring(0, 120) + "..."
+                        : description;
+
+                // You can replace "Salary info unavailable" with actual salary if available
+                jobCardsGrid.add(
+                        createJobCard(
+                                company,
+                                shortDescription,
+                                location,
+                                "Salary info unavailable"
+                        )
+                );
             }
         } else {
-            // Handle case where page index is out of bounds (shouldn't happen with button logic)
             jobCardsGrid.add(new JLabel("No more job listings.", SwingConstants.CENTER));
         }
+
 
         // Prev and Next button
         prevPageButton.setEnabled(currentPage != 0);
