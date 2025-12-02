@@ -41,7 +41,7 @@ public class AppBuilder {
 
     private SignupViewModel signupViewModel;
     private LoginViewModel loginViewModel;
-    private Logged userLoggedInViewModel;
+    private LoggedinViewModel userLoggedInViewModel;
     private CompanyLoggedInViewModel companyLoggedInViewModel;
 
     private LandingView landingView;
@@ -110,7 +110,7 @@ public class AppBuilder {
                 loginViewModel, userLoggedInViewModel, companyLoggedInViewModel);
 
         final LoginInputBoundary loginInteractor = new LoginInteractor(
-                userDataAccessObject,
+                 userDataAccessObject,
                 (LoginCompanyDataAccessInterface) companyDataAccessObject,
                 loginOutputBoundary
         );

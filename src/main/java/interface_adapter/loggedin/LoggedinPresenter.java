@@ -1,16 +1,16 @@
-package interface_adapter.login;
+package interface_adapter.loggedin;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.loggedin.LoggedinViewModel;
-import interface_adapter.loggedin.LoggedinState;
-import interface_adapter.company_loggedin.CompanyLoggedInViewModel;
 import interface_adapter.company_loggedin.CompanyLoggedInState;
-
+import interface_adapter.company_loggedin.CompanyLoggedInViewModel;
+import interface_adapter.loggedin.LoggedinState;
 import interface_adapter.loggedin.LoggedinViewModel;
+import interface_adapter.login.LoginState;
+import interface_adapter.login.LoginViewModel;
 import use_case.login.LoginOutputBoundary;
 import use_case.login.LoginOutputData;
 
-public class LoginPresenter implements LoginOutputBoundary {
+public class LoggedinPresenter implements LoginOutputBoundary {
 
     private final LoginViewModel loginViewModel;
     private final ViewManagerModel viewManagerModel;
@@ -18,10 +18,10 @@ public class LoginPresenter implements LoginOutputBoundary {
     private final LoggedinViewModel userLoggedInViewModel;
     private final CompanyLoggedInViewModel companyLoggedInViewModel;
 
-    public LoginPresenter(ViewManagerModel viewManagerModel,
-                          LoginViewModel loginViewModel,
-                          LoggedinViewModel userLoggedInViewModel,
-                          CompanyLoggedInViewModel companyLoggedInViewModel) {
+    public LoggedinPresenter(ViewManagerModel viewManagerModel,
+                             LoginViewModel loginViewModel,
+                             LoggedinViewModel userLoggedInViewModel,
+                             CompanyLoggedInViewModel companyLoggedInViewModel) {
 
         this.viewManagerModel = viewManagerModel;
         this.loginViewModel = loginViewModel;
@@ -44,7 +44,7 @@ public class LoginPresenter implements LoginOutputBoundary {
         } else {
 
             final LoggedinState state = userLoggedInViewModel.getState();
-            state.setIdentifier(response.getIdentifier());
+            state.setUsername(response.getIdentifier());
             this.userLoggedInViewModel.setState(state);
             this.userLoggedInViewModel.firePropertyChanged();
 
