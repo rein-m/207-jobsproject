@@ -1,6 +1,11 @@
 package use_case.login;
 
+import entity.Company;
 import entity.Entity;
+import entity.User;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class LoginInteractor implements LoginInputBoundary {
 
@@ -44,8 +49,9 @@ public class LoginInteractor implements LoginInputBoundary {
                 if (!password.equals(pwd)) {
                     loginPresenter.prepareFailView("Incorrect password for company " + identifier + ".");
                 } else {
-                    Entity company = companyDataAccessObject.get(identifier);
-                    LoginOutputData loginOutputData = new LoginOutputData(company.getIdentifier(), "Company", false);
+                    Company company = (Company) companyDataAccessObject.get(identifier);
+                    ArrayList<ArrayList<String>> jobs = company.getJobs();
+                    LoginOutputData loginOutputData = new LoginOutputData(company.getIdentifier(), "Company", false, jobs);
                     loginPresenter.prepareSuccessView(loginOutputData);
                 }
             }
