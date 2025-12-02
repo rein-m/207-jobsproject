@@ -1,6 +1,7 @@
 package app;
 
 //import data_access.CompanyDataAccessObject;
+import data_access.CompanyDataAccessObject;
 import entity.CompanyFactory;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.company_account.CompanyAccountViewModel;
@@ -11,6 +12,8 @@ import interface_adapter.login.LoginViewModel;
 import interface_adapter.post_job.PostJobController;
 import interface_adapter.post_job.PostJobPresenter;
 import interface_adapter.post_job.PostJobViewModel;
+import interface_adapter.pull_company_data.PullCompanyDataController;
+import interface_adapter.pull_company_data.PullCompanyDataPresenter;
 import use_case.edit_company_account.EditCompanyAccountInputBoundary;
 import use_case.edit_company_account.EditCompanyAccountInteractor;
 import use_case.edit_company_account.EditCompanyAccountOutputBoundary;
@@ -19,11 +22,16 @@ import use_case.login.LoginOutputBoundary;
 import use_case.post_job.PostJobInputBoundary;
 import use_case.post_job.PostJobInteractor;
 import use_case.post_job.PostJobOutputBoundary;
+import use_case.pull_company_data.PullCompanyDataInputBoundary;
+import use_case.pull_company_data.PullCompanyDataInteractor;
+import use_case.pull_company_data.PullCompanyDataOutputBoundary;
 import view.*;
 import view.company_loggedin.CompanyLoggedInView;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
 public class AppBuilder {
     private final JPanel cardPanel = new JPanel();
@@ -32,7 +40,17 @@ public class AppBuilder {
     ViewManager viewManager = new ViewManager(cardLayout, cardPanel, viewManagerModel);
 
     final CompanyFactory companyFactory = new CompanyFactory();
-//    private CompanyDataAccessObject companyDataAccessObject = new CompanyDataAccessObject(/Users/ethan/IdeaProjects/207-jobsproject/users.csv, companyFactory);
+    private File file = new File("/Users/ethan/IdeaProjects/207-jobsproject/src/main/java/data_persistence.json");
+
+    private CompanyDataAccessObject companyDataAccessObject;
+
+    {
+        try {
+            companyDataAccessObject = new CompanyDataAccessObject(file, companyFactory);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 
     private LandingView landingView;
@@ -96,7 +114,7 @@ public class AppBuilder {
     public AppBuilder addPostJobUseCase() {
         final PostJobOutputBoundary postJobOutputBoundary =
                 new PostJobPresenter(companyLoggedInViewModel, viewManagerModel);
-        final PostJobInputBoundary postJobInputBoundary = new PostJobInteractor(postJobOutputBoundary);
+        final PostJobInputBoundary postJobInputBoundary = new PostJobInteractor(postJobOutputBoundary, companyDataAccessObject);
         PostJobController postJobController = new PostJobController(postJobInputBoundary);
         postJobView.setPostJobController(postJobController);
         return this;
@@ -106,10 +124,22 @@ public class AppBuilder {
         final EditCompanyAccountOutputBoundary editCompanyAccountOutputBoundary =
                 new EditCompanyAccountPresenter(companyAccountViewModel);
         final EditCompanyAccountInputBoundary editCompanyAccountInputBoundary =
-                new EditCompanyAccountInteractor(editCompanyAccountOutputBoundary);
+                new EditCompanyAccountInteractor(editCompanyAccountOutputBoundary, companyDataAccessObject);
         EditCompanyAccountController editCompanyAccountController =
                 new EditCompanyAccountController(editCompanyAccountInputBoundary);
         companyAccountView.setEditCompanyAccountController(editCompanyAccountController);
+        return this;
+    }
+
+    public AppBuilder addPullCompanyDataUseCase() {
+        final PullCompanyDataOutputBoundary pullCompanyDataOutputBoundary =
+                new PullCompanyDataPresenter(companyAccountViewModel);
+        final PullCompanyDataInputBoundary pullCompanyDataInputBoundary =
+                new PullCompanyDataInteractor(pullCompanyDataOutputBoundary, companyDataAccessObject);
+        PullCompanyDataController pullCompanyDataController =
+                new PullCompanyDataController(pullCompanyDataInputBoundary);
+        companyLoggedInView.setPullCompanyDataController(pullCompanyDataController);
+        companyAccountView.setPullCompanyDataController(pullCompanyDataController);
         return this;
     }
 

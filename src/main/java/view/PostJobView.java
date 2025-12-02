@@ -50,7 +50,7 @@ public class PostJobView extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource().equals(postJob)) {
                     final PostJobState currentState = postJobViewModel.getState();
-                    postJobController.execute(currentState.getJobTitle(), currentState.getJobDescription()
+                    postJobController.execute(currentState.getIdentifier(), currentState.getJobTitle(), currentState.getJobDescription()
                             , currentState.getJobLocation());
                     postJobController.switchToCompanyLoggedInView();
                     jobTitleInputField.setText("");

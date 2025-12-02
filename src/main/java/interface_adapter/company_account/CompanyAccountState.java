@@ -1,6 +1,7 @@
 package interface_adapter.company_account;
 
 public class CompanyAccountState {
+    private String identifier = "comp002";
     private String companyName;
     private String website;
     private String email;
@@ -8,6 +9,8 @@ public class CompanyAccountState {
     private String location;
 
     public CompanyAccountState() {}
+
+    public void setIdentifier(String identifier) { this.identifier = identifier; }
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
@@ -28,6 +31,8 @@ public class CompanyAccountState {
     public void setLocation(String location) {
         this.location = location;
     }
+
+    public String getIdentifier() { return identifier; }
 
     public String getCompanyName() {
         return companyName;

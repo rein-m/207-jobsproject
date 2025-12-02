@@ -1,0 +1,54 @@
+[
+  {
+    "identifier": "comp001",
+    "companyName": "OpenAI",
+    "website": "https://openai.com",
+    "email": "contact@openai.com",
+    "number": "+1-800-123-4567",
+    "location": "San Francisco",
+    "password": "supersecret",
+    "jobs": [
+      [
+        "Software Engineer",
+        "Full-Time",
+        "Remote"
+      ],
+      [
+        "ML Researcher",
+        "Full-Time",
+        "San Francisco"
+      ]
+    ]
+  },
+  {
+    "identifier": "comp002",
+    "companyName": "Google",
+    "website": "google.com",
+    "email": "google.gmail",
+    "number": "12345",
+    "location": "Toronto",
+    "password": "",
+    "jobs": [
+      [
+        "Data Scientist",
+        "Full-Time",
+        "Hybrid"
+      ],
+      [
+        "Product Manager",
+        "Internship",
+        "New York"
+      ],
+      [
+        "Software Engineer",
+        "Intern",
+        "Toronto"
+      ],
+      [
+        "Software Engineer",
+        "Intern",
+        "Toronto"
+      ]
+    ]
+  }
+]

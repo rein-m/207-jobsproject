@@ -19,5 +19,6 @@ public class EditCompanyAccountPresenter implements EditCompanyAccountOutputBoun
         state.setEmail(editCompanyAccountOutputData.getEmail());
         state.setNumber(editCompanyAccountOutputData.getNumber());
         state.setLocation(editCompanyAccountOutputData.getLocation());
+        companyAccountViewModel.firePropertyChange();
     }
 }

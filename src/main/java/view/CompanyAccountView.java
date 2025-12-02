@@ -5,6 +5,7 @@ import interface_adapter.company_account.CompanyAccountState;
 import interface_adapter.company_account.CompanyAccountViewModel;
 import interface_adapter.company_loggedin.CompanyLoggedInViewModel;
 import interface_adapter.edit_company_account.EditCompanyAccountController;
+import interface_adapter.pull_company_data.PullCompanyDataController;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -38,9 +39,11 @@ public class CompanyAccountView extends Panel implements PropertyChangeListener 
     private CompanyLoggedInViewModel companyLoggedInViewModel;
     private ViewManagerModel viewManagerModel;
     private EditCompanyAccountController editCompanyAccountController;
+    private PullCompanyDataController pullCompanyDataController;
 
     public CompanyAccountView(CompanyAccountViewModel companyAccountViewModel) {
         this.companyAccountViewModel = companyAccountViewModel;
+        this.companyAccountViewModel.addPropertyChangeListener(this);
 
         final JPanel namePanel = new JPanel();
         namePanel.setLayout(new BoxLayout(namePanel, BoxLayout.X_AXIS));
@@ -50,7 +53,7 @@ public class CompanyAccountView extends Panel implements PropertyChangeListener 
         namePanel.add(nameTextField);
         namePanel.setMaximumSize(new Dimension(700,100));
         //delete later
-        nameTextField.setText("AMD");
+//        nameTextField.setText("AMD");
 
         final JPanel websitePanel = new JPanel();
         websitePanel.setLayout(new BoxLayout(websitePanel, BoxLayout.X_AXIS));
@@ -60,7 +63,7 @@ public class CompanyAccountView extends Panel implements PropertyChangeListener 
         websitePanel.add(websiteTextField);
         websitePanel.setMaximumSize(new Dimension(700,100));
         //delete later
-        websiteTextField.setText("AMD");
+//        websiteTextField.setText("AMD");
 
         final JPanel emailPanel = new JPanel();
         emailPanel.setLayout(new BoxLayout(emailPanel, BoxLayout.X_AXIS));
@@ -70,7 +73,7 @@ public class CompanyAccountView extends Panel implements PropertyChangeListener 
         emailPanel.add(emailTextField);
         emailPanel.setMaximumSize(new Dimension(700,100));
         //delete later
-        emailTextField.setText("AMD");
+//        emailTextField.setText("AMD");
 
         final JPanel numberPanel = new JPanel();
         numberPanel.setLayout(new BoxLayout(numberPanel, BoxLayout.X_AXIS));
@@ -80,7 +83,7 @@ public class CompanyAccountView extends Panel implements PropertyChangeListener 
         numberPanel.add(numberTextField);
         numberPanel.setMaximumSize(new Dimension(700,100));
         //delete later
-        numberTextField.setText("AMD");
+//        numberTextField.setText("AMD");
 
         final JPanel locationPanel = new JPanel();
         locationPanel.setLayout(new BoxLayout(locationPanel, BoxLayout.X_AXIS));
@@ -90,7 +93,7 @@ public class CompanyAccountView extends Panel implements PropertyChangeListener 
         locationPanel.add(locationTextField);
         locationPanel.setMaximumSize(new Dimension(700,100));
         //delete later
-        locationTextField.setText("AMD");
+//        locationTextField.setText("AMD");
 
         exitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -115,6 +118,15 @@ public class CompanyAccountView extends Panel implements PropertyChangeListener 
                     emailTextField.setEditable(false);
                     numberTextField.setEditable(false);
                     locationTextField.setEditable(false);
+
+                    final CompanyAccountState currentState = companyAccountViewModel.getState();
+                    pullCompanyDataController.execute(currentState.getIdentifier());
+                    nameTextField.setText(currentState.getCompanyName());
+                    websiteTextField.setText(currentState.getWebsite());
+                    emailTextField.setText(currentState.getEmail());
+                    numberTextField.setText(currentState.getNumber());
+                    locationTextField.setText(currentState.getLocation());
+
                     exitCardLayout.show(exitPanel, "exit");
                     editCardLayout.show(editPanel, "edit");
                 }
@@ -139,7 +151,7 @@ public class CompanyAccountView extends Panel implements PropertyChangeListener 
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource().equals(saveButton)) {
                     final CompanyAccountState currentState = companyAccountViewModel.getState();
-                    editCompanyAccountController.execute(currentState.getCompanyName(), currentState.getWebsite()
+                    editCompanyAccountController.execute(currentState.getIdentifier(), currentState.getCompanyName(), currentState.getWebsite()
                             , currentState.getEmail(), currentState.getNumber(), currentState.getLocation());
                     nameTextField.setEditable(false);
                     websiteTextField.setEditable(false);
@@ -315,5 +327,9 @@ public class CompanyAccountView extends Panel implements PropertyChangeListener 
 
     public String getViewName() {
         return viewName;
+    }
+
+    public void setPullCompanyDataController(PullCompanyDataController pullCompanyDataController) {
+        this.pullCompanyDataController = pullCompanyDataController;
     }
 }

@@ -10,8 +10,8 @@ public class EditCompanyAccountController {
         this.editCompanyAccountUseCaseInteractor = editCompanyAccountUseCaseInteractor;
     }
 
-    public void execute(String name, String website, String email, String number, String location) {
-        final EditCompanyAccountInputData editCompanyAccountInputData = new EditCompanyAccountInputData(name, website, email, number, location);
+    public void execute(String identifier, String name, String website, String email, String number, String location) {
+        final EditCompanyAccountInputData editCompanyAccountInputData = new EditCompanyAccountInputData(identifier, name, website, email, number, location);
         editCompanyAccountUseCaseInteractor.execute(editCompanyAccountInputData);
     }
 }

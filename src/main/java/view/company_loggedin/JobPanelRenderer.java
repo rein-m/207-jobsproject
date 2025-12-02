@@ -2,6 +2,8 @@ package view.company_loggedin;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class JobPanelRenderer extends JPanel implements ListCellRenderer<JobData> {
     private JLabel jobTitle = new JLabel("Job Title:");
@@ -10,7 +12,7 @@ public class JobPanelRenderer extends JPanel implements ListCellRenderer<JobData
     private JLabel titleLabel = new JLabel();
     private JLabel locationLabel = new JLabel();
     private JLabel descriptionLabel = new JLabel();
-    private JButton editButton = new JButton("Edit");
+    private JButton viewApplicantsButton = new JButton("View Applicants");
 
     public JobPanelRenderer() {
         Font font = new Font("Arial", Font.BOLD, 14);
@@ -34,9 +36,18 @@ public class JobPanelRenderer extends JPanel implements ListCellRenderer<JobData
         this.add(left);
 
         JPanel right = new JPanel();
-        right.add(editButton);
-//        right.setMinimumSize(new Dimension(60, 60));
+        right.add(viewApplicantsButton);
+        right.setMinimumSize(new Dimension(60, 60));
         this.add(right);
+
+
+//        this.add(jobTitle);
+//        this.add(titleLabel);
+//        this.add(jobLocation);
+//        this.add(locationLabel);
+//        this.add(jobDescription);
+//        this.add(descriptionLabel);
+
         //Vertical
 //        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 //        this.add(jobTitle);
@@ -47,6 +58,14 @@ public class JobPanelRenderer extends JPanel implements ListCellRenderer<JobData
 //        this.add(descriptionLabel);
 //        this.add(editButton);
         this.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+
+//        deleteButton.addActionListener(new  ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                if (e.getSource().equals(deleteButton)) {
+//                    deleteJobController.execute();
+//                }
+//            }
+//        });
     }
 
     @Override

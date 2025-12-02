@@ -14,6 +14,7 @@ public class Main {
                 .addPostJobView()
                 .addPostJobUseCase()
                 .addEditCompanyAccountUseCase()
+                .addPullCompanyDataUseCase()
                 .build();
 
         application.pack();
