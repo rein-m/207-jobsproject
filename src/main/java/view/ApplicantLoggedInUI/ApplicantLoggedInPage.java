@@ -34,7 +34,7 @@ public class ApplicantLoggedInPage extends JFrame{
 
         JPanel welcomeTextPanel = new JPanel(new GridLayout(2, 1));
 
-        JLabel welcomeLabel = new JLabel("Welcome NAME", SwingConstants.LEFT);
+        JLabel welcomeLabel = new JLabel("Welcome SpongeBob SquarePants", SwingConstants.LEFT);
         welcomeLabel.setFont(new Font("SansSerif", Font.BOLD, 24));
         welcomeLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 0));
 
