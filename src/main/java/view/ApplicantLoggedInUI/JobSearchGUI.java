@@ -29,7 +29,7 @@ public class JobSearchGUI extends JFrame {
                     "title", "Software Engineer Intern (Remote)",
                     "company", "Taskify AI",
                     "location", "United States",
-                    "description", "About the job\nWe’re looking for a dependable, adaptable professional...",
+                    "description", "About the job\nWe’re looking for a dependable, adaptable professional to support day-to-day tasks and ensure smooth operations. This role is straightforward, structured, and easy to learn, making it ideal for anyone who wants a stable income, flexibility, and real-world experience.\\nLocation:\\nRemote (US, UK, Canada, Australia, New Zealand, Ireland)\\nPay:\\nEarn between $5,000 - $8,000 per month\\nFlexible Hours | Weekly Pay | No Experience Needed | Work From Anywhere\\",
                     "salary", "$4,480/month"
             ),
             Map.of(
@@ -38,7 +38,7 @@ public class JobSearchGUI extends JFrame {
                     "title", "Undergrad Software Engineering Intern",
                     "company", "Twitch",
                     "location", "San Francisco, CA",
-                    "description", "About the job\nPlease apply to this job with your personal email...",
+                    "description", "About the job\nPlease apply to this job with your personal email address (not your University or Program account) to avoid important Twitch emails hitting your spam inbox.\\nAbout Us:\\nLaunched in 2011, Twitch is a global community that comes together each day to create multiplayer entertainment: unique, live, unpredictable experiences created by the interactions of millions. ",
                     "salary", "$5,600/month"
             ),
             Map.of(
@@ -47,7 +47,7 @@ public class JobSearchGUI extends JFrame {
                     "title", "Software Engineer - Internship",
                     "company", "SeatGeek",
                     "location", "New York, NY",
-                    "description", "About the job\nSeatGeek believes live events are powerful experiences...",
+                    "description", "About the job\nSeatGeek believes live events are powerful experiences that unite humans. With our technological savvy and fan-first attitude we’re simplifying and modernizing the ticketing industry.\\nBy catering to both consumers and enterprises, we’re powering a new, open entertainment ecosystem where fans have effortless access to experiences, and teams, venues, and shows have seamless access to their audiences.",
                     "salary", "$5,120/month"
             ),
             Map.of(
@@ -56,7 +56,7 @@ public class JobSearchGUI extends JFrame {
                     "title", "Software Engineer I, Entry-Level (Graduation Date: Fall 2025-Summer 2026)",
                     "company", "DoorDash",
                     "location", "San Francisco, CA",
-                    "description", "About the job\nAbout The Team\nDoorDash is building the world’s most reliable on-demand logistics engine for delivery!... (full description)",
+                    "description", "About the job\nAbout The Team\nDoorDash is building the world’s most reliable on-demand logistics engine for delivery! We’re looking for experienced engineers to join our fast-growing engineering team to help us develop a 24x7 global infrastructure system that powers DoorDash’s three-sided marketplace of consumers, merchants, and dashers.",
                     "salary", "$10,000/month"
             ),
             Map.of(
@@ -65,7 +65,7 @@ public class JobSearchGUI extends JFrame {
                     "title", "AI Assessment Specialist – Remote $100/hr",
                     "company", "Mercor",
                     "location", "United States",
-                    "description", "About the job\nAbout The Job\nMercor connects elite creative and technical talent with leading AI research labs... (full description)",
+                    "description", "About the job\nAbout The Job\nMercor\\nconnects elite creative and technical talent with leading AI research labs. Headquartered in San Francisco, our investors include\\nBenchmark\\n,\\nGeneral Catalyst\\n,\\nPeter Thiel\\n,\\nAdam D'Angelo\\n,\\nLarry Summers\\n, and\\nJack Dorsey\\n.\\nPosition:\\nMercor Generalist\\nType:\\nIndependent Contractor\\nCompensation:\\n$30–$100/hour\\nLocation:\\nRemote",
                     "salary", "$16,000/month"
             ),
             Map.of(
@@ -74,7 +74,7 @@ public class JobSearchGUI extends JFrame {
                     "title", "Software Engineer Intern",
                     "company", "Docusign",
                     "location", "Seattle, WA",
-                    "description", "About the job\nCompany Overview\nDocusign brings agreements to life... (full description)",
+                    "description", "About the job\nCompany Overview\nDocusign brings agreements to life. Over 1.5 million customers and more than a billion people in over 180 countries use Docusign solutions to accelerate the process of doing business and simplify people’s lives. With intelligent agreement management, Docusign unleashes business-critical data that is trapped inside of documents. ",
                     "salary", "$4,800/month"
             ),
             Map.of(
@@ -83,7 +83,7 @@ public class JobSearchGUI extends JFrame {
                     "title", "Spring/Summer 2026 University Entry-level STEM Pipeline",
                     "company", "Peraton",
                     "location", "Reston, VA",
-                    "description", "About the job\nAbout Peraton\nPeraton is a next-generation national security company... (full description)",
+                    "description", "About the job\nAbout Peraton\nPeraton is a next-generation national security company that drives missions of consequence spanning the globe and extending to the farthest reaches of the galaxy. As the world's leading mission capability integrator and transformative enterprise IT provider, we deliver trusted, highly differentiated solutions and technologies to protect our nation and allies. Peraton operates at the critical nexus between traditional and nontraditional threats across all domains: land, sea, space, air, and cyberspace. ",
                     "salary", "$4,000/month"
             )
     );
