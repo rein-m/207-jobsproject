@@ -4,11 +4,11 @@ public class Company extends User implements Entity {
     private static String name = "";
     private final String password;
     public Company(String name, String password) {
-        super();
+        super("","","","","","");
         this.name = name;
         this.password = password;
     }
-    public static String getIdentifier() {
+    public String getIdentifier() {
         return name;
     }
     public String getPassword() {
