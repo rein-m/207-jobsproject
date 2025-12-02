@@ -106,8 +106,11 @@ public class ApplicantLoggedInPage extends JFrame{
         buttonC.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JobGPTChatBotUI AI_B = new JobGPTChatBotUI();
-                AI_B.setVisible(true);
+                // Open the ChatBot UI when this button is clicked
+                SwingUtilities.invokeLater(() -> {
+                    JobGPTChatBotUI aiChatWindow = new JobGPTChatBotUI();
+                    aiChatWindow.setVisible(true);
+                });
             }
         });
 
