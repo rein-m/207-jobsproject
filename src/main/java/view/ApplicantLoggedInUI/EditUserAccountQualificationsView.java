@@ -5,16 +5,33 @@ import javax.swing.border.*;
 import java.awt.*;
 
 public class EditUserAccountQualificationsView extends JFrame {
-    public EditUserAccountQualificationsView() {
-        super("Qualifications");
 
-        // ---------- Main container ----------
+    private final UserAccountInfo parent;
+
+    private JTextArea educationArea;
+    private JTextArea workArea;
+    private JTextArea projectsArea;
+    private JTextArea skillsArea;
+    private JTextArea languagesArea;
+    private JTextArea frameworksArea;
+    private JTextArea toolsArea;
+
+    public EditUserAccountQualificationsView(UserAccountInfo parent,
+                                             String education,
+                                             String work,
+                                             String projects,
+                                             String skills,
+                                             String languages,
+                                             String frameworks,
+                                             String tools) {
+        super("Qualifications");
+        this.parent = parent;
+
         JPanel content = new JPanel();
         content.setBorder(new EmptyBorder(24, 24, 24, 24));
         content.setLayout(new BorderLayout(0, 20));
         setContentPane(content);
 
-        // ---------- Top title + subtitle ----------
         JPanel headerPanel = new JPanel();
         headerPanel.setLayout(new BoxLayout(headerPanel, BoxLayout.Y_AXIS));
         headerPanel.setOpaque(false);
@@ -38,7 +55,6 @@ public class EditUserAccountQualificationsView extends JFrame {
 
         content.add(headerPanel, BorderLayout.NORTH);
 
-        // ---------- Form area ----------
         JPanel formPanel = new JPanel(new GridBagLayout());
         formPanel.setOpaque(false);
         GridBagConstraints gbc = new GridBagConstraints();
@@ -48,57 +64,77 @@ public class EditUserAccountQualificationsView extends JFrame {
         gbc.gridx = 0;
         gbc.gridy = 0;
 
-        // Education
-        formPanel.add(createLabeledTextArea("Education", false,
-                "e.g. BSc Computer Science, University of Toronto"), gbc);
+        educationArea = new JTextArea(
+                education.isEmpty() ? "e.g. BSc Computer Science, University of Toronto" : education,
+                3, 20);
+        formPanel.add(createLabeledTextArea("Education", false, educationArea), gbc);
 
-        // Work Experience
         gbc.gridy++;
-        formPanel.add(createLabeledTextArea("Work Experience", false,
-                "e.g. Software Developer Intern at XYZ Corp"), gbc);
+        workArea = new JTextArea(
+                work.isEmpty() ? "e.g. Software Developer Intern at XYZ Corp" : work,
+                3, 20);
+        formPanel.add(createLabeledTextArea("Work Experience", false, workArea), gbc);
 
-        // Projects
         gbc.gridy++;
-        formPanel.add(createLabeledTextArea("Projects", false,
-                "e.g. Personal portfolio website, job search app"), gbc);
+        projectsArea = new JTextArea(
+                projects.isEmpty() ? "e.g. Personal portfolio website, job search app" : projects,
+                3, 20);
+        formPanel.add(createLabeledTextArea("Projects", false, projectsArea), gbc);
 
-        // Skills
         gbc.gridy++;
-        formPanel.add(createLabeledTextArea("Skills", false,
-                "e.g. Java, problem solving, communication"), gbc);
+        skillsArea = new JTextArea(
+                skills.isEmpty() ? "e.g. Java, problem solving, communication" : skills,
+                3, 20);
+        formPanel.add(createLabeledTextArea("Skills", false, skillsArea), gbc);
 
-        // Programming Languages
         gbc.gridy++;
-        formPanel.add(createLabeledTextArea("Programming Languages", false,
-                "e.g. Java, Python, JavaScript"), gbc);
+        languagesArea = new JTextArea(
+                languages.isEmpty() ? "e.g. Java, Python, JavaScript" : languages,
+                3, 20);
+        formPanel.add(createLabeledTextArea("Programming Languages", false, languagesArea), gbc);
 
-        // Frameworks & Libraries
         gbc.gridy++;
-        formPanel.add(createLabeledTextArea("Frameworks & Libraries", false,
-                "e.g. Spring, React, Swing"), gbc);
+        frameworksArea = new JTextArea(
+                frameworks.isEmpty() ? "e.g. Spring, React, Swing" : frameworks,
+                3, 20);
+        formPanel.add(createLabeledTextArea("Frameworks & Libraries", false, frameworksArea), gbc);
 
-        // Tools & Technologies
         gbc.gridy++;
-        formPanel.add(createLabeledTextArea("Tools & Technologies", false,
-                "e.g. Git, IntelliJ, Docker"), gbc);
+        toolsArea = new JTextArea(
+                tools.isEmpty() ? "e.g. Git, IntelliJ, Docker" : tools,
+                3, 20);
+        formPanel.add(createLabeledTextArea("Tools & Technologies", false, toolsArea), gbc);
 
         content.add(new JScrollPane(formPanel), BorderLayout.CENTER);
 
-        // ---------- Frame settings ----------
-        // Do NOT exit the whole app when this closes:
+        JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JButton cancelBtn = new JButton("Cancel");
+        JButton saveBtn = new JButton("Save");
+
+        cancelBtn.addActionListener(e -> dispose());
+        saveBtn.addActionListener(e -> {
+            parent.updateQualifications(
+                    educationArea.getText().trim(),
+                    workArea.getText().trim(),
+                    projectsArea.getText().trim(),
+                    skillsArea.getText().trim(),
+                    languagesArea.getText().trim(),
+                    frameworksArea.getText().trim(),
+                    toolsArea.getText().trim()
+            );
+            dispose();
+        });
+
+        buttonsPanel.add(cancelBtn);
+        buttonsPanel.add(saveBtn);
+        content.add(buttonsPanel, BorderLayout.SOUTH);
+
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(700, 600);
         setLocationRelativeTo(null);
     }
 
-    // --- helper methods ---
-
-    /**
-     * Creates a label + multi-line text area stack:
-     *  Label
-     *  [ text area ]
-     */
-    private JPanel createLabeledTextArea(String labelText, boolean required, String placeholder) {
+    private JPanel createLabeledTextArea(String labelText, boolean required, JTextArea area) {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setOpaque(false);
@@ -120,7 +156,6 @@ public class EditUserAccountQualificationsView extends JFrame {
         panel.add(labelRow);
         panel.add(Box.createVerticalStrut(4));
 
-        JTextArea area = new JTextArea(placeholder, 3, 20);
         styleTextArea(area);
 
         JScrollPane scrollPane = new JScrollPane(
@@ -133,9 +168,6 @@ public class EditUserAccountQualificationsView extends JFrame {
         return panel;
     }
 
-    /**
-     * Applies rounded-ish look to text areas.
-     */
     private void styleTextArea(JTextArea area) {
         area.setLineWrap(true);
         area.setWrapStyleWord(true);
