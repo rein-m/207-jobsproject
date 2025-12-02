@@ -1,15 +1,30 @@
-package view.ApplicantLoggedInUI;
+package view.ApplicantLoggedInUI;//package view;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 
-public class UserAccountInfo extends JFrame {
 
-    public UserAccountInfo() {
+import interface_adapter.userAccountInfo.AccountInfoState;
+import interface_adapter.ResumeShit.resumeUI.ResumeUIControler;
+import interface_adapter.userAccountInfo.AccountInforViewModel;
+
+public class UserAccountInfoView extends JPanel implements ActionListener, PropertyChangeListener {
+    private final String viewName = "account info";
 
 
-        setTitle("Contact Card");
+    private final AccountInforViewModel accountinfoViewModel;
+    private ResumeUIControler resumeUIControler;
+
+    public UserAccountInfoView(AccountInforViewModel accountInforViewModel) {
+        this.accountinfoViewModel = accountInforViewModel;
+        this.accountinfoViewModel.addPropertyChangeListener(this);
+
+//        setTitle("User Information");
+//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(600, 700);
 
         // Main container
@@ -37,64 +52,93 @@ public class UserAccountInfo extends JFrame {
         JButton btn = new JButton(">");
         btn.setFocusable(false);
         btn.setPreferredSize(new Dimension(30, 5));
-
-        //Testing ActionListener
-        btn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Button clicked!");
-            }
-        });
         contactLabel.add(leftSide, BorderLayout.WEST);
         contactLabel.add(btn, BorderLayout.EAST);
         leftPanel.add(contactLabel);
-
-//        JPanel contactLabel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
-//        JLabel text = new JLabel("Contact Information:");
-//        text.setFont(new Font("SansSerif", Font.BOLD, 20));
-//        contactLabel.add(text);
-//        leftPanel.add(contactLabel);
+        leftPanel.add(Box.createVerticalStrut(25));
 
         // Row helper
-        leftPanel.add(createInfoRow("✉", "User Email"));
-        leftPanel.add(createInfoRow("☎", "User Phone Number"));
-        leftPanel.add(createInfoRow("📍", "User Address"));
+        final AccountInfoState accountInfoState = accountInforViewModel.getState();
+
+        leftPanel.add(createInfoRow("✉", accountInfoState.getEmail()));
+        leftPanel.add(Box.createVerticalStrut(5));
+        leftPanel.add(createInfoRow("☎", accountInfoState.getPhone()));
+        leftPanel.add(Box.createVerticalStrut(5));
+        leftPanel.add(createInfoRow("📍", accountInfoState.getLocation()));
+        leftPanel.add(Box.createVerticalStrut(5));
 
         // Resume Title
-        JLabel resume = new JLabel("Resumes:");
-        resume.setAlignmentX(Component.CENTER_ALIGNMENT);
-        resume.setFont(new Font("SansSerif", Font.BOLD, 28));
+        JPanel resume = new JPanel(new BorderLayout());
+        JPanel res_leftSide = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
+        JLabel res_iconLabel = new JLabel("Resumes:");
+        res_iconLabel.setFont(new Font("SansSerif", Font.BOLD, 28));
+        res_leftSide.add(res_iconLabel);
+        JButton res_btn = new JButton("Add New Resume");
+        res_btn.setFocusable(false);
+        res_btn.setPreferredSize(new Dimension(125, 5));
+        resume.add(res_leftSide, BorderLayout.WEST);
+        resume.add(res_btn, BorderLayout.EAST);
         leftPanel.add(resume);
-        leftPanel.add(Box.createVerticalStrut(25)); // space under name
+        leftPanel.add(Box.createVerticalStrut(25));
+
+        // Adding the actionperformed for add new resume
+        res_btn.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        if (e.getSource().equals(res_btn)) {
+                            final AccountInfoState currentState = accountinfoViewModel.getState();
+                            resumeUIControler.execute(currentState.getUserIdentifier());
+                        }
+                    }
+                }
+        );
 
         // Resume File
-        JPanel curr_resume = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
-        // curr_resume.setLayout(new BoxLayout(curr_resume, BoxLayout.Y_AXIS));
-        curr_resume.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        // Main resume panel
+        JPanel main = new JPanel(new BorderLayout());
+        main.setPreferredSize(new Dimension(500, 250));
+        main.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-        JLabel resume_name = new JLabel("File Name");
-        resume_name.setFont(new Font("SansSerif", Font.ITALIC, 16));
+        JPanel all_resumes = new JPanel();
+        all_resumes.setLayout(new BoxLayout(all_resumes, BoxLayout.Y_AXIS));
+        ArrayList<String> total_res = accountInfoState.getResumes();
+//        "Element at index " + i + ": " + names.get(i)
 
-        JLabel date_added = new JLabel("Date Added");
-        date_added.setFont(new Font("SansSerif", Font.ITALIC, 16));
+        for (int i = 0; i < total_res.size(); i++) {
+            JPanel single_resume = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
+            single_resume.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+            JLabel resume_name = new JLabel("Resume Preview: " + total_res.get(i).substring(0, 50));
+            resume_name.setFont(new Font("SansSerif", Font.ITALIC, 16));
 
-        curr_resume.add(resume_name); curr_resume.add(date_added);
-        leftPanel.add(curr_resume);
+
+            single_resume.add(resume_name);
+            single_resume.setPreferredSize(new Dimension(300, 50));
+
+            all_resumes.add(single_resume, BorderLayout.SOUTH);
+            all_resumes.add(Box.createVerticalStrut(10));
+        }
+        JScrollPane scrollPane = new JScrollPane(all_resumes);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+        main.add(scrollPane, BorderLayout.CENTER);
+        leftPanel.add(main);
         leftPanel.add(Box.createVerticalStrut(25));
 
         // Qualifications Title
-        JLabel qualifications = new JLabel("Qualifications:");
-        qualifications.setAlignmentX(Component.CENTER_ALIGNMENT);
-        qualifications.setFont(new Font("SansSerif", Font.BOLD, 28));
+        JPanel qualifications = new JPanel(new BorderLayout());
+        JPanel qua_leftSide = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
+        JLabel qua_iconLabel = new JLabel("Qualifications:");
+        qua_iconLabel.setFont(new Font("SansSerif", Font.BOLD, 28));
+        qua_leftSide.add(qua_iconLabel);
+        JButton qua_btn = new JButton(">");
+        qua_btn.setFocusable(false);
+        qua_btn.setPreferredSize(new Dimension(30, 5));
+        qualifications.add(qua_leftSide, BorderLayout.WEST);
+        qualifications.add(qua_btn, BorderLayout.EAST);
         leftPanel.add(qualifications);
-        leftPanel.add(Box.createVerticalStrut(25)); // space under name
 
-        leftPanel.add(createInfoRow("📚", "Example Qualification 1"));
-        leftPanel.add(createInfoRow("💻", "Example Qualification 2"));
-        leftPanel.add(createInfoRow("⚽", "Example Qualification 3"));
-
-
-        setLocationRelativeTo(null);
+//        setLocationRelativeTo(null);
     }
 
     private JPanel createInfoRow(String icon, String text) {
@@ -117,4 +161,23 @@ public class UserAccountInfo extends JFrame {
 
         return row;
     }
+
+    public void actionPerformed(ActionEvent evt) {
+        System.out.println("Click " + evt.getActionCommand());
+    }
+
+    public void propertyChange(PropertyChangeEvent evt) {
+        final AccountInfoState state = (AccountInfoState) evt.getNewValue();
+//        setFields(state);
+//        usernameErrorField.setText(state.getLoginError());
+    }
+
+    public String getViewName() {
+        return viewName;
+    }
+
+    public void setAccountInfoControler(ResumeUIControler loginController) {
+        this.resumeUIControler = loginController;
+    }
+
 }
