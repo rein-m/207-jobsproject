@@ -34,7 +34,7 @@ public class ApplicantLoggedInPage extends JFrame{
 
         JPanel welcomeTextPanel = new JPanel(new GridLayout(2, 1));
 
-        JLabel welcomeLabel = new JLabel("Welcome NAME", SwingConstants.LEFT);
+        JLabel welcomeLabel = new JLabel("Welcome SpongeBob SquarePants", SwingConstants.LEFT);
         welcomeLabel.setFont(new Font("SansSerif", Font.BOLD, 24));
         welcomeLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 0));
 
@@ -49,13 +49,15 @@ public class ApplicantLoggedInPage extends JFrame{
         //  Right Side: Profile Button
         JButton profileButton = new JButton("Profile");
         profileButton.setPreferredSize(new Dimension(100, 80)); // Suggested size for the buttons
-        profileButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                UserAccountInfo ProfileWindow = new UserAccountInfo();
-                ProfileWindow.setVisible(true);
-            }
-        });
+
+        //TODO: wait for merging and uncomment it.
+//        profileButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                UserAccountInfoView ProfileWindow = new UserAccountInfoView();
+//                ProfileWindow.setVisible(true);
+//            }
+//        });
 
         // Add some padding/margin around the button
         JPanel profileButtonWrapper = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -70,7 +72,7 @@ public class ApplicantLoggedInPage extends JFrame{
 
     private static void createContentPanel(JFrame frame) {
         // Center panel to hold the buttons
-        JPanel contentPanel = new JPanel(new GridLayout(4, 1, 20, 30)); // 3 rows, 1 col, with vertical spacing
+        JPanel contentPanel = new JPanel(new GridLayout(3, 1, 20, 30)); // 3 rows, 1 col, with vertical spacing
 
         // Add some padding around the content panel to prevent buttons from touching the edges
         contentPanel.setBorder(BorderFactory.createEmptyBorder(20, 40, 40, 40));
@@ -80,7 +82,8 @@ public class ApplicantLoggedInPage extends JFrame{
         buttonA.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Button clicked!");
+                JobSearchGUI SearchB = new JobSearchGUI();
+                SearchB.setVisible(true);
             }
         });
 
@@ -103,26 +106,16 @@ public class ApplicantLoggedInPage extends JFrame{
         buttonC.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Button clicked!");
+                // Open the ChatBot UI when this button is clicked
+                SwingUtilities.invokeLater(() -> {
+                    JobGPTChatBotUI aiChatWindow = new JobGPTChatBotUI();
+                    aiChatWindow.setVisible(true);
+                });
             }
         });
 
         contentPanel.add(buttonC);
 
-        JButton buttonD = new JButton("Save Progress");
-        buttonD.setFont(new Font("SansSerif", Font.BOLD, 18)); // Large font for visibility
-        buttonD.setPreferredSize(new Dimension(10, 10)); // Suggested size for the buttons
-        buttonD.setBackground(new Color(255, 255, 255)); // Light grey background
-        buttonD.setOpaque(true);
-        buttonD.setBorder(BorderFactory.createLineBorder(Color.BLACK)); // Black border like the sketch
-        buttonD.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e)  {
-                JOptionPane.showMessageDialog(null, "Progress Saved!");
-            }
-
-        });
-        contentPanel.add(buttonD);
         frame.add(contentPanel, BorderLayout.CENTER);
     }
 
