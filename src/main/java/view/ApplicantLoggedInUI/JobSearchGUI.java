@@ -170,11 +170,16 @@ public class JobSearchGUI extends JFrame {
                         JOptionPane.INFORMATION_MESSAGE);
 
                 JOptionPane.showMessageDialog(JobSearchGUI.this, "DataDog" + "\n\n"  +
-                             "About the job\\n\\n We’re looking for interns to join us to help collect, aggregate, visualize, and analyze high-scale metrics, logs, and application data.netes across tens of thousands of nodes? Looking to build out the platform that powers Datadog’s newest offerings, such as BitsAI or App Builder? Want to see your work actually impact and improve the product in a meaningful way?\""
+                             "About the job： We’re looking for interns to join us to help collect, aggregate, visualize, and analyze high-scale metrics, logs, and application data.netes across tens of thousands of nodes? Looking to build out the platform that powers Datadog’s newest offerings, such as BitsAI or App Builder? Want to see your work actually impact and improve the product in a meaningful way?\""
                                       + "\n\nLocation: " + "Boston, MA" + "\nSalary: "
                                      + "$4,800/month",
                         "Job Details",
                              JOptionPane.INFORMATION_MESSAGE);
+
+                JOptionPane.showMessageDialog(JobSearchGUI.this,
+                        message,
+                        "Company not found! Double-check that you have the correct company name and try again.",
+                        JOptionPane.INFORMATION_MESSAGE);
 
                 // TODO: Call the actual job filtering and search method here
 
