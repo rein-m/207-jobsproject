@@ -103,18 +103,18 @@ public class JobSearchGUI extends JFrame {
     public JobSearchGUI() {
         super("JobGPT");
         setSize(1200, 800); // Setting a larger default size for the UI
-        setLocationRelativeTo(null); // Center the window
+        setLocationRelativeTo(null);
 
         // Main Panel
         JPanel mainPanel = new JPanel(new BorderLayout(15, 15)); // Add spacing between regions
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15)); // Outer padding
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
         add(mainPanel);
 
-        // 1. Top Bar (Image, Search, Profile)
+        // Top Bar (Image, Search, Profile)
         mainPanel.add(createTopBar(), BorderLayout.NORTH);
 
-        // 2. Main Content Area (Filters + Recommended Jobs)
-        JPanel contentArea = new JPanel(new BorderLayout(20, 0)); // Spacing between filters and jobs
+        // Main Content Area (Filters + Recommended Jobs)
+        JPanel contentArea = new JPanel(new BorderLayout(20, 0));
         contentArea.add(createFiltersPanel(), BorderLayout.WEST);
         contentArea.add(createRecommendedJobsPanel(), BorderLayout.CENTER);
         mainPanel.add(contentArea, BorderLayout.CENTER);
@@ -422,8 +422,6 @@ public class JobSearchGUI extends JFrame {
                 String description = job.get("description");
                 String salary = job.getOrDefault("salary", "Salary info unavailable");
 
-
-
                 jobCardsGrid.add(
                         createJobCard(
                                 company,
@@ -436,12 +434,9 @@ public class JobSearchGUI extends JFrame {
         } else {
             jobCardsGrid.add(new JLabel("No more job listings.", SwingConstants.CENTER));
         }
-
-
         // Prev and Next button
         prevPageButton.setEnabled(currentPage != 0);
         nextPageButton.setEnabled(endIndex < ALL_COMPANIES.size());
-
         // Refresh the layout to show new components
         jobCardsGrid.revalidate();
         jobCardsGrid.repaint();
