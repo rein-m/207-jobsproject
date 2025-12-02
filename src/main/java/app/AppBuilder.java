@@ -3,23 +3,21 @@ package app;
 import data_access.CompanyDataAccessObject;
 import data_access.DBUserDataAccessObject;
 import data_access.CompanyDataAccessObject;
+import data_access.UserDataAccessObject;
 import entity.UserFactory;
 import entity.CompanyFactory;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.company_loggedin.*;
-import interface_adapter.loggedin.LogginViewModel;
+import interface_adapter.loggedin.LoggedinViewModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
+import interface_adapter.post_job.PostJobViewModel;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
-import use_case.login.LoginInputBoundary;
-import use_case.login.LoginInteractor;
-import use_case.login.LoginOutputBoundary;
-import use_case.signup.SignupInputBoundary;
-import use_case.signup.SignupInteractor;
-import use_case.signup.SignupOutputBoundary;
+import use_case.login.*;
+import use_case.signup.*;
 import view.*;
 import view.ApplicantLoggedInUI.*;
 
@@ -37,13 +35,13 @@ public class AppBuilder {
     ViewManager viewManager = new ViewManager(cardLayout, cardPanel, viewManagerModel);
 
 
-    final DBUserDataAccessObject userDataAccessObject = new DBUserDataAccessObject(userFactory);
+    final UserDataAccessObject userDataAccessObject = new UserDataAccessObject(userFactory);
 
     final CompanyDataAccessObject companyDataAccessObject = new CompanyDataAccessObject(companyFactory);
 
     private SignupViewModel signupViewModel;
     private LoginViewModel loginViewModel;
-    private LogginViewModel userLoggedInViewModel;
+    private Logged userLoggedInViewModel;
     private CompanyLoggedInViewModel companyLoggedInViewModel;
 
     private LandingView landingView;
@@ -74,13 +72,13 @@ public class AppBuilder {
     }
 
     public AppBuilder addLoggedInViews() {
-        userLoggedInViewModel = new LogginViewModel();
+        userLoggedInViewModel = new LoggedinViewModel();
         companyLoggedInViewModel = new CompanyLoggedInViewModel();
 
-        userLoggedInView = new LogginViewModel(userLoggedInViewModel);
-        companyLoggedInView = new CompanyLoggedInView(companyLoggedInViewModel);
+        userLoggedInView = new ApplicantLoggedInView();
+        companyLoggedInView = new CompanyLoggedInView(companyLoggedInViewModel, new PostJobViewModel(), viewManagerModel);
 
-        cardPanel.add(userLoggedInView, userLoggedInView.viewName);
+        cardPanel.add(userLoggedInView, userLoggedInView.getViewName());
         cardPanel.add(companyLoggedInView, companyLoggedInView.getViewName());
         return this;
     }
@@ -93,7 +91,7 @@ public class AppBuilder {
 
         final SignupInputBoundary signupInteractor = new SignupInteractor(
                 userDataAccessObject,
-                companyDataAccessObject,
+                (SignupCompanyDataAccessInterface) companyDataAccessObject,
                 signupOutputBoundary,
                 userFactory,
                 companyFactory
@@ -113,7 +111,7 @@ public class AppBuilder {
 
         final LoginInputBoundary loginInteractor = new LoginInteractor(
                 userDataAccessObject,
-                companyDataAccessObject,
+                (LoginCompanyDataAccessInterface) companyDataAccessObject,
                 loginOutputBoundary
         );
 

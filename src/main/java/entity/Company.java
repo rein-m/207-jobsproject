@@ -1,17 +1,38 @@
 package entity;
 
-public class Company extends User implements Entity {
-    private static String name = "";
+import java.util.ArrayList;
+
+public class Company implements Entity {
+    private final String identifier;
+    private final String companyName;
+    private final String website;
+    private final String email;
+    private final String number;
+    private final String location;
     private final String password;
-    public Company(String name, String password) {
-        super();
-        this.name = name;
+    private ArrayList<ArrayList<String>> jobs;
+
+    public Company(String identifier, String companyName, String website, String email, String number, String location,
+                   String password, ArrayList<ArrayList<String>> jobs) {
+        this.identifier = identifier;
+        this.companyName = companyName;
+        this.website = website;
+        this.email = email;
+        this.number = number;
+        this.location = location;
         this.password = password;
+        this.jobs = jobs;
     }
-    public static String getIdentifier() {
-        return name;
+    public String getIdentifier() {
+        return identifier;
     }
     public String getPassword() {
         return password;
     }
+    public String getCompanyName() {return companyName;}
+    public String getWebsite() {return website;}
+    public String getEmail() {return email;}
+    public String getNumber() {return number;}
+    public String getLocation() {return location;}
+    public ArrayList<ArrayList<String>> getJobs() {return jobs;}
 }
