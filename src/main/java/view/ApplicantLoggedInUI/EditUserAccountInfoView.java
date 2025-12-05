@@ -1,34 +1,51 @@
 package view.ApplicantLoggedInUI;
 
+import interface_adapter.account.AccountController;
+import interface_adapter.account.AccountState;
+import interface_adapter.account.AccountViewModel;
+
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
 
+/**
+ * Edit dialog for the user's basic contact information.
+ * View layer: calls AccountController and reads from AccountViewModel.
+ */
 public class EditUserAccountInfoView extends JFrame {
 
-    private final UserAccountInfo parent;
+    private final AccountController accountController;
+    private final AccountViewModel accountViewModel;
 
     private JTextField emailField;
     private JTextField phoneField;
     private JTextField addressField;
 
-    public EditUserAccountInfoView(UserAccountInfo parent,
-                                   String currentEmail,
-                                   String currentPhone,
-                                   String currentAddress) {
-        super("Basic information");
-        this.parent = parent;
+    public EditUserAccountInfoView(AccountController accountController,
+                                   AccountViewModel accountViewModel) {
+        super("Contact information");
 
+        this.accountController = accountController;
+        this.accountViewModel = accountViewModel;
+
+        AccountState state = accountViewModel.getState();
+
+        String currentEmail = state.getEmail() == null ? "" : state.getEmail();
+        String currentPhone = state.getPhone() == null ? "" : state.getPhone();
+        String currentAddress = state.getAddress() == null ? "" : state.getAddress();
+
+        // ---------- Main container ----------
         JPanel content = new JPanel();
         content.setBorder(new EmptyBorder(14, 14, 14, 14));
         content.setLayout(new BorderLayout(0, 20));
         setContentPane(content);
 
+        // ---------- Top title + subtitle ----------
         JPanel headerPanel = new JPanel();
         headerPanel.setLayout(new BoxLayout(headerPanel, BoxLayout.Y_AXIS));
         headerPanel.setOpaque(false);
 
-        JLabel titleLabel = new JLabel("Basic information");
+        JLabel titleLabel = new JLabel("Contact information");
         titleLabel.setFont(titleLabel.getFont().deriveFont(Font.BOLD, 26f));
         headerPanel.add(titleLabel);
 
@@ -47,6 +64,7 @@ public class EditUserAccountInfoView extends JFrame {
 
         content.add(headerPanel, BorderLayout.NORTH);
 
+        // ---------- Form area ----------
         JPanel formPanel = new JPanel(new GridBagLayout());
         formPanel.setOpaque(false);
         GridBagConstraints gbc = new GridBagConstraints();
@@ -56,18 +74,23 @@ public class EditUserAccountInfoView extends JFrame {
         gbc.gridx = 0;
         gbc.gridy = 0;
 
+        // Email
         emailField = new JTextField(currentEmail);
         formPanel.add(createLabeledTextField("Email", true, emailField), gbc);
 
+        // Phone
         gbc.gridy++;
-        formPanel.add(createPhoneField(currentPhone), gbc);
+        phoneField = new JTextField(currentPhone);
+        formPanel.add(createPhoneField(phoneField), gbc);
 
+        // Address
         gbc.gridy++;
         addressField = new JTextField(currentAddress);
         formPanel.add(createLabeledTextField("Address", true, addressField), gbc);
 
         content.add(formPanel, BorderLayout.CENTER);
 
+        // ---------- Buttons ----------
         JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         JButton cancelBtn = new JButton("Cancel");
         JButton saveBtn = new JButton("Save");
@@ -75,11 +98,34 @@ public class EditUserAccountInfoView extends JFrame {
         cancelBtn.addActionListener(e -> dispose());
 
         saveBtn.addActionListener(e -> {
-            parent.updateAccountInfo(
+            AccountState s = accountViewModel.getState();
+
+            String identifier = s.getIdentifier();
+            if (identifier == null || identifier.isEmpty()) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "No user identifier set in AccountState.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE
+                );
+                return;
+            }
+
+            // Use existing qualifications from the state
+            accountController.editAccount(
+                    identifier,
                     emailField.getText().trim(),
                     phoneField.getText().trim(),
-                    addressField.getText().trim()
+                    addressField.getText().trim(),
+                    s.getEducation(),
+                    s.getWorkExperience(),
+                    s.getProjects(),
+                    s.getSkills(),
+                    s.getProgrammingLanguages(),
+                    s.getFrameworksAndLibraries(),
+                    s.getToolsAndTechnologies()
             );
+
             dispose();
         });
 
@@ -87,12 +133,22 @@ public class EditUserAccountInfoView extends JFrame {
         buttonsPanel.add(saveBtn);
         content.add(buttonsPanel, BorderLayout.SOUTH);
 
+        // ---------- Frame settings ----------
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(700, 400);
         setLocationRelativeTo(null);
     }
 
-    private JPanel createLabeledTextField(String labelText, boolean required, JTextField field) {
+    // --- helper methods ---
+
+    /**
+     * Creates a label + text field stack:
+     *  Label
+     *  [ text field ]
+     */
+    private JPanel createLabeledTextField(String labelText,
+                                          boolean required,
+                                          JTextField field) {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setOpaque(false);
@@ -120,7 +176,12 @@ public class EditUserAccountInfoView extends JFrame {
         return panel;
     }
 
-    private JPanel createPhoneField(String currentPhone) {
+    /**
+     * Phone field row:
+     *  "Phone *"
+     *  [ 🇨🇦 +1 ][ phone number ]
+     */
+    private JPanel createPhoneField(JTextField phoneField) {
         JPanel outer = new JPanel();
         outer.setLayout(new BoxLayout(outer, BoxLayout.Y_AXIS));
         outer.setOpaque(false);
@@ -157,7 +218,6 @@ public class EditUserAccountInfoView extends JFrame {
         prefixPanel.add(flagLabel);
         prefixPanel.add(codeLabel);
 
-        phoneField = new JTextField(currentPhone);
         styleTextField(phoneField);
         phoneField.setBorder(new CompoundBorder(
                 new MatteBorder(1, 0, 1, 1, new Color(0xC4C4C4)),
