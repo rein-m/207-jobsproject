@@ -134,7 +134,7 @@ public class PDFProcessorUI extends JFrame {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Select PDF File");
 
-        // Set filter for PDF files only
+        // Sets filter for PDF files only
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
                 "PDF Files (*.pdf)", "pdf");
         fileChooser.setFileFilter(filter);
@@ -160,19 +160,17 @@ public class PDFProcessorUI extends JFrame {
             return;
         }
 
-        // Disable buttons during processing
+        // Disables buttons during processing
         processButton.setEnabled(false);
         browseButton.setEnabled(false);
 
         appendStatus("\n--- Starting PDF Processing ---\n");
         appendStatus("Processing file: " + selectedPdfFile.getName() + "\n");
 
-        // Create a SwingWorker for background processing
+        // Creates a SwingWorker for background processing
         SwingWorker<Void, Integer> worker = new SwingWorker<Void, Integer>() {
             @Override
             protected Void doInBackground() throws Exception {
-                // YOUR PDF PROCESSING LOGIC GOES HERE
-                // This is where you add your actual PDF processing code
 
                 // Simulated processing with progress updates
                 for (int i = 0; i <= 100; i += 10) {
@@ -236,7 +234,7 @@ public class PDFProcessorUI extends JFrame {
             e.printStackTrace();
         }
 
-        // Create and show UI on Event Dispatch Thread
+        // Creates and show UI on Event Dispatch Thread
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
