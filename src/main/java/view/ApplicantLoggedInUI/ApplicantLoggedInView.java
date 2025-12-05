@@ -16,8 +16,13 @@ public class ApplicantLoggedInView extends JFrame {
 
     // Map to simulate which companies have a PDF available
     private final Map<String, String> companyPdfFiles = new HashMap<>();
+    public final String viewName = "user loggedin";
+    public String getViewName(){
+        return viewName;
+    }
 
     public ApplicantLoggedInView() {
+
         super("Applicant GUI");
         this.setSize(500, 600);
         this.setLayout(new BorderLayout(10, 10));
@@ -96,6 +101,7 @@ public class ApplicantLoggedInView extends JFrame {
 
         rightPanel.add(yesBtn);
         rightPanel.add(noBtn);
+
 
         // --- Main center panel (list + buttons) ---
         JPanel centerPanel = new JPanel(new BorderLayout(20, 0));

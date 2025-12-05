@@ -3,10 +3,11 @@ package entity;
 /**
  * Entity representing an application user.
  */
-public class User {
+public class User implements Entity {
 
     // --- identity + authentication ---
 
+    // This is the logical "username" / unique id
     private final String identifier;
 
     private final String password;
@@ -14,7 +15,6 @@ public class User {
     // --- basic contact info ---
 
     private String location;
-
     private String email;
     private String phone;
 
@@ -33,13 +33,13 @@ public class User {
      * Qualifications are initialized to empty strings and can be
      * updated later through updateQualifications or setters.
      */
-    public User(String name,
+    public User(String identifier,
                 String password,
                 String location,
                 String email,
                 String phone) {
 
-        this.identifier = name;
+        this.identifier = identifier;
         this.password = password;
         this.location = location;
         this.email = email;
@@ -55,18 +55,28 @@ public class User {
         this.toolsAndTechnologies = "";
     }
 
+    // --- Entity interface methods ---
+
+    @Override
     public String getIdentifier() {
         return identifier;
     }
 
+    @Override
     public String getPassword() {
         return password;
     }
 
-    // Optional helper if some old code used getName()
+    // Optional helpers to keep old naming schemes working
     public String getName() {
         return identifier;
     }
+
+    public String getUsername() {
+        return identifier;
+    }
+
+    // --- contact info ---
 
     public String getLocation() {
         return location;
@@ -91,6 +101,8 @@ public class User {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+    // --- qualifications getters/setters ---
 
     public String getEducation() {
         return education;
@@ -147,6 +159,8 @@ public class User {
     public void setToolsAndTechnologies(String toolsAndTechnologies) {
         this.toolsAndTechnologies = toolsAndTechnologies;
     }
+
+    // --- batch update helpers ---
 
     /**
      * Update contact information in one shot.

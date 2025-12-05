@@ -172,9 +172,13 @@ public class ApplicantLoggedInPage extends JFrame {
         contentPanel.add(buttonB);
 
         // Button C
-        JButton buttonC = createStyledButton("Chat with our AI!");
-        buttonC.addActionListener(e ->
-                JOptionPane.showMessageDialog(this, "AI chat coming soon!"));
+        JButton buttonC = createStyledButton("Chat with our AI !");
+        buttonC.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Button clicked!");
+            }
+        });
 
         contentPanel.add(buttonC);
 
