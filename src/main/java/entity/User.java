@@ -3,11 +3,10 @@ package entity;
 /**
  * Entity representing an application user.
  */
-public class User implements Entity {
+public class User {
 
     // --- identity + authentication ---
 
-    // This is the logical "username" / unique id
     private final String identifier;
 
     private final String password;
@@ -15,6 +14,7 @@ public class User implements Entity {
     // --- basic contact info ---
 
     private String location;
+
     private String email;
     private String phone;
 
@@ -33,13 +33,13 @@ public class User implements Entity {
      * Qualifications are initialized to empty strings and can be
      * updated later through updateQualifications or setters.
      */
-    public User(String identifier,
+    public User(String name,
                 String password,
                 String location,
                 String email,
                 String phone) {
 
-        this.identifier = identifier;
+        this.identifier = name;
         this.password = password;
         this.location = location;
         this.email = email;
@@ -55,28 +55,18 @@ public class User implements Entity {
         this.toolsAndTechnologies = "";
     }
 
-    // --- Entity interface methods ---
-
-    @Override
     public String getIdentifier() {
         return identifier;
     }
 
-    @Override
     public String getPassword() {
         return password;
     }
 
-    // Optional helpers to keep old naming schemes working
+    // Optional helper if some old code used getName()
     public String getName() {
         return identifier;
     }
-
-    public String getUsername() {
-        return identifier;
-    }
-
-    // --- contact info ---
 
     public String getLocation() {
         return location;
@@ -101,8 +91,6 @@ public class User implements Entity {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-
-    // --- qualifications getters/setters ---
 
     public String getEducation() {
         return education;
@@ -159,8 +147,6 @@ public class User implements Entity {
     public void setToolsAndTechnologies(String toolsAndTechnologies) {
         this.toolsAndTechnologies = toolsAndTechnologies;
     }
-
-    // --- batch update helpers ---
 
     /**
      * Update contact information in one shot.
